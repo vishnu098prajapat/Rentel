@@ -1,0 +1,164 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  padding: 16px 0;
+}
+
+.navTransparent {
+  background: transparent;
+}
+
+.navScrolled {
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  padding: 12px 0;
+}
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.logoIcon {
+  width: 34px;
+  height: 34px;
+  background: #FF385C;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-size: 22px;
+  font-weight: 800;
+  color: #FF385C;
+  letter-spacing: -0.5px;
+}
+
+.navTransparent .logoText {
+  color: #1A1A2E;
+}
+
+.navActions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.navLink {
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  transition: color 0.2s;
+}
+
+.navTransparent .navLink {
+  color: #1A1A2E;
+}
+
+.authButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.loginBtn {
+  background: white;
+  border: 1px solid #FF385C;
+  color: #FF385C;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.signupBtn {
+  background: #FF385C;
+  border: none;
+  color: white;
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 56, 92, 0.25);
+  transition: all 0.2s;
+}
+
+.mobileMenuBtn {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 992px) {
+  .navActions {
+    display: none; /* Hide standard actions on mobile */
+  }
+
+  .mobileMenuBtn {
+    display: block;
+    color: #222;
+  }
+  
+  .navTransparent .mobileMenuBtn {
+    color: #1A1A2E;
+  }
+}
+
+/* Mobile Menu Slide-in */
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 280px;
+  height: 100vh;
+  background: white;
+  z-index: 1100;
+  padding: 40px 24px;
+  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+  transition: right 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.mobileMenuOpen {
+  right: 0;
+}
+
+.mobileMenuLink {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+  text-decoration: none;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
+  display: none;
+}
+
+.overlayVisible {
+  display: block;
+}

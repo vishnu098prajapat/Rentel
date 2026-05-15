@@ -1,0 +1,100 @@
+.section {
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 22px;
+  font-weight: 800;
+  color: #222;
+}
+
+.titleBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  background: transparent;
+  color: #222;
+}
+
+.titleBtn:hover {
+  background: #f7f7f7;
+}
+
+.cityRowWrapper {
+  overflow: visible;
+  position: relative;
+}
+
+.cityRow {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 16px 8px 24px 8px;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+.cityRow::-webkit-scrollbar {
+  display: none;
+}
+
+.cardWrapper {
+  flex-shrink: 0;
+}
+
+.navBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #dddddd;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.navBtn:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.leftBtn {
+  left: -16px;
+}
+
+.rightBtn {
+  right: -16px;
+}
+
+@media (max-width: 768px) {
+  .navBtn { display: none; }
+  .cityRow { 
+    padding: 10px 4px 20px 4px; 
+    gap: 12px;
+  }
+  .title { font-size: 18px; }
+  .cardWrapper {
+    min-width: 150px; /* Allow 2 cards to be partially visible */
+    max-width: 160px;
+  }
+}

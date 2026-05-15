@@ -1,0 +1,116 @@
+.searchWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 40px;
+  margin-top: -28px;   /* overlap hero stats bar slightly */
+  margin-bottom: 0;
+  position: relative;
+  z-index: 10;
+}
+
+.searchCard {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  border: 1px solid #EBEBEB;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 860px;
+  height: 64px;         /* fixed height — compact */
+  padding: 0 8px 0 0;
+  overflow: hidden;
+}
+
+.searchSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.2s;
+  border-radius: 12px;
+}
+
+.searchSection:hover {
+  background: #F7F7F7;
+}
+
+.searchDivider {
+  width: 1px;
+  height: 32px;
+  background: #DDDDDD;
+  flex-shrink: 0;
+}
+
+.searchIcon {
+  color: #FF385C;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.searchTextBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+}
+
+.searchLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: #222222;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.searchPlaceholder {
+  font-size: 13px;
+  color: #222; /* Changed from AAAAAA to 222 for input text visibility */
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.searchPlaceholder::placeholder {
+  color: #AAAAAA;
+}
+
+.searchBtn {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #FF385C, #E31C5F);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 4px;
+  box-shadow: 0 4px 12px rgba(255,56,92,0.35);
+  transition: all 0.2s ease;
+}
+
+.searchBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(255,56,92,0.5);
+}
+
+.searchBtnIcon {
+  color: white;
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 1024px) {
+  .searchCard { flex-direction: column; height: auto; padding: 20px; }
+  .searchDivider { display: none; }
+  .searchSection { width: 100%; border-bottom: 1px solid #EBEBEB; padding: 15px 0; }
+  .searchBtn { width: 100%; margin-top: 15px; }
+}

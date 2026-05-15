@@ -1,0 +1,18 @@
+.home {
+  overflow-x: hidden;
+  padding-bottom: 80px;
+}
+
+/* Spacing between Hero Section and Category Filter */
+.home > :nth-child(1) {
+  margin-bottom: 16px;
+}
+
+/* Spacing between Category Filter and Listings Grid */
+.home > :nth-child(2) {
+  margin-bottom: 32px;
+}
+
+.mainContent {
+  padding-bottom: 80px;
+}
