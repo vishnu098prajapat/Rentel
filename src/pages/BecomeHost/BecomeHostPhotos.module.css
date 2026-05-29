@@ -1,0 +1,239 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+}
+
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 40px;
+  background: white;
+  border-bottom: 1px solid #EBEBEB;
+  z-index: 10;
+}
+.headerLeft { display: flex; align-items: center; gap: 10px; }
+.logoIcon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #FF385C, #E31C5F);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logoText { font-size: 20px; font-weight: 800; color: #222; }
+.headerNav { display: flex; align-items: center; gap: 12px; }
+.navBtn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 18px;
+  border: 1px solid #DDD; border-radius: 40px;
+  background: white; color: #222;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s ease;
+}
+.navBtn:hover { border-color: #222; background: #F7F7F7; }
+.navBtnNext { background: #222; color: white; border-color: #222; }
+.navBtnNext:hover:not(:disabled) { background: #000; }
+.navBtnNext:disabled { background: #DDD; border-color: #DDD; color: #888; cursor: not-allowed; }
+
+/* ===== CONTENT ===== */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 60px;
+  overflow-y: auto;
+  align-items: center;
+}
+
+.headerText {
+  text-align: center;
+  margin-bottom: 20px;
+  animation: fadeIn 0.5s ease;
+}
+.title { font-size: 28px; font-weight: 700; color: #222; margin: 0 0 8px 0; }
+.subtitle { font-size: 15px; color: #717171; margin: 0; line-height: 1.5; }
+
+.mainArea {
+  width: 100%;
+  max-width: 900px;
+  animation: fadeIn 0.6s ease;
+}
+
+/* ===== UPLOAD AREA ===== */
+.uploadArea {
+  border: 2px dashed #B0B0B0;
+  border-radius: 20px;
+  background: #FAFAFA;
+  padding: 50px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.uploadArea:hover {
+  border-color: #222;
+  background: #F0F0F0;
+}
+.uploadContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.uploadIcon {
+  color: #222;
+  margin-bottom: 24px;
+}
+.uploadTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 8px 0;
+}
+.uploadDesc {
+  font-size: 14px;
+  color: #717171;
+  margin: 0 0 24px 0;
+}
+.uploadBtn {
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  background: #222;
+  padding: 12px 24px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+.uploadArea:hover .uploadBtn {
+  background: #000;
+}
+
+/* ===== PHOTO GRID (Airbnb style) ===== */
+.photoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  height: 400px; /* Fixed height to prevent scrolling */
+}
+
+.photoItem {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #F7F7F7;
+  border: 1px solid #EBEBEB;
+}
+.photoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Cover photo takes full left side */
+.photoCover {
+  height: 100%;
+}
+.coverLabel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #222;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 4 small photos on the right */
+.smallPhotosGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 16px;
+  height: 100%;
+}
+
+/* Empty State / Add more */
+.emptyPhoto {
+  width: 100%;
+  height: 100%;
+  border: 1px dashed #CCC;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  background: #FAFAFA;
+  transition: all 0.2s ease;
+  color: #222;
+}
+.emptyPhoto:hover {
+  background: #F0F0F0;
+  border-color: #222;
+}
+.emptyIcon {
+  color: #717171;
+}
+.emptyPhoto span {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Delete button overlay */
+.deleteBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  color: #222;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+.photoItem:hover .deleteBtn {
+  opacity: 1;
+}
+.deleteBtn:hover {
+  background: #F7F7F7;
+  transform: scale(1.1);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .content { padding: 24px; }
+  .photoGrid {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .photoCover {
+    height: 300px;
+  }
+  .smallPhotosGrid {
+    height: 300px;
+  }
+  .header { padding: 12px 20px; }
+}

@@ -1,43 +1,54 @@
 .searchWrapper {
   width: 100%;
   display: flex;
-  justify-content: center;
-  padding: 0 40px;
-  margin-top: -28px;   /* overlap hero stats bar slightly */
-  margin-bottom: 0;
+  justify-content: flex-start;
+  padding: 0;
+  margin-top: 10px;
+  margin-bottom: 12px;
   position: relative;
   z-index: 10;
 }
 
 .searchCard {
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  border-radius: 16px; /* Reverted overly round corners */
+  box-shadow: 0 12px 36px rgba(0,0,0,0.08);
   border: 1px solid #EBEBEB;
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 860px;
+  max-width: 660px;
   height: 64px;         /* fixed height — compact */
   padding: 0 8px 0 0;
-  overflow: hidden;
+  position: relative;   /* relative positioning support for overlays */
+  transition: box-shadow 0.3s ease;
+}
+
+.searchCard:hover {
+  box-shadow: 0 16px 48px rgba(0,0,0,0.12);
 }
 
 .searchSection {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 20px;
+  gap: 8px;
+  padding: 0 16px;
   height: 100%;
   cursor: pointer;
   position: relative;
   transition: background 0.2s;
   border-radius: 12px;
+  min-width: 0; /* Important for text truncation in flex children */
 }
 
 .searchSection:hover {
   background: #F7F7F7;
+}
+
+.sectionActive {
+  background: #ffffff !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
 .searchDivider {
@@ -57,13 +68,14 @@
 .searchTextBlock {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   flex: 1;
+  min-width: 0; /* Enable truncation */
 }
 
 .searchLabel {
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   color: #222222;
   letter-spacing: 0.8px;
   text-transform: uppercase;
@@ -71,14 +83,370 @@
 }
 
 .searchPlaceholder {
-  font-size: 13px;
-  color: #222; /* Changed from AAAAAA to 222 for input text visibility */
-  font-weight: 400;
+  font-size: 12.5px;
+  color: #222222;
+  font-weight: 500;
   line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .searchPlaceholder::placeholder {
   color: #AAAAAA;
+  font-weight: 400;
+}
+
+/* POPUP OVERLAYS SYSTEM — CUSTOM PREMIUM GLASSMORPHIC BUBBLES */
+.popupContainer {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 0;
+  width: 340px;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-radius: 28px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(255, 56, 92, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  padding: 20px;
+  z-index: 999999 !important;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.popupHeaderTitle {
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #111111;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 12px 0;
+}
+
+.destList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.destItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.destItem:hover {
+  background: #f7f7f7;
+  transform: translateX(4px);
+}
+
+.destIconWrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f0f0f0;
+  color: #555555;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+/* Colorful destination icon theme classes */
+.nearbyIcon { background: #E8F0FE; color: #1A73E8; }
+.noidaIcon { background: #FEECEB; color: #D93025; }
+.gurgaonIcon { background: #EAF5EA; color: #137333; }
+.goaIcon { background: #FEF3D6; color: #B06000; }
+.dehradunIcon { background: #E2F1F1; color: #007A7A; }
+
+.destItem:hover .destIconWrapper {
+  transform: scale(1.05);
+}
+
+.noResults {
+  padding: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #888;
+}
+
+.destMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.destName {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #222222;
+}
+
+.destSub {
+  font-size: 10.5px;
+  color: #717171;
+}
+
+/* CALENDAR POPUP OVERLAY — ELEGANTLY COMPACT 3-MONTH SCROLL */
+.calendarPopupContainer {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: -60px;
+  width: 600px;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-radius: 28px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(255, 56, 92, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  padding: 24px 28px;
+  z-index: 999999 !important;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.calendarToggleRow {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  background: #EBEBEB;
+  padding: 4px;
+  border-radius: 30px;
+  width: 240px;
+  margin: 0 auto 20px;
+}
+
+.calendarTab {
+  flex: 1;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  color: #666666;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tabActive {
+  background: #ffffff;
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.sliderWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.pageNavBtn {
+  position: absolute;
+  top: 90px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  background: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  color: #222222;
+  transition: all 0.2s;
+}
+
+.pageNavBtn:hover {
+  background: #f7f7f7;
+  transform: scale(1.05);
+}
+
+.navLeft {
+  left: -20px;
+}
+
+.navRight {
+  right: -20px;
+}
+
+.monthsGrid {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  padding-bottom: 4px;
+}
+
+.monthCol {
+  width: calc(50% - 14px);
+  flex-shrink: 0;
+}
+
+.monthTitle {
+  font-size: 13.5px;
+  font-weight: 800;
+  text-align: center;
+  color: #111111;
+  margin: 0 0 12px 0;
+}
+
+.weekHeaders {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 800;
+  color: #888888;
+  margin-bottom: 8px;
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.dayBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #222222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.dayBtn:hover {
+  background: rgba(255, 56, 92, 0.1);
+  color: #FF385C;
+}
+
+.daySelected {
+  background: #FF385C !important;
+  color: #ffffff !important;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(255, 56, 92, 0.25);
+  border-radius: 50% !important;
+}
+
+.dayInRange {
+  background: rgba(255, 56, 92, 0.08) !important;
+  color: #FF385C !important;
+  border-radius: 4px !important;
+}
+
+.dayDisabled {
+  color: #CCCCCC !important;
+  cursor: not-allowed !important;
+  opacity: 0.45 !important;
+  background: transparent !important;
+  pointer-events: none !important;
+}
+
+.emptyDay {
+  width: 32px;
+  height: 32px;
+}
+
+/* GUESTS POPUP OVERLAY — ELEGANT SLIM COUNTER */
+.guestsPopupContainer {
+  position: absolute;
+  top: calc(100% + 14px);
+  right: 0;
+  width: 340px;
+  background: rgba(255, 255, 255, 0.95) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border-radius: 28px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(255, 56, 92, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.8) !important;
+  padding: 20px 24px;
+  z-index: 999999 !important;
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.guestRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.guestRow:last-child {
+  border-bottom: none;
+}
+
+.guestMetaTextCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.guestTitle {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #222222;
+}
+
+.guestSubtitle {
+  font-size: 11px;
+  color: #717171;
+}
+
+.guestControls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.controlBtn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid #CCCCCC;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #555555;
+  transition: all 0.2s;
+}
+
+.controlBtn:hover:not(:disabled) {
+  border-color: #FF385C;
+  color: #FF385C;
+  transform: scale(1.05);
+}
+
+.controlBtn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+.controlVal {
+  font-size: 14px;
+  font-weight: 700;
+  color: #222222;
+  min-width: 14px;
+  text-align: center;
 }
 
 .searchBtn {
@@ -108,9 +476,28 @@
   height: 20px;
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px) translateX(var(--tw-translate-x, 0));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) translateX(var(--tw-translate-x, 0));
+  }
+}
+
 @media (max-width: 1024px) {
   .searchCard { flex-direction: column; height: auto; padding: 20px; }
   .searchDivider { display: none; }
   .searchSection { width: 100%; border-bottom: 1px solid #EBEBEB; padding: 15px 0; }
   .searchBtn { width: 100%; margin-top: 15px; }
+  .popupContainer, .calendarPopupContainer, .guestsPopupContainer {
+    position: static;
+    width: 100%;
+    transform: none;
+    box-shadow: none;
+    border: none;
+    padding: 16px 0;
+  }
 }

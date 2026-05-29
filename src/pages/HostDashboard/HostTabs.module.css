@@ -1,0 +1,391 @@
+/* Base Tab Layout */
+.tabHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pageTitle {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 4px 0;
+  letter-spacing: -0.02em;
+}
+
+.pageSubtitle {
+  color: var(--text-secondary);
+  font-size: 15px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.actionBtn {
+  background: linear-gradient(135deg, #FF385C, #E31C5F);
+  color: var(--card-bg);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(227, 28, 95, 0.2);
+}
+
+.actionBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(227, 28, 95, 0.3);
+}
+
+.outlineBtn {
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid var(--text-main);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.outlineBtn:hover {
+  background: var(--hover-bg);
+}
+
+/* Listings Grid */
+.listingsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.listingCard {
+  background: var(--card-bg);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.listingCard:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  border-color: #DDD;
+}
+
+.listingImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.listingInfo {
+  padding: 20px;
+}
+
+.listingTitle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 6px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.listingLocation {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 16px 0;
+}
+
+.listingFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-light);
+  padding-top: 16px;
+}
+
+.listingPrice {
+  font-weight: 800;
+  color: var(--text-main);
+  font-size: 16px;
+}
+
+.statusBadge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.statusActive {
+  background: #E8F9F3;
+  color: #05CD99;
+}
+
+.statusDraft {
+  background: var(--host-bg);
+  color: var(--text-secondary);
+}
+
+/* Table styles for Bookings */
+.tableContainer {
+  background: var(--card-bg);
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table th {
+  text-align: left;
+  padding: 16px 24px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #FF385C;
+  background: #FFF0F2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #FFD1D9;
+}
+
+.table td {
+  padding: 20px 24px;
+  font-size: 14px;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-light);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Inbox Styles */
+.inboxContainer {
+  display: flex;
+  background: var(--card-bg);
+  border-radius: 16px;
+  border: 1px solid var(--border-light);
+  height: 650px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.inboxSidebar {
+  width: 320px;
+  border-right: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-secondary);
+}
+
+.inboxHeader {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-light);
+  font-weight: 800;
+  font-size: 20px;
+  color: var(--text-main);
+  background: var(--card-bg);
+}
+
+.chatList {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.chatItem {
+  padding: 16px 20px;
+  display: flex;
+  gap: 14px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-light);
+  transition: all 0.2s ease;
+  background: transparent;
+}
+
+.chatItem:hover {
+  background: var(--host-bg);
+}
+
+.chatItemActive {
+  background: var(--card-bg);
+  border-left: 4px solid #FF385C;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+}
+
+.chatAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  color: #FFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.chatInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.chatNameRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.chatName {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-main);
+}
+
+.chatTime {
+  font-size: 11px;
+  color: #A3AED0;
+  font-weight: 600;
+}
+
+.chatSnippet {
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.inboxMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: var(--host-bg);
+}
+
+.messageHeader {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card-bg);
+}
+
+.messageArea {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.messageBubble {
+  max-width: 65%;
+  padding: 14px 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.messageReceived {
+  background: var(--card-bg);
+  color: var(--text-main);
+  align-self: flex-start;
+  border-radius: 20px 20px 20px 4px;
+}
+
+.messageSent {
+  background: linear-gradient(135deg, #FF385C, #E31C5F);
+  color: var(--card-bg);
+  align-self: flex-end;
+  border-radius: 20px 20px 4px 20px;
+  box-shadow: 0 4px 12px rgba(227, 28, 95, 0.2);
+}
+
+.messageInputArea {
+  padding: 24px;
+  background: var(--card-bg);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.messageInput {
+  flex: 1;
+  padding: 16px 24px;
+  border: 1px solid var(--border-light);
+  background: var(--host-bg);
+  color: var(--text-main);
+  border-radius: 30px;
+  outline: none;
+  font-size: 15px;
+  transition: border 0.2s, background 0.2s;
+}
+
+.messageInput:focus {
+  border-color: #FF385C;
+  background: var(--card-bg);
+  box-shadow: 0 0 0 4px rgba(255, 56, 92, 0.1);
+}
+
+.sendBtn {
+  background: linear-gradient(135deg, #FF385C, #E31C5F);
+  color: var(--card-bg);
+  border: none;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(227, 28, 95, 0.3);
+}
+
+.sendBtn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(227, 28, 95, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .inboxContainer {
+    flex-direction: column;
+  }
+  .inboxSidebar {
+    width: 100%;
+    height: 250px;
+    border-right: none;
+    border-bottom: 1px solid var(--border-light);
+  }
+}

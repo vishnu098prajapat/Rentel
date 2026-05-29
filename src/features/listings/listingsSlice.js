@@ -17,7 +17,7 @@ const initialState = {
   selectedCategory: 'all',
   loading: false,
   featured: listingsData.filter(l => l.featured),
-  wishlist: []
+  wishlist: JSON.parse(localStorage.getItem('rentel_wishlist')) || []
 };
 
 const listingsSlice = createSlice({
@@ -41,6 +41,7 @@ const listingsSlice = createSlice({
       } else {
         state.wishlist.push(id);
       }
+      localStorage.setItem('rentel_wishlist', JSON.stringify(state.wishlist));
     },
     filterBySearch: (state, action) => {
       const { city, propertyType } = action.payload;

@@ -1,0 +1,166 @@
+.stickyCardContainer {
+  position: sticky;
+  top: 100px;
+}
+
+.bookingCard {
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+  background: white;
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.priceVal {
+  font-size: 20px;
+  font-weight: 800;
+  color: #222222;
+  text-decoration: underline;
+}
+
+.priceNight {
+  color: #222222;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.inputsGroup {
+  border: 1px solid #B0B0B0;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.dateInputs {
+  display: flex;
+}
+
+.inputField {
+  flex: 1;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inputField:first-child {
+  border-right: 1px solid #B0B0B0;
+}
+
+.inputLabel {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+  color: #222;
+  letter-spacing: 0.05em;
+}
+
+.inputVal {
+  font-size: 14px;
+  color: #222;
+  font-weight: 500;
+}
+
+.guestInput {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.guestContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.ratesSection {
+  margin-bottom: 24px;
+}
+
+.ratesTitle {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+.ratesBox {
+  border: 1px solid #B0B0B0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.rateOption {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #B0B0B0;
+  transition: background-color 0.2s;
+  align-items: center;
+}
+
+.rateOption:hover {
+  background-color: #F7F7F7;
+}
+
+.rateOption:last-child {
+  border-bottom: none;
+}
+
+.rateContent {
+  display: flex;
+  flex-direction: column;
+  padding-right: 12px;
+}
+
+.rateName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+
+.rateDesc {
+  font-size: 13px;
+  color: #717171;
+}
+
+.radioWrapper {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 4px;
+}
+
+input[type="radio"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #222;
+  cursor: pointer;
+}
+
+.reserveBtn {
+  width: 100%;
+  background: #E31C5F;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.25s ease;
+}
+
+.reserveBtn:active {
+  transform: scale(0.98);
+}

@@ -1,24 +1,20 @@
 .card {
   border-radius: 20px;
   overflow: visible;
-  background: white;
+  background: transparent;
   border: none;
   outline: none;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1),
-              box-shadow 0.35s cubic-bezier(0.4,0,0.2,1);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   min-width: 220px;
   max-width: 240px;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 48px rgba(0,0,0,0.13);
-  border: none;
-  outline: none;
+  transform: translateY(-4px);
 }
 
 .imageContainer {
@@ -26,6 +22,12 @@
   overflow: hidden;
   position: relative;
   aspect-ratio: 1 / 1;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.35s ease;
+}
+
+.card:hover .imageContainer {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
 .cardImage {
@@ -33,62 +35,94 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .card:hover .cardImage {
-  transform: scale(1.06);
+  transform: scale(1.04);
 }
 
 .badge {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  background: white;
-  color: #222;
+  top: 14px;
+  left: 14px;
   font-size: 11px;
-  font-weight: 600;
-  padding: 4px 10px;
+  font-weight: 700;
+  padding: 5px 12px;
   border-radius: 20px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
   z-index: 2;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-transform: capitalize;
+  background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  color: var(--text-main);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.badgeIcon {
+  flex-shrink: 0;
+}
+
+.badgeDefault {
+  /* Default placeholder */
+}
+
+/* Guest favourite - Smoky white with Gold icon */
+.badgeGuest .badgeIcon {
+  color: #FFB800; /* Shining Gold Crown icon */
+}
+
+/* Superhost - Smoky white with Coral icon */
+.badgeSuper .badgeIcon {
+  color: #FF385C; /* Brand Coral Sparkles icon */
+}
+
+/* Top Rated - Smoky white with Sapphire/Orange icon */
+.badgeTop .badgeIcon {
+  color: #0077FF; /* Elegant Blue Award icon */
 }
 
 .heartBtn {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(4px);
+  top: 12px;
+  right: 12px;
+  background: transparent;
   border: none;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 2;
 }
 
+.heartBtn:hover {
+  transform: scale(1.18);
+}
+
 .heartEmpty {
-  color: white;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  color: #ffffff;
+  fill: rgba(0, 0, 0, 0.3);
+  stroke-width: 2.2px;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.25));
 }
 
 .heartFilled {
   color: #FF385C;
   fill: #FF385C;
-}
-
-.heartBtn:hover {
-  background: white;
-  transform: scale(1.1);
+  stroke-width: 2.2px;
+  filter: drop-shadow(0 2px 6px rgba(255, 56, 92, 0.35));
 }
 
 .cardBody {
-  padding: 10px 4px 4px 4px;
+  padding: 12px 2px 4px 2px;
   background: transparent;
 }
 
@@ -96,85 +130,98 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 .title {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
-  color: #222222;
+  color: var(--text-main);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 70%;
+  max-width: 78%;
+  letter-spacing: -0.01em;
 }
 
 .rating {
   display: flex;
   align-items: center;
-  gap: 3px;
-  font-size: 12px;
-  font-weight: 600;
-  color: #222222;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-main);
   flex-shrink: 0;
 }
 
 .ratingIcon {
-  font-size: 11px;
-  color: #222222;
+  color: #FFB800; /* Vibrant polished yellow/gold star */
+  filter: drop-shadow(0 1px 2px rgba(255, 184, 0, 0.15));
 }
 
 .location {
-  font-size: 11px;
-  color: #717171;
+  font-size: 12.5px;
+  color: var(--text-secondary);
   margin-bottom: 6px;
+  font-weight: 500;
 }
 
 .priceRow {
   display: flex;
   align-items: baseline;
   gap: 4px;
-  padding-top: 6px;
-  border-top: 1px solid #F0F0F0;
 }
 
 .price {
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 800;
-  color: #FF385C;
+  color: var(--text-main); /* Black/charcoal price instead of crimson red */
 }
 
 .priceLabel {
-  font-size: 11px;
-  color: #999999;
+  font-size: 12px;
+  color: var(--text-secondary);
   font-weight: 400;
 }
 
 @media (max-width: 600px) {
   .card {
-    min-width: 140px; /* Reduced min-width to fit 2 per row */
+    min-width: 140px;
     max-width: none;
     border-radius: 12px;
   }
   .imageContainer {
-    border-radius: 10px;
+    border-radius: 12px;
   }
   .badge {
-    top: 6px;
-    left: 6px;
-    font-size: 8px;
-    padding: 2px 6px;
+    top: 8px;
+    left: 8px;
+    font-size: 9px;
+    padding: 3px 8px;
   }
   .heartBtn {
-    top: 6px;
-    right: 6px;
-    width: 24px;
-    height: 24px;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
   }
-  .title { font-size: 11px; }
-  .rating { font-size: 10px; }
-  .location { font-size: 9px; margin-bottom: 4px; }
-  .price { font-size: 12px; }
-  .priceLabel { font-size: 9px; }
-  .cardBody { padding: 6px 2px; }
+  .title { 
+    font-size: 12.5px; 
+  }
+  .rating { 
+    font-size: 11.5px; 
+  }
+  .location { 
+    font-size: 11px; 
+    margin-bottom: 4px; 
+  }
+  .price { 
+    font-size: 13px; 
+  }
+  .priceLabel { 
+    font-size: 10px; 
+  }
+  .cardBody { 
+    padding: 8px 1px; 
+  }
 }

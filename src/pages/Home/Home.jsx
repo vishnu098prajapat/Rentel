@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import HeroSection from '../../components/HeroSection/HeroSection';
 import CategoryFilter from '../../components/CategoryFilter/CategoryFilter';
 import ListingsGrid from '../../components/ListingsGrid/ListingsGrid';
-import HowItWorks from '../../components/FeaturedSection/HowItWorks';
-import Testimonials from '../../components/FeaturedSection/Testimonials';
 import styles from './Home.module.css';
 
 const Home = () => {
@@ -27,8 +25,6 @@ const Home = () => {
       <HeroSection />
       <CategoryFilter />
       <ListingsGrid />
-      <HowItWorks />
-      <Testimonials />
     </div>
   );
 };

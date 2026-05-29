@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Play, ArrowRight, Star, TrendingUp, Search, MapPin, Calendar, Users, CheckCircle, Crown } from 'lucide-react';
+import SearchSection from './SearchSection';
 import styles from './HeroSection.module.css';
 
 const sliderImages = [
@@ -76,7 +77,7 @@ const HeroSection = () => {
         </div>
 
         <h1 className={styles.heroTitle}>
-          Find Your Perfect <br />
+          <span className={styles.titleGray}>Find Your</span> <span className={styles.titleBlack}>Perfect</span> <br />
           <span className={styles.heroTitleGradient}>Dream Stay</span>
         </h1>
 
@@ -85,42 +86,17 @@ const HeroSection = () => {
           across India with verified hosts.
         </p>
 
-        <div className={styles.heroSearch}>
-          <div className={styles.heroSearchSection}>
-            <MapPin className={styles.heroSearchIcon} />
-            <div className={styles.heroSearchText}>
-              <span className={styles.heroSearchLabel}>WHERE</span>
-              <span className={styles.heroSearchPlaceholder}>Search destinations</span>
-            </div>
-          </div>
-          <div className={styles.heroSearchDivider}></div>
-          <div className={styles.heroSearchSection}>
-            <Calendar className={styles.heroSearchIcon} />
-            <div className={styles.heroSearchText}>
-              <span className={styles.heroSearchLabel}>WHEN</span>
-              <span className={styles.heroSearchPlaceholder}>Add dates</span>
-            </div>
-          </div>
-          <div className={styles.heroSearchDivider}></div>
-          <div className={styles.heroSearchSection}>
-            <Users className={styles.heroSearchIcon} />
-            <div className={styles.heroSearchText}>
-              <span className={styles.heroSearchLabel}>GUESTS</span>
-              <span className={styles.heroSearchPlaceholder}>Add guests</span>
-            </div>
-          </div>
-          <button className={styles.heroSearchBtn}>
-            <Search size={18} color="white" />
-          </button>
-        </div>
+        {/* Fully Interactive and Operational Search Bar */}
+        <SearchSection />
 
         <div className={styles.heroBtns}>
-          <button className={styles.btnPrimary}>
+          <button className={styles.btnPrimary} onClick={() => {
+            window.scrollTo({
+              top: window.innerHeight - 80, // Adjusting for navbar height
+              behavior: 'smooth'
+            });
+          }}>
             Start Exploring <ArrowRight size={16} />
-          </button>
-          <button className={styles.btnSecondary}>
-            <div className={styles.playIcon}><Play size={12} fill="white" color="white" /></div>
-            Watch Video
           </button>
         </div>
 
@@ -148,39 +124,43 @@ const HeroSection = () => {
       </div>
 
       <div className={styles.heroRight}>
-        <div className={styles.sliderContainer}>
-          {/* Top Floating Card */}
-          <div className={styles.topFloatingCard}>
-            <div className={styles.royalBadge}><Crown size={14} color="#FFB347" fill="#FFB347" /></div>
-            <span>Royal Heritage Villa</span>
-            <ArrowRight size={12} className={styles.arrow} />
+        <div className={styles.imageWrapper}>
+          <div className={styles.sliderContainer}>
+            <div className={styles.sliderCard}>
+              {sliderImages.map((img, idx) => (
+                <img 
+                  key={idx} 
+                  src={img} 
+                  alt="Luxury Stay" 
+                  className={`${styles.sliderImage} ${activeSlide === idx ? styles.active : ''}`}
+                />
+              ))}
+            </div>
+            
+            <div className={styles.sliderDots}>
+              {sliderImages.map((_, idx) => (
+                <button 
+                  key={idx} 
+                  className={`${styles.dot} ${activeSlide === idx ? styles.active : ''}`}
+                  onClick={() => setActiveSlide(idx)}
+                />
+              ))}
+            </div>
           </div>
 
-          <div className={styles.sliderTrack}>
-            {sliderImages.map((img, idx) => (
-              <img 
-                key={idx} 
-                src={img} 
-                alt="Luxury Stay" 
-                className={`${styles.sliderImage} ${activeSlide === idx ? styles.active : ''}`}
-              />
-            ))}
-          </div>
-          
-          <div className={styles.sliderDots}>
-            {sliderImages.map((_, idx) => (
-              <button 
-                key={idx} 
-                className={`${styles.dot} ${activeSlide === idx ? styles.active : ''}`}
-                onClick={() => setActiveSlide(idx)}
-              />
-            ))}
-          </div>
+          <div className={styles.badgesRow}>
+            {/* Royal Heritage Villa Card */}
+            <div className={styles.royalBadgeCard}>
+              <div className={styles.royalBadge}><Crown size={14} color="#FFB347" fill="#FFB347" /></div>
+              <span>Royal Heritage Villa</span>
+              <ArrowRight size={14} className={styles.arrow} />
+            </div>
 
-          {/* Bottom Floating Badge */}
-          <div className={styles.bottomFloatingBadge}>
-            <div className={styles.verifiedIcon}><CheckCircle size={14} color="#4CAF50" fill="#E8F5E9" /></div>
-            <span>10K+ Verified Stays</span>
+            {/* Verified Stays Card */}
+            <div className={styles.verifiedBadgeCard}>
+              <div className={styles.verifiedBadge}><CheckCircle size={14} color="#00B341" /></div>
+              <span>10K+ Verified Stays</span>
+            </div>
           </div>
         </div>
       </div>

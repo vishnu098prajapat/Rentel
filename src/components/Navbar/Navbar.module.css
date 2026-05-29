@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: 9999;
   transition: all 0.3s ease;
   padding: 16px 0;
 }
@@ -13,8 +13,8 @@
 }
 
 .navScrolled {
-  background: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  background: var(--bg-main);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   padding: 12px 0;
 }
 
@@ -48,8 +48,42 @@
   letter-spacing: -0.5px;
 }
 
-.navTransparent .logoText {
-  color: #1A1A2E;
+
+
+.wishlistBtn {
+  background: none;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: background 0.3s;
+  position: relative;
+}
+
+.wishlistBtn:hover {
+  background: rgba(0,0,0,0.05);
+}
+
+.wishlistBadge {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  background: #FF385C;
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
 }
 
 .navActions {
@@ -62,13 +96,10 @@
   text-decoration: none;
   font-size: 14px;
   font-weight: 600;
-  color: #222;
+  color: var(--text-main);
   transition: color 0.2s;
 }
 
-.navTransparent .navLink {
-  color: #1A1A2E;
-}
 
 .authButtons {
   display: flex;
@@ -76,7 +107,7 @@
 }
 
 .loginBtn {
-  background: white;
+  background: transparent;
   border: 1px solid #FF385C;
   color: #FF385C;
   padding: 8px 20px;
@@ -129,10 +160,10 @@
   right: -100%;
   width: 280px;
   height: 100vh;
-  background: white;
+  background: var(--bg-main);
   z-index: 1100;
   padding: 40px 24px;
-  box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+  box-shadow: -10px 0 30px rgba(0,0,0,0.2);
   transition: right 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   display: flex;
   flex-direction: column;
@@ -146,7 +177,7 @@
 .mobileMenuLink {
   font-size: 18px;
   font-weight: 700;
-  color: #222;
+  color: var(--text-main);
   text-decoration: none;
 }
 
@@ -161,4 +192,76 @@
 
 .overlayVisible {
   display: block;
+}
+.userProfile {
+  position: relative;
+}
+.profileMenuBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 6px 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: var(--card-bg);
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.profileMenuBtn:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.avatarCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--text-main);
+  color: var(--bg-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+.profileDropdown {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+  width: 240px;
+  padding: 8px 0;
+  z-index: 1000;
+}
+.dropdownItem {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.dropdownItem:hover {
+  background: var(--hover-bg);
+}
+.dropdownDivider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+.themeToggleBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.themeToggleBtn:hover {
+  background-color: rgba(113, 113, 113, 0.1);
 }

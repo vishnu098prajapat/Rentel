@@ -1,0 +1,222 @@
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes selectPop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+/* ===== PAGE ===== */
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #F7F7F9;
+  position: relative;
+}
+
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 48px;
+  background: white;
+  border-bottom: 1px solid #EBEBEB;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 800;
+  color: #222;
+  letter-spacing: -0.02em;
+}
+
+/* ===== SIDE ARROWS ===== */
+.sideArrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid #DDD;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  color: #222;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.25s ease;
+}
+
+.sideArrow:hover {
+  background: #222;
+  color: white;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.leftArrow { left: 16px; }
+.rightArrow { right: 16px; }
+
+.arrowDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.arrowDisabled:hover {
+  background: white;
+  color: #222;
+  transform: translateY(-50%) scale(1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ===== MAIN ===== */
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 80px;
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 28px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ===== OPTIONS LIST ===== */
+.optionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.optionCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: white;
+  border: 1px solid #DDD;
+  border-radius: 16px;
+  padding: 20px 24px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.5s ease both;
+}
+
+.optionCard:hover {
+  border-color: #222;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+  transform: translateY(-4px) scale(1.01);
+  background: rgba(255,255,255,0.95);
+}
+
+.optionCard:active {
+  transform: translateY(0) scale(0.98);
+  transition: all 0.1s ease;
+}
+
+.optionCard.selected {
+  border: 2px solid #FF385C;
+  background: linear-gradient(135deg, #FFF5F7 0%, #FFF 100%);
+  padding: 19px 23px;
+  box-shadow: 0 8px 30px rgba(255, 56, 92, 0.15);
+  animation: selectPop 0.3s ease;
+}
+
+.optionInfo {
+  flex: 1;
+}
+
+.optionLabel {
+  font-size: 17px;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 4px 0;
+}
+
+.optionSubtitle {
+  font-size: 14px;
+  color: #717171;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.optionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #F7F7F7;
+  transition: all 0.3s ease;
+}
+
+.optionCard:hover .optionIcon {
+  transform: scale(1.1) rotate(5deg);
+  background: #F0F0F0;
+}
+
+.optionCard.selected .optionIcon {
+  transform: scale(1.15);
+  background: white;
+  box-shadow: 0 2px 8px rgba(255, 56, 92, 0.15);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .header { padding: 14px 20px; }
+  .mainContent { padding: 20px 60px; }
+  .title { font-size: 20px; white-space: normal; }
+  .optionCard { padding: 16px 18px; }
+  .sideArrow { width: 40px; height: 40px; }
+  .leftArrow { left: 8px; }
+  .rightArrow { right: 8px; }
+}
+
+@media (max-width: 480px) {
+  .mainContent { padding: 16px 50px; }
+  .optionLabel { font-size: 15px; }
+  .optionSubtitle { font-size: 13px; }
+}

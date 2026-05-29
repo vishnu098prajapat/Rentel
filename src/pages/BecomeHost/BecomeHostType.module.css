@@ -1,0 +1,230 @@
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+/* ===== PAGE ===== */
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--bg-secondary);
+  position: relative;
+}
+
+/* ===== HEADER (compact) ===== */
+.header {
+  display: flex;
+  align-items: center;
+  padding: 16px 48px;
+  background: var(--bg-main);
+  border-bottom: 1px solid var(--border);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoIcon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #FF385C 0%, #E31C5F 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+/* ===== SIDE ARROWS ===== */
+.sideArrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s ease;
+}
+
+.sideArrow:hover {
+  background: var(--text-main);
+  color: var(--bg-main);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.leftArrow {
+  left: 16px;
+}
+
+.rightArrow {
+  right: 16px;
+}
+
+.arrowDisabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.arrowDisabled:hover {
+  background: var(--card-bg);
+  color: var(--text-main);
+  transform: translateY(-50%) scale(1);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ===== MAIN ===== */
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 80px 32px 80px;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+/* ===== GRID ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  width: 100%;
+}
+
+/* ===== CARD ===== */
+.card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  background: var(--card-bg);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: fadeInUp 0.4s ease forwards;
+  opacity: 0;
+}
+
+.card:hover {
+  border-color: var(--text-main);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-3px);
+}
+
+.card:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.card.selected {
+  border: 2px solid var(--brand-color, #FF385C);
+  background: var(--hover-bg);
+  padding: 9px 11px;
+  animation: pulse 0.3s ease;
+  opacity: 1;
+}
+
+.card.selected .iconWrapper {
+  transform: scale(1.15);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .mainContent {
+    padding: 28px 70px;
+  }
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 8px 16px;
+  }
+  .mainContent {
+    padding: 20px 60px;
+  }
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .title {
+    font-size: 20px;
+  }
+  .sideArrow {
+    width: 36px;
+    height: 36px;
+  }
+  .leftArrow {
+    left: 8px;
+  }
+  .rightArrow {
+    right: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mainContent {
+    padding: 16px 50px;
+  }
+}

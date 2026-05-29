@@ -4,8 +4,8 @@
   justify-content: center; /* Center items */
   gap: 8px;
   padding: 0 40px;
-  border-bottom: 1px solid #EBEBEB;
-  background: white;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-main);
   overflow-x: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -44,7 +44,7 @@
 .categoryLabel {
   font-size: 12px;
   font-weight: 500;
-  color: #717171;
+  color: var(--text-secondary);
   white-space: nowrap;
   letter-spacing: 0.1px;
 }
@@ -75,7 +75,7 @@
 }
 
 .active .categoryLabel {
-  color: #222222;
+  color: var(--text-main);
   font-weight: 700;
 }
 

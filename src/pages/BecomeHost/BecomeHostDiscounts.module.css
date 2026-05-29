@@ -1,0 +1,227 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.95); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes checkBounce {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+}
+
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 40px;
+  background: white;
+  border-bottom: 1px solid #EBEBEB;
+  z-index: 10;
+}
+.headerLeft { display: flex; align-items: center; gap: 10px; }
+.logoIcon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #FF385C, #E31C5F);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logoText { font-size: 20px; font-weight: 800; color: #222; }
+
+/* ===== SIDE ARROWS ===== */
+.sideArrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid #DDD;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  color: #222;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.25s ease;
+}
+.sideArrow:hover:not(:disabled) {
+  background: #222;
+  color: white;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  transform: translateY(-50%) scale(1.1);
+}
+.sideArrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #F7F7F7;
+}
+.leftArrow { left: 16px; }
+.rightArrow { right: 16px; }
+
+/* ===== CONTENT ===== */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 60px;
+  overflow-y: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainArea {
+  width: 100%;
+  max-width: 650px;
+  animation: fadeIn 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.headerText {
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+  margin-bottom: 8px;
+}
+.title { font-size: 28px; font-weight: 700; color: #222; margin: 0 0 8px 0; }
+.subtitle { font-size: 15px; color: #717171; margin: 0; line-height: 1.5; }
+
+/* ===== DISCOUNTS ===== */
+.discountsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* Small gap for compactness */
+}
+
+.discountCard {
+  background: #FAFAFA;
+  border: 1px solid #EBEBEB;
+  border-radius: 12px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.discountCard:hover:not(.selectedCard) {
+  border-color: #FF385C;
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 56, 92, 0.08);
+}
+
+.selectedCard {
+  background: linear-gradient(145deg, #FFF5F7 0%, #FFFFFF 100%);
+  border-color: #FF385C;
+  box-shadow: 0 8px 24px rgba(255, 56, 92, 0.12);
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Percentage Box Wrapper */
+.percentBoxWrapper {
+  width: 56px;
+  height: 44px;
+  background: white;
+  border: 1px solid #CCC;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+.percentBoxWrapper:focus-within {
+  border-color: #FF385C;
+  box-shadow: 0 0 0 2px rgba(255, 56, 92, 0.2);
+}
+.selectedCard .percentBoxWrapper {
+  border-color: #FF385C;
+  background: white;
+}
+
+.percentInput {
+  width: 28px;
+  border: none;
+  background: transparent;
+  text-align: right;
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  outline: none;
+  font-family: inherit;
+  padding: 0;
+}
+.percentSymbol {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+  margin-left: 2px;
+}
+
+/* Text Content */
+.cardContent {
+  flex: 1;
+}
+.cardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 4px 0;
+}
+.cardDesc {
+  font-size: 14px;
+  color: #717171;
+  margin: 0;
+}
+
+/* Custom Checkbox */
+.checkbox {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid #CCC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  background: white;
+}
+.checkboxChecked {
+  background: linear-gradient(135deg, #FF385C, #E31C5F);
+  border-color: transparent;
+  animation: checkBounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.footerNote {
+  text-align: center;
+  font-size: 13px;
+  color: #717171;
+  margin-top: 8px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .content { padding: 24px; }
+  .title { font-size: 24px; }
+  .discountCard { padding: 16px; gap: 12px; }
+}

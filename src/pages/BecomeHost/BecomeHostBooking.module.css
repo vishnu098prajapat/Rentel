@@ -1,0 +1,195 @@
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.98); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+}
+
+/* ===== HEADER ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 40px;
+  background: white;
+  border-bottom: 1px solid #EBEBEB;
+  z-index: 10;
+}
+.headerLeft { display: flex; align-items: center; gap: 10px; }
+.logoIcon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, #FF385C, #E31C5F);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+}
+.logoText { font-size: 20px; font-weight: 800; color: #222; }
+
+/* ===== SIDE ARROWS ===== */
+.sideArrow {
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid #DDD;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 50;
+  color: #222;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.25s ease;
+}
+.sideArrow:hover:not(:disabled) {
+  background: #222;
+  color: white;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  transform: translateY(-50%) scale(1.1);
+}
+.sideArrow:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #F7F7F7;
+}
+.leftArrow { left: 16px; }
+.rightArrow { right: 16px; }
+
+/* ===== CONTENT ===== */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 60px;
+  overflow-y: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.mainArea {
+  width: 100%;
+  max-width: 650px;
+  animation: fadeIn 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.headerText {
+  animation: fadeIn 0.5s ease;
+}
+.title { font-size: 32px; font-weight: 700; color: #222; margin: 0 0 12px 0; }
+.subtitle { font-size: 18px; color: #717171; margin: 0; line-height: 1.5; }
+
+/* ===== OPTIONS ===== */
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.optionCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.optionCard:hover:not(.selectedCard) {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+.selectedCard {
+  border-color: #222;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  animation: popIn 0.3s ease;
+  background: #FAFAFA;
+}
+
+.cardIconWrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.blueIcon {
+  background: linear-gradient(135deg, #0984E3, #74B9FF);
+}
+
+.orangeIcon {
+  background: linear-gradient(135deg, #FF9F43, #FDCB6E);
+}
+
+.cardContent {
+  flex: 1;
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 4px 0;
+}
+
+.recommendedBadge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(90deg, #00B894, #55E6C1);
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.cardDesc {
+  font-size: 14px;
+  color: #717171;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .content { padding: 24px; }
+  .title { font-size: 24px; }
+  .optionCard { padding: 24px; flex-direction: column; gap: 16px; }
+  .cardTitle { font-size: 18px; }
+}
