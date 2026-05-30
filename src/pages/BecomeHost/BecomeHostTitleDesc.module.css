@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: white;
+  background: var(--bg-main);
   overflow: hidden;
 }
 
@@ -23,8 +23,8 @@
   align-items: center;
   justify-content: space-between;
   padding: 14px 40px;
-  background: white;
-  border-bottom: 1px solid #EBEBEB;
+  background: var(--bg-main);
+  border-bottom: 1px solid var(--border);
   z-index: 10;
 }
 .headerLeft { display: flex; align-items: center; gap: 10px; }
@@ -34,41 +34,37 @@
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
 }
-.logoText { font-size: 20px; font-weight: 800; color: #222; }
+.logoText { font-size: 20px; font-weight: 800; color: var(--text-main, #222); }
 
-/* ===== SIDE ARROWS ===== */
-.sideArrow {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: 2px solid #DDD;
-  background: white;
+.headerNav {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
+}
+.navBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--border-light);
+  border-radius: 40px;
+  background: var(--bg-main);
+  color: var(--text-main, #222);
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  z-index: 50;
-  color: #222;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
-.sideArrow:hover:not(:disabled) {
-  background: #222;
-  color: white;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
-  transform: translateY(-50%) scale(1.1);
+.navBtn:hover {
+  border-color: var(--text-main, #222);
+  background: var(--hover-bg, #f7f7f7);
 }
-.sideArrow:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-  background: #F7F7F7;
+.navBtnNext { background: var(--text-main); color: var(--bg-main);
+  border-color: var(--text-main, #222);
 }
-
-.leftArrow { left: 16px; }
-.rightArrow { right: 16px; }
+.navBtnNext:hover {
+  opacity: 0.85; background: var(--text-main); color: var(--bg-main);
+}
 
 /* ===== CONTENT ===== */
 .content {
@@ -85,52 +81,76 @@
   margin-bottom: 32px;
   animation: fadeIn 0.5s ease;
 }
-.title { font-size: 28px; font-weight: 700; color: #222; margin: 0 0 8px 0; }
-.subtitle { font-size: 15px; color: #717171; margin: 0; line-height: 1.5; }
+.title { font-size: 28px; font-weight: 700; color: var(--text-main, #222); margin: 0 0 8px 0; }
+.subtitle { font-size: 15px; color: var(--text-secondary, #717171); margin: 0; line-height: 1.5; }
 
 .mainArea {
   width: 100%;
-  max-width: 650px;
+  max-width: 1000px;
   animation: fadeIn 0.6s ease;
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
 
+/* ===== LAYOUT ===== */
+.splitLayout {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.leftCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.rightCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 /* ===== SECTIONS ===== */
 .sectionTitle {
   font-size: 18px;
   font-weight: 700;
-  color: #222;
+  color: var(--text-main, #222);
   margin: 0 0 16px 0;
 }
 
 /* ===== HIGHLIGHTS PILLS ===== */
 .highlightsContainer {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
 .highlightPill {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   gap: 8px;
-  padding: 10px 16px;
-  background: white;
-  border: 1px solid #DDD;
-  border-radius: 12px;
+  padding: 8px 12px;
+  background: var(--bg-main);
+  border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--border-light);
+  border-radius: 40px;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  height: 46px;
 }
 .highlightPill:hover:not(.disabledPill):not(.selectedPill) {
-  border-color: #222;
-  background: #F7F7F7;
+  border-color: var(--text-main, #222);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
   transform: translateY(-2px);
 }
 .selectedPill {
   animation: popIn 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  border-width: 2px !important;
 }
 .disabledPill {
   opacity: 0.5;
@@ -142,8 +162,10 @@
   justify-content: center;
 }
 .pillText {
-  font-size: 15px;
+  font-size: 12px;
   font-weight: 600;
+  line-height: 1.2;
+  text-align: left;
 }
 
 /* ===== TEXTAREA ===== */
@@ -153,45 +175,81 @@
 }
 .textarea {
   width: 100%;
-  padding: 24px;
-  border: 2px solid #DDD;
-  border-radius: 16px;
-  font-size: 22px;
+  padding: 20px;
+  border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--border-light);
+  border-radius: 12px;
+  font-size: 20px;
   line-height: 1.4;
   font-weight: 600;
-  color: #222;
-  background: white;
+  color: var(--text-main, #222);
+  background: var(--bg-main);
   resize: none;
   font-family: inherit;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: all 0.3s ease;
   outline: none;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.02);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 .textarea:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  border-color: var(--text-main, #222);
 }
 .textarea:focus {
-  border-color: #FF385C;
-  box-shadow: 0 8px 24px rgba(255, 56, 92, 0.12);
-  transform: translateY(-2px);
+  background: var(--bg-main);
+  border-color: var(--text-main, #222);
+  box-shadow: 0 0 0 1px var(--text-main);
 }
 .textarea::placeholder {
-  color: #AAA;
-  font-weight: 400;
+  color: #999;
+  font-weight: 500;
+}
+
+.descTextarea {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid var(--border); box-shadow: 0 0 0 1px var(--border-light);
+  border-radius: 12px;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 500;
+  color: var(--text-main, #222);
+  background: var(--bg-main);
+  resize: none;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  outline: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+  flex: 1;
+  min-height: 240px;
+}
+.descTextarea:hover {
+  border-color: var(--text-main, #222);
+}
+.descTextarea:focus {
+  background: var(--bg-main);
+  border-color: var(--text-main, #222);
+  box-shadow: 0 0 0 1px var(--text-main);
+}
+.descTextarea::placeholder {
+  color: #999;
+  font-weight: 500;
 }
 .charCount {
-  position: absolute;
-  bottom: -24px;
-  right: 0;
-  font-size: 14px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  font-size: 13px;
   font-weight: 600;
-  color: #717171;
+  color: var(--text-secondary, #717171);
 }
 .charCountMax {
   color: #E31C5F;
 }
 
 /* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .splitLayout {
+    flex-direction: column;
+  }
+}
 @media (max-width: 768px) {
   .content { padding: 24px; }
   .header { padding: 12px 20px; }
@@ -232,69 +290,5 @@
   
   .counterLabel, .amenityLabel, .optionLabel {
     font-size: 14px !important;
-  }
-
-  /* Navigation overrides for pages using .sideArrow */
-  .sideArrow {
-    position: absolute !important;
-    top: 14px !important;
-    transform: none !important;
-    width: auto !important;
-    height: 32px !important;
-    border-radius: 16px !important;
-    padding: 0 16px !important;
-    box-shadow: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  .sideArrow svg {
-    width: 16px !important;
-    height: 16px !important;
-  }
-  .leftArrow {
-    left: auto !important;
-    right: 90px !important;
-    background: transparent !important;
-    border: 1px solid #DDD !important;
-  }
-  .leftArrow::after {
-    content: "Back";
-    font-size: 13px;
-    font-weight: 600;
-    margin-left: 4px;
-    color: #222;
-  }
-  .rightArrow {
-    right: 16px !important;
-    background: #222 !important;
-    border: 1px solid #222 !important;
-    color: white !important;
-  }
-  .rightArrow::before {
-    content: "Next";
-    font-size: 13px;
-    font-weight: 600;
-    margin-right: 4px;
-    color: white !important;
-  }
-  .rightArrow svg {
-    color: white !important;
-  }
-  .sideArrow:hover {
-    transform: none !important;
-  }
-
-  /* Fix for Next button in pages using .navBtnNext (like BecomeHostDetails) */
-  .navBtnNext {
-    background: #222 !important;
-    color: white !important;
-    border-color: #222 !important;
-  }
-  .navBtnNext span {
-    color: white !important;
-  }
-  .navBtnNext svg {
-    color: white !important;
   }
 }

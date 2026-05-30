@@ -24,7 +24,7 @@ const HostEarnings = () => {
         </div>
       </div>
 
-      <div style={{ background: 'white', padding: '32px', borderRadius: '16px', border: '1px solid #EBEBEB', marginBottom: '32px' }}>
+      <div style={{ background: 'var(--card-bg)', padding: '32px', borderRadius: '16px', border: '1px solid #EBEBEB', marginBottom: '32px' }}>
         <h3 style={{ fontSize: '18px', fontWeight: 700, margin: '0 0 24px 0' }}>Revenue Over Time</h3>
         <div style={{ height: '350px', width: '100%' }}>
           <ResponsiveContainer width="100%" height="100%">
@@ -37,7 +37,7 @@ const HostEarnings = () => {
                 contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
                 formatter={(value) => [`₹${value.toLocaleString()}`, 'Earnings']}
               />
-              <Bar dataKey="earnings" fill="#222222" radius={[4, 4, 0, 0]} barSize={40} />
+              <Bar dataKey="earnings" fill="currentColor" radius={[4, 4, 0, 0]} barSize={40} />
             </BarChart>
           </ResponsiveContainer>
         </div>

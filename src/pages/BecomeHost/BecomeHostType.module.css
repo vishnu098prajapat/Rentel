@@ -28,6 +28,7 @@
 .header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 16px 48px;
   background: var(--bg-main);
   border-bottom: 1px solid var(--border);
@@ -57,50 +58,34 @@
   letter-spacing: -0.02em;
 }
 
-/* ===== SIDE ARROWS ===== */
-.sideArrow {
-  position: fixed;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
-  background: var(--card-bg);
+.headerNav {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
+}
+.navBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border: 1px solid var(--border);
+  border-radius: 40px;
+  background: var(--card-bg, white);
+  color: var(--text-main, #222);
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  z-index: 50;
-  color: var(--text-main);
-  box-shadow: var(--shadow-sm);
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
-
-.sideArrow:hover {
-  background: var(--text-main);
-  color: var(--bg-main);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-50%) scale(1.1);
+.navBtn:hover {
+  border-color: var(--text-main, #222);
+  background: var(--hover-bg, #f7f7f7);
 }
-
-.leftArrow {
-  left: 16px;
+.navBtnNext { background: var(--text-main); color: var(--bg-main);
+  border-color: var(--text-main, #222);
 }
-
-.rightArrow {
-  right: 16px;
-}
-
-.arrowDisabled {
-  opacity: 0.4;
-  cursor: not-allowed;
-}
-.arrowDisabled:hover {
-  background: var(--card-bg);
-  color: var(--text-main);
-  transform: translateY(-50%) scale(1);
-  box-shadow: var(--shadow-sm);
+.navBtnNext:hover {
+  opacity: 0.85; background: var(--text-main); color: var(--bg-main);
 }
 
 /* ===== MAIN ===== */
@@ -108,11 +93,34 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 32px 80px 32px 80px;
-  max-width: 1000px;
+  padding: 32px 80px;
+  max-width: 1200px;
   margin: 0 auto;
   width: 100%;
+}
+
+.splitLayout {
+  display: flex;
+  gap: 40px;
+  width: 100%;
+  align-items: flex-start;
+  animation: fadeInUp 0.4s ease;
+}
+
+.leftCol {
+  flex: 1.2;
+}
+
+.rightCol {
+  flex: 1;
+  position: sticky;
+  top: 20px;
+}
+
+.fullWidthCol {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .title {
@@ -124,26 +132,31 @@
 }
 
 /* ===== GRID ===== */
-.grid {
+.grid6 {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
   width: 100%;
+  margin-bottom: 24px;
 }
 
 /* ===== CARD ===== */
 .card {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  text-align: center;
+  gap: 8px;
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 10px 12px;
+  padding: 12px 8px;
   cursor: pointer;
   background: var(--card-bg);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   animation: fadeInUp 0.4s ease forwards;
   opacity: 0;
+  min-height: 80px;
 }
 
 .card:hover {
@@ -159,13 +172,13 @@
 .card.selected {
   border: 2px solid var(--brand-color, #FF385C);
   background: var(--hover-bg);
-  padding: 9px 11px;
+  padding: 15px; /* offset border */
   animation: pulse 0.3s ease;
   opacity: 1;
 }
 
 .card.selected .iconWrapper {
-  transform: scale(1.15);
+  transform: scale(1.1);
 }
 
 .iconWrapper {
@@ -180,18 +193,193 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--text-main);
-  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.customInput {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  margin-top: 8px;
+  outline: none;
+}
+.customInput:focus {
+  border-color: var(--text-main);
+}
+
+/* ===== DYNAMIC FIELDS ===== */
+.expandedDetailsForm {
+  background: var(--card-bg);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
+  border: 1px solid var(--border);
+  width: 100%;
+  position: relative;
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+.expandedDetailsForm::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 6px;
+  background: linear-gradient(90deg, #FF385C, #E31C5F);
+}
+
+.expandedDetailsFormWrapper {
+  animation: fadeInUp 0.4s ease forwards;
+  width: 100%;
+}
+
+.horizontalForm {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+}
+
+.formCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dynamicSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fieldRow {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.fieldSelect, .fieldInput {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-size: 15px;
+  background: var(--card-bg, white);
+  color: var(--text-main);
+  transition: all 0.2s ease;
+  outline: none;
+  font-family: inherit;
+}
+
+.fieldSelect:focus, .fieldInput:focus {
+  border-color: var(--text-main);
+  box-shadow: 0 0 0 1px var(--text-main);
+}
+
+.toggleGroup {
+  display: flex;
+  gap: 12px;
+}
+
+.toggleBtn {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card-bg, white);
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggleBtn:hover {
+  border-color: var(--text-main);
+}
+
+.toggleBtn.activeToggle {
+  border-color: var(--text-main);
+  background: var(--hover-bg);
+  box-shadow: 0 0 0 1px var(--text-main);
+}
+
+/* ===== COUNTERS ===== */
+.counterRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #F0F0F0;
+}
+.counterRow:last-child { border-bottom: none; }
+
+.counterLabel {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+.counterIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--text-main);
+}
+
+.counterControls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.counterBtn {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 1px solid #CCC;
+  background: var(--card-bg, white);
+  color: var(--text-main);
+  font-size: 20px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+.counterBtn:hover:not(:disabled) {
+  border-color: var(--text-main);
+  background: var(--text-main);
+  color: var(--bg-main);
+}
+.counterBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.counterValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-main);
+  width: 28px;
+  text-align: center;
 }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
   .mainContent {
-    padding: 28px 70px;
+    padding: 28px 40px;
   }
-  .grid {
+  .grid6 {
     grid-template-columns: repeat(4, 1fr);
+  }
+  .horizontalForm {
+    flex-direction: column;
   }
 }
 
@@ -202,21 +390,11 @@
   .mainContent {
     padding: 20px 60px;
   }
-  .grid {
+  .grid, .gridCompact {
     grid-template-columns: repeat(3, 1fr);
   }
   .title {
     font-size: 20px;
-  }
-  .sideArrow {
-    width: 36px;
-    height: 36px;
-  }
-  .leftArrow {
-    left: 8px;
-  }
-  .rightArrow {
-    right: 8px;
   }
 }
 
@@ -262,69 +440,5 @@
   
   .counterLabel, .amenityLabel, .optionLabel {
     font-size: 14px !important;
-  }
-
-  /* Navigation overrides for pages using .sideArrow */
-  .sideArrow {
-    position: absolute !important;
-    top: 14px !important;
-    transform: none !important;
-    width: auto !important;
-    height: 32px !important;
-    border-radius: 16px !important;
-    padding: 0 16px !important;
-    box-shadow: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  .sideArrow svg {
-    width: 16px !important;
-    height: 16px !important;
-  }
-  .leftArrow {
-    left: auto !important;
-    right: 90px !important;
-    background: transparent !important;
-    border: 1px solid #DDD !important;
-  }
-  .leftArrow::after {
-    content: "Back";
-    font-size: 13px;
-    font-weight: 600;
-    margin-left: 4px;
-    color: #222;
-  }
-  .rightArrow {
-    right: 16px !important;
-    background: #222 !important;
-    border: 1px solid #222 !important;
-    color: white !important;
-  }
-  .rightArrow::before {
-    content: "Next";
-    font-size: 13px;
-    font-weight: 600;
-    margin-right: 4px;
-    color: white !important;
-  }
-  .rightArrow svg {
-    color: white !important;
-  }
-  .sideArrow:hover {
-    transform: none !important;
-  }
-
-  /* Fix for Next button in pages using .navBtnNext (like BecomeHostDetails) */
-  .navBtnNext {
-    background: #222 !important;
-    color: white !important;
-    border-color: #222 !important;
-  }
-  .navBtnNext span {
-    color: white !important;
-  }
-  .navBtnNext svg {
-    color: white !important;
   }
 }

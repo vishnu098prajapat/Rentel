@@ -4,11 +4,11 @@
 }
 
 .bookingCard {
-  border: 1px solid rgba(0,0,0,0.08);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 20px;
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-  background: white;
+  background: var(--card-bg, white);
 }
 
 .priceRow {
@@ -21,12 +21,12 @@
 .priceVal {
   font-size: 20px;
   font-weight: 800;
-  color: #222222;
+  color: var(--text-main);
   text-decoration: underline;
 }
 
 .priceNight {
-  color: #222222;
+  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 500;
 }
@@ -58,13 +58,13 @@
   font-weight: 800;
   text-transform: uppercase;
   margin-bottom: 2px;
-  color: #222;
+  color: var(--text-main);
   letter-spacing: 0.05em;
 }
 
 .inputVal {
   font-size: 14px;
-  color: #222;
+  color: var(--text-main);
   font-weight: 500;
 }
 
@@ -91,7 +91,7 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-bottom: 8px;
-  color: #222;
+  color: var(--text-main);
 }
 
 .ratesBox {
@@ -111,7 +111,7 @@
 }
 
 .rateOption:hover {
-  background-color: #F7F7F7;
+  background-color: var(--hover-bg, #F7F7F7);
 }
 
 .rateOption:last-child {
@@ -127,12 +127,12 @@
 .rateName {
   font-size: 14px;
   font-weight: 600;
-  color: #222;
+  color: var(--text-main);
 }
 
 .rateDesc {
   font-size: 13px;
-  color: #717171;
+  color: var(--text-secondary);
 }
 
 .radioWrapper {

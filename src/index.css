@@ -14,6 +14,9 @@
   --hover-bg: #F7F7F9;
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --overlay-bg: rgba(255, 255, 255, 0.95);
+  --sidebar-bg: rgba(255, 255, 255, 0.8);
+  --sidebar-border: rgba(255, 255, 255, 0.5);
 }
 
 [data-theme='dark'] {
@@ -30,6 +33,9 @@
   --hover-bg: #222222;
   --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6);
+  --overlay-bg: rgba(15, 15, 15, 0.95);
+  --sidebar-bg: rgba(26, 26, 26, 0.8);
+  --sidebar-border: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -56,6 +62,12 @@ body {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 24px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 0 16px;
+  }
 }
 
 /* Common Animations */
@@ -93,4 +105,18 @@ ul {
 a {
   text-decoration: none;
   color: inherit;
+}
+
+/* Fix Browser Autofill in Dark Mode */
+[data-theme='dark'] input:-webkit-autofill,
+[data-theme='dark'] input:-webkit-autofill:hover, 
+[data-theme='dark'] input:-webkit-autofill:focus, 
+[data-theme='dark'] input:-webkit-autofill:active,
+[data-theme='dark'] textarea:-webkit-autofill,
+[data-theme='dark'] textarea:-webkit-autofill:hover,
+[data-theme='dark'] textarea:-webkit-autofill:focus,
+[data-theme='dark'] select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-main) inset !important;
+  -webkit-text-fill-color: var(--text-main) !important;
+  transition: background-color 5000s ease-in-out 0s;
 }

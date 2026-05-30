@@ -120,9 +120,9 @@ const PropertyDetail = () => {
         
         {/* SECTION 1 - HEADER */}
       <section className={styles.header}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-          <button className={styles.actionBtn} onClick={() => navigate(-1)} style={{ padding: '8px', borderRadius: '50%', background: '#f0f0f0', border: 'none' }}>
-            <ChevronLeft size={20} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '0 0 16px -8px' }}>
+          <button className={styles.backBtn} onClick={() => navigate(-1)}>
+            <ChevronLeft size={24} />
           </button>
         </div>
         <div className={styles.titleRow}>

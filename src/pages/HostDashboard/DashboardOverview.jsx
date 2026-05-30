@@ -24,7 +24,7 @@ const weeklyData = [
 const sourceData = [
   { name: 'Website', value: 374, color: '#FF385C' },
   { name: 'Mobile App', value: 241, color: 'var(--text-main)' },
-  { name: 'Other', value: 213, color: 'var(--border-light)' },
+  { name: 'Other', value: 213, color: '#EBEBEB' },
 ];
 
 const recentBookings = [
@@ -67,7 +67,7 @@ const DashboardOverview = () => {
           </div>
           <div className={styles.kpiValueRow}>
             <h2 className={styles.kpiValue}>₹4,34,500</h2>
-            <span className={`${styles.kpiBadge} ${styles.danger}`}>12.0% ↘</span>
+            <span className={`${styles.kpiBadge} ${styles.success}`}>12.0% ↗</span>
           </div>
         </div>
 
@@ -117,8 +117,8 @@ const DashboardOverview = () => {
                 <YAxis axisLine={false} tickLine={false} tick={{fill: 'var(--text-secondary)', fontSize: 12}} />
                 <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }} />
                 <Bar dataKey="web" stackId="a" fill="#FF385C" radius={[0, 0, 4, 4]} barSize={40} />
-                <Bar dataKey="app" stackId="a" fill="var(--text-main)" />
-                <Bar dataKey="affiliate" stackId="a" fill="var(--border-light)" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="app" stackId="a" fill="currentColor" />
+                <Bar dataKey="affiliate" stackId="a" fill="#EBEBEB" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -137,14 +137,14 @@ const DashboardOverview = () => {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={weeklyData} margin={{ top: 20, right: 0, bottom: 0, left: 0 }}>
                 <XAxis dataKey="name" axisLine={false} tickLine={false} tick={({x, y, payload}) => (
-                  <text x={x} y={y + 15} fill={payload.value === 'Tue' ? 'var(--text-main)' : 'var(--text-secondary)'} fontWeight={payload.value === 'Tue' ? 700 : 500} fontSize={12} textAnchor="middle">
+                  <text x={x} y={y + 15} fill={payload.value === 'Tue' ? '#222' : '#999'} fontWeight={payload.value === 'Tue' ? 800 : 600} fontSize={12} textAnchor="middle">
                     {payload.value}
                   </text>
                 )} />
                 <Tooltip cursor={{fill: 'transparent'}} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }} />
                 <Bar dataKey="bookings" barSize={30} radius={[8, 8, 8, 8]}>
                   {weeklyData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.name === 'Tue' ? '#FF385C' : 'var(--border-light)'} />
+                    <Cell key={`cell-${index}`} fill={entry.name === 'Tue' ? '#FF385C' : '#EBEBEB'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -163,11 +163,11 @@ const DashboardOverview = () => {
            
            <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 10px', marginBottom: '20px' }}>
               <div>
-                <span style={{color: '#FF385C', fontWeight: 700}}>|</span> <span style={{color: 'var(--text-secondary)', fontSize: 13, fontWeight: 500}}>Website</span>
+                <span style={{color: '#FF385C', fontWeight: 700}}>|</span> <span style={{color: 'var(--text-secondary)', fontSize: 13, fontWeight: 600}}>Website</span>
                 <h3 style={{margin: '4px 0 0 0', color: 'var(--text-main)', fontSize: 20}}>$ 374.82</h3>
               </div>
               <div>
-                <span style={{color: 'var(--text-main)', fontWeight: 700}}>|</span> <span style={{color: 'var(--text-secondary)', fontSize: 13, fontWeight: 500}}>Mobile App</span>
+                <span style={{color: 'var(--text-main)', fontWeight: 700}}>|</span> <span style={{color: 'var(--text-secondary)', fontSize: 13, fontWeight: 600}}>Mobile App</span>
                 <h3 style={{margin: '4px 0 0 0', color: 'var(--text-main)', fontSize: 20}}>$ 241.60</h3>
               </div>
            </div>

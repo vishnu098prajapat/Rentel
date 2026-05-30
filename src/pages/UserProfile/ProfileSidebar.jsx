@@ -30,7 +30,7 @@ const ProfileSidebar = ({ activeTab, setActiveTab, user }) => {
         </div>
         <div>
           <h2 className={styles.userName}>{getFullName()}</h2>
-          <p className={styles.userEmail}>{user?.email || 'user@example.com'}</p>
+          {/* <p className={styles.userEmail}>{user?.email || 'user@example.com'}</p> */}
         </div>
       </div>
       

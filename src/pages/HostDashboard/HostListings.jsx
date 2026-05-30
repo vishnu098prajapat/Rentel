@@ -62,13 +62,13 @@ const HostListings = () => {
                 {listing.location || (listing.address ? `${listing.address.flat ? listing.address.flat + ', ' : ''}${listing.address.street ? listing.address.street + ', ' : ''}${listing.address.city ? listing.address.city + ', ' : ''}${listing.address.country || ''}`.replace(/,\s*$/, "") : 'Unknown Location')}
               </p>
               {listing.isBusiness !== undefined && (
-                <p style={{ fontSize: '12px', color: '#717171', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <p style={{ fontSize: '12px', color: 'var(--text-secondary)', marginTop: '4px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   {listing.isBusiness ? '🏢 Business Host' : '👤 Individual Host'}
                 </p>
               )}
               
               <div className={styles.listingFooter}>
-                <span className={styles.listingPrice}>{listing.price ? `₹${listing.price}` : '₹0'} <span style={{fontWeight: 400, color: '#717171'}}>/ night</span></span>
+                <span className={styles.listingPrice}>{listing.price ? `₹${listing.price}` : '₹0'} <span style={{fontWeight: 400, color: 'var(--text-secondary)'}}>/ night</span></span>
                 <span className={`${styles.statusBadge} ${listing.status === 'Draft' ? styles.statusDraft : styles.statusActive}`}>
                   {listing.status || 'Active'}
                 </span>

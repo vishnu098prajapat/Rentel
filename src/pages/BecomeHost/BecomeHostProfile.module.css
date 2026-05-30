@@ -3,7 +3,7 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: white;
+  background-color: var(--card-bg, white);
 }
 
 .leftPanel {
@@ -30,13 +30,13 @@
 .header h2 {
   font-size: 36px;
   font-weight: 800;
-  color: #222;
+  color: var(--text-main, #222);
   margin-bottom: 8px;
   letter-spacing: -0.02em;
 }
 
 .header p {
-  color: #717171;
+  color: var(--text-secondary, #717171);
   font-size: 16px;
 }
 
@@ -55,7 +55,7 @@
 .label {
   font-size: 14px;
   font-weight: 600;
-  color: #222;
+  color: var(--text-main, #222);
 }
 
 .inputWrapper {
@@ -67,7 +67,7 @@
 .inputIcon {
   position: absolute;
   left: 16px;
-  color: #717171;
+  color: var(--text-secondary, #717171);
 }
 
 .checkIcon {
@@ -78,8 +78,8 @@
 .readOnlyField {
   display: flex;
   align-items: center;
-  background: #F7F7F7;
-  border: 1px solid #EBEBEB;
+  background: var(--hover-bg, #f7f7f7);
+  border: 1px solid var(--border);
   border-radius: 12px;
   padding: 16px 48px;
   position: relative;
@@ -89,7 +89,7 @@
 .readOnlyText {
   font-size: 16px;
   font-weight: 600;
-  color: #222;
+  color: var(--text-main, #222);
 }
 
 .inputField, .selectField {
@@ -98,21 +98,21 @@
   border: 1px solid #B0B0B0;
   border-radius: 12px;
   font-size: 16px;
-  color: #222;
+  color: var(--text-main, #222);
   outline: none;
   transition: border-color 0.2s;
-  background: white;
+  background: var(--card-bg, white);
 }
 
 .inputField:focus, .selectField:focus {
-  border-color: #222;
+  border-color: var(--text-main, #222);
   border-width: 2px;
   padding: 15px 15px 15px 47px;
 }
 
 .helperText {
   font-size: 13px;
-  color: #717171;
+  color: var(--text-secondary, #717171);
 }
 
 .continueBtn {
@@ -143,7 +143,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background-color: white;
+  background-color: var(--card-bg, white);
 }
 
 .imageWrapper {
@@ -274,14 +274,14 @@
     left: auto !important;
     right: 90px !important;
     background: transparent !important;
-    border: 1px solid #DDD !important;
+    border: 1px solid var(--border) !important;
   }
   .leftArrow::after {
     content: "Back";
     font-size: 13px;
     font-weight: 600;
     margin-left: 4px;
-    color: #222;
+    color: var(--text-main, #222);
   }
   .rightArrow {
     right: 16px !important;
@@ -307,7 +307,7 @@
   .navBtnNext {
     background: #222 !important;
     color: white !important;
-    border-color: #222 !important;
+    border-color: var(--text-main, #222) !important;
   }
   .navBtnNext span {
     color: white !important;

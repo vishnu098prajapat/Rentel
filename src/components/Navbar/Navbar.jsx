@@ -56,6 +56,7 @@ const Navbar = () => {
   const handleLogout = () => {
     dispatch(logout());
     setProfileDropdownOpen(false);
+    navigate('/');
   };
 
   const isHomePage = location.pathname === '/';

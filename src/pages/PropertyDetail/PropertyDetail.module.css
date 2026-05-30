@@ -95,7 +95,24 @@
 }
 
 .actionBtn:hover {
-  background-color: #F7F7F7;
+  background-color: var(--hover-bg, #F7F7F7);
+}
+
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  color: var(--text-main);
+  transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+  background-color: var(--hover-bg, #F7F7F7);
 }
 
 .subHeader {
@@ -268,7 +285,7 @@
   border: 1px solid var(--border);
   border-radius: 16px;
   margin: 32px 0;
-  background: white;
+  background: var(--card-bg, white);
   box-shadow: 0 4px 12px rgba(0,0,0,0.04);
   gap: 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -592,11 +609,15 @@
 }
 
 .bookingCard {
-  border: 1px solid rgba(0,0,0,0.06);
-  border-radius: 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
   padding: 32px;
   box-shadow: 0 24px 60px rgba(0,0,0,0.12);
-  background: white;
+  background: var(--card-bg, white);
+}
+
+:global([data-theme="dark"]) .mapBox iframe {
+  filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(90%);
 }
 
 .priceRow {
@@ -766,7 +787,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: #ffffff;
+  background: var(--bg-main, #ffffff);
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -775,7 +796,7 @@
 
 .galleryHeader {
   padding: 24px;
-  background: #ffffff;
+  background: var(--bg-main, #ffffff);
   display: flex;
   align-items: center;
 }
@@ -790,11 +811,11 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
-  color: #222222;
+  color: var(--text-main);
 }
 
 .closeGalleryBtn:hover {
-  background: #F7F7F7;
+  background: var(--hover-bg, #F7F7F7);
 }
 
 .galleryScrollArea {
@@ -835,7 +856,7 @@
 }
 
 .amenitiesModalCard {
-  background: #ffffff;
+  background: var(--card-bg, #ffffff);
   width: 100%;
   max-width: 780px;
   max-height: 85vh;
@@ -872,11 +893,11 @@
   align-items: center;
   justify-content: center;
   transition: background-color 0.2s;
-  color: #222222;
+  color: var(--text-main);
 }
 
 .amenitiesCloseBtn:hover {
-  background: #F7F7F7;
+  background: var(--hover-bg, #F7F7F7);
 }
 
 .amenitiesModalBody {

@@ -13,7 +13,7 @@
 .title {
   font-size: 22px;
   font-weight: 800;
-  color: #222;
+  color: var(--text-main);
 }
 
 .titleBtn {
@@ -25,11 +25,11 @@
   justify-content: center;
   transition: all 0.3s ease;
   background: transparent;
-  color: #222;
+  color: var(--text-main);
 }
 
 .titleBtn:hover {
-  background: #f7f7f7;
+  background: var(--hover-bg, #f7f7f7);
 }
 
 .cityRowWrapper {

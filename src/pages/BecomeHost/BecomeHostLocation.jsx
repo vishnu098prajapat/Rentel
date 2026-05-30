@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateDraft } from '../../features/host/hostSlice';
 import styles from './BecomeHostLocation.module.css';
-import { MapPin, Navigation, LocateFixed, ChevronLeft, ChevronRight } from 'lucide-react';
-import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet';
+import { MapPin, Navigation, LocateFixed, ChevronLeft, ChevronRight, Shield, Eye } from 'lucide-react';
+import { MapContainer, TileLayer, Marker, Circle, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -38,7 +38,7 @@ const DraggableMarker = ({ position, setPosition, onDragEnd }) => {
 const FlyToLocation = ({ position }) => {
   const map = useMap();
   useEffect(() => {
-    if (position) map.flyTo(position, 16, { duration: 1.5 });
+    if (position) map.flyTo(position, 15, { duration: 1.5 });
   }, [position, map]);
   return null;
 };
@@ -46,10 +46,13 @@ const FlyToLocation = ({ position }) => {
 const BecomeHostLocation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [address, setAddress] = useState(localStorage.getItem('hostAddress') || '');
+  const draft = useSelector(state => state.host?.draftListing || {});
+  
+  const [address, setAddress] = useState(draft.address || localStorage.getItem('hostAddress') || '');
   const [position, setPosition] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isRelocating, setIsRelocating] = useState(false);
+  const [visibility, setVisibility] = useState(draft.visibility || 'exact'); // exact or general
 
   const fetchAddressFromCoords = async (lat, lng) => {
     try {
@@ -72,11 +75,11 @@ const BecomeHostLocation = () => {
         setIsRelocating(false);
       }, () => { alert("Unable to fetch location."); setIsRelocating(false); });
     }
-  };
+  }
 
   useEffect(() => {
-    const lat = localStorage.getItem('hostLat');
-    const lng = localStorage.getItem('hostLng');
+    const lat = draft.lat || localStorage.getItem('hostLat');
+    const lng = draft.lng || localStorage.getItem('hostLng');
     if (lat && lng) {
       setPosition({ lat: parseFloat(lat), lng: parseFloat(lng) });
       setLoading(false);
@@ -97,7 +100,6 @@ const BecomeHostLocation = () => {
 
   return (
     <div className={styles.page}>
-      {/* Header */}
       <header className={styles.header}>
         <div className={styles.headerLeft} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
           <div className={styles.logoIcon}>
@@ -106,13 +108,13 @@ const BecomeHostLocation = () => {
           <span className={styles.logoText}>StayVista</span>
         </div>
         <div className={styles.headerNav}>
-          <button className={styles.navBtn} onClick={() => navigate('/become-a-host/place-type')}>
+          <button className={styles.navBtn} onClick={() => navigate('/become-a-host/property-type')}>
             <ChevronLeft size={20} />
             <span>Back</span>
           </button>
           <button className={`${styles.navBtn} ${styles.navBtnNext}`} onClick={() => {
-            dispatch(updateDraft({ address, lat: position?.lat, lng: position?.lng }));
-            navigate('/become-a-host/map-visibility');
+            dispatch(updateDraft({ address, lat: position?.lat, lng: position?.lng, visibility }));
+            navigate('/become-a-host/details'); // Skip map-visibility page
           }}>
             <span>Next</span>
             <ChevronRight size={20} />
@@ -120,12 +122,10 @@ const BecomeHostLocation = () => {
         </div>
       </header>
 
-      {/* Content */}
       <div className={styles.content}>
-        {/* Left Panel */}
         <div className={styles.left}>
           <h1 className={styles.title}>Confirm your location</h1>
-          <p className={styles.subtitle}>Your address is only shared with guests after they've made a reservation.</p>
+          <p className={styles.subtitle}>Guests will only get your exact address once they've booked.</p>
 
           <div className={styles.addressCard}>
             <div className={styles.pinBadge}><MapPin size={18} /></div>
@@ -142,18 +142,55 @@ const BecomeHostLocation = () => {
 
           <div className={styles.tip}>
             <Navigation size={14} />
-            <span>Drag the pin on the map to adjust</span>
+            <span>Drag the pin on the map to adjust exactly</span>
+          </div>
+
+          <div style={{ marginTop: '16px' }}>
+            <h3 style={{ fontSize: '16px', fontWeight: 600, color: 'var(--text-main)', marginBottom: '8px' }}>How guests see your location</h3>
+            <div className={styles.optionsList}>
+              <div className={`${styles.optionCard} ${visibility === 'general' ? styles.selected : ''}`} onClick={() => setVisibility('general')}>
+                <div className={styles.optionIcon}><Shield size={18} /></div>
+                <div className={styles.optionInfo}>
+                  <h3 className={styles.optionTitle}>General</h3>
+                </div>
+                <div className={`${styles.radio} ${visibility === 'general' ? styles.radioActive : ''}`}>
+                  {visibility === 'general' && <div className={styles.radioDot}></div>}
+                </div>
+              </div>
+              
+              <div className={`${styles.optionCard} ${visibility === 'exact' ? styles.selected : ''}`} onClick={() => setVisibility('exact')}>
+                <div className={styles.optionIcon}><Eye size={18} /></div>
+                <div className={styles.optionInfo}>
+                  <h3 className={styles.optionTitle}>Exact</h3>
+                </div>
+                <div className={`${styles.radio} ${visibility === 'exact' ? styles.radioActive : ''}`}>
+                  {visibility === 'exact' && <div className={styles.radioDot}></div>}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Right - Map */}
         <div className={styles.right}>
           <div className={styles.mapBox}>
             {!loading && position ? (
-              <MapContainer center={position} zoom={16} style={{ height: '100%', width: '100%', borderRadius: '16px' }} zoomControl={false}>
+              <MapContainer center={position} zoom={15} style={{ height: '100%', width: '100%', borderRadius: '20px' }} zoomControl={false}>
                 <TileLayer url="https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}" />
                 <DraggableMarker position={position} setPosition={setPosition} onDragEnd={fetchAddressFromCoords} />
                 <FlyToLocation position={position} />
+                {visibility === 'general' && (
+                  <Circle
+                    center={position}
+                    radius={500}
+                    pathOptions={{
+                      color: '#FF385C',
+                      fillColor: '#FF385C',
+                      fillOpacity: 0.15,
+                      weight: 2,
+                      dashArray: '5, 5'
+                    }}
+                  />
+                )}
               </MapContainer>
             ) : (
               <div className={styles.loadingMap}><div className={styles.spinner}></div><p>Loading map...</p></div>
