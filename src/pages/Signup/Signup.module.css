@@ -310,13 +310,9 @@
     height: auto;
   }
   .authBranding {
+    display: none; /* Hide the red branding section on mobile */
+  }
+  .authFormWrapper {
     padding: 30px 20px;
-  }
-  .brandContent {
-    text-align: center;
-  }
-  .logo {
-    justify-content: center;
-    margin-bottom: 20px;
   }
 }

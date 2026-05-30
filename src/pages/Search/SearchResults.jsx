@@ -143,12 +143,12 @@ const SearchResults = () => {
         </div>
       `;
 
-      // Bind the tooltip to the marker (Tooltip automatically repositions to stay on screen without panning)
-      marker.bindTooltip(popupHtml, {
-        className: styles.customLeafletTooltip, 
-        direction: 'auto',
-        offset: [0, -15],
-        opacity: 1
+      // Bind popup to the marker so it opens on click and closes others automatically (prevents overlap)
+      marker.bindPopup(popupHtml, {
+        className: styles.customLeafletPopup, 
+        offset: [0, -10],
+        closeButton: false,
+        minWidth: 200
       });
 
       // Event Listeners for Marker Interaction

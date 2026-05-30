@@ -488,16 +488,57 @@
 }
 
 @media (max-width: 1024px) {
-  .searchCard { flex-direction: column; height: auto; padding: 20px; }
-  .searchDivider { display: none; }
-  .searchSection { width: 100%; border-bottom: 1px solid #EBEBEB; padding: 15px 0; }
-  .searchBtn { width: 100%; margin-top: 15px; }
-  .popupContainer, .calendarPopupContainer, .guestsPopupContainer {
-    position: static;
-    width: 100%;
-    transform: none;
-    box-shadow: none;
-    border: none;
-    padding: 16px 0;
+  .searchCard { flex-direction: row; height: 64px; padding: 0 8px 0 0; border-radius: 16px; position: relative; }
+  .searchDivider { display: block; height: 24px; }
+  .searchSection { padding: 0 10px; gap: 6px; border-bottom: none; position: static; }
+  .searchBtn { width: 48px; height: 48px; margin-top: 0; border-radius: 50%; }
+  .searchLabel { font-size: 9px; }
+  .searchPlaceholder { font-size: 11px; }
+  .searchIcon { width: 16px; height: 16px; }
+  
+  .popupContainer, .guestsPopupContainer {
+    position: absolute;
+    top: calc(100% + 14px);
+    width: 320px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.8) !important;
+    padding: 16px;
+    z-index: 999999 !important;
+  }
+  .calendarPopupContainer {
+    position: absolute;
+    top: calc(100% + 14px);
+    width: 320px;
+    left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.15);
+    padding: 16px;
+    z-index: 999999 !important;
+  }
+  .monthsGrid { flex-direction: column; gap: 16px; }
+  .monthCol { width: 100%; }
+  .sliderWrapper { overflow: hidden; }
+  .pageNavBtn { top: 40px; }
+  .navLeft { left: 0px; }
+  .navRight { right: 0px; }
+}
+
+@media (max-width: 600px) {
+  .searchCard { height: 56px; padding: 0 6px 0 0; }
+  .searchSection { padding: 0 4px; gap: 4px; justify-content: center; }
+  .searchDivider { height: 20px; }
+  .searchIcon { width: 14px; height: 14px; }
+  .searchLabel { font-size: 8px; }
+  .searchPlaceholder { font-size: 10px; }
+  .searchBtn { width: 44px; height: 44px; }
+  .searchBtnIcon { width: 16px; height: 16px; }
+
+  .popupContainer, .guestsPopupContainer {
+    width: 300px;
+  }
+  .calendarPopupContainer {
+    width: 300px;
   }
 }

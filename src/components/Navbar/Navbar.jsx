@@ -140,10 +140,15 @@ const Navbar = () => {
       {/* Mobile Menu Sidebar */}
       <div className={`${styles.overlay} ${mobileMenuOpen ? styles.overlayVisible : ''}`} onClick={() => setMobileMenuOpen(false)} />
       <div className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.mobileMenuOpen : ''}`}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-          <span className={styles.logoText}>StayVista</span>
-          <button onClick={() => setMobileMenuOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-            <X size={28} color="#222" />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+          <Link to="/" className={styles.logo} onClick={() => setMobileMenuOpen(false)}>
+            <div className={styles.logoIcon}>
+              <HomeIcon size={20} color="white" fill="white" />
+            </div>
+            <span className={styles.logoText} style={{ fontSize: '20px' }}>StayVista</span>
+          </Link>
+          <button onClick={() => setMobileMenuOpen(false)} style={{ background: 'rgba(0,0,0,0.05)', border: 'none', cursor: 'pointer', borderRadius: '50%', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <X size={20} color="#222" />
           </button>
         </div>
         <Link to="/" className={styles.mobileMenuLink} onClick={() => setMobileMenuOpen(false)}>Home</Link>

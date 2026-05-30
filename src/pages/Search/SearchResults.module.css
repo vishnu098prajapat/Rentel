@@ -370,13 +370,13 @@
 
 .mapPriceTag {
   position: relative;
-  background: #ffffff;
-  border: 2px solid #FF385C;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 13px;
+  background: #FF385C;
+  border: 1.5px solid #ffffff;
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 12px;
   font-weight: 800;
-  color: #222222;
+  color: #ffffff;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -474,19 +474,24 @@
   z-index: 15;
 }
 
-/* CUSTOM LEAFLET HOVER TOOLTIP STYLES */
-.customLeafletTooltip {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  margin: 0 !important;
+/* CUSTOM LEAFLET POPUP STYLES */
+.customLeafletPopup .leaflet-popup-content-wrapper {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
 }
 
-.customLeafletTooltip::before,
-.customLeafletTooltip::after {
-  display: none !important; /* Hide default leaflet tooltip arrow */
+.customLeafletPopup .leaflet-popup-content {
+  margin: 0;
 }
+
+.customLeafletPopup .leaflet-popup-tip-container {
+  display: none; /* Hide default leaflet tooltip arrow */
+}
+
+
 
 .mapPopupCard {
   background: #ffffff;
@@ -585,7 +590,7 @@
 /* RESPONSIVE LAYOUT BREAKPOINTS */
 @media (max-width: 991px) {
   .splitContentContainer {
-    flex-direction: column-reverse;
+    flex-direction: column; /* Cards top, map bottom */
     align-items: stretch;
   }
   
@@ -594,6 +599,7 @@
     top: 0;
     height: 320px;
     width: 100%;
+    margin-top: 24px;
     margin-bottom: 24px;
     flex: none;
   }
@@ -609,10 +615,20 @@
   }
   
   .listingsGrid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
   }
   
   .mainTitle {
     font-size: 22px;
   }
+
+  /* Make card texts slightly smaller for 2 column mobile view */
+  .propertyTitle { font-size: 12.5px; }
+  .metaLocation { font-size: 9.5px; }
+  .propertyRoomInfo { font-size: 10px; margin-bottom: 4px; }
+  .activePrice { font-size: 13px; }
+  .originalPrice { font-size: 11px; }
+  .priceUnit { font-size: 10px; }
+  .cardMetaBlock { padding: 8px 4px 8px; }
 }

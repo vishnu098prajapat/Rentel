@@ -186,7 +186,7 @@
 
 @media (max-width: 600px) {
   .card {
-    min-width: 140px;
+    min-width: 0;
     max-width: none;
     border-radius: 12px;
   }

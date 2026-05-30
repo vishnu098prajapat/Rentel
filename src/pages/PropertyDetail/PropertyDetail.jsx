@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Share, Heart, Star, Grid, Award, Key, MapPin, Car, Wifi, Coffee, Waves, Wind, Tv, Shield, ChevronLeft, ChevronRight, Sparkles, CheckCircle, MessageSquare, Tag } from 'lucide-react';
@@ -11,10 +11,12 @@ const PropertyDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { myListings } = useSelector(state => state.host || { myListings: [] });
-  
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isAmenitiesModalOpen, setIsAmenitiesModalOpen] = useState(false);
   const [isReviewsModalOpen, setIsReviewsModalOpen] = useState(false);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const photoGridRef = useRef(null);
+  const moreStaysRef = useRef(null);
   
   let property = null;
   if (id && id.toString().startsWith('host_')) {
@@ -51,6 +53,43 @@ const PropertyDetail = () => {
     (property.images && property.images[3]) || "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800",
     (property.images && property.images[4]) || "https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800"
   ];
+
+  // For mobile infinite carousel (duplicate images to allow endless swiping)
+  const infiniteImages = Array(14).fill(mockImages).flat(); // 70 images
+  const middleIndex = 35; // This lands exactly on mockImages[0]
+
+  useEffect(() => {
+    // Set initial scroll position for mobile carousel so it starts in the middle
+    if (photoGridRef.current) {
+      // Use setTimeout to ensure DOM is fully painted with correct widths
+      setTimeout(() => {
+        const container = photoGridRef.current;
+        if (container && container.children.length > middleIndex) {
+          const targetSlide = container.children[middleIndex];
+          const scrollPos = targetSlide.offsetLeft - (container.offsetWidth / 2) + (targetSlide.offsetWidth / 2);
+          container.scrollLeft = scrollPos;
+        }
+      }, 100);
+    }
+  }, [id]);
+
+  const scrollGallery = (dir) => {
+    if (photoGridRef.current) {
+      const container = photoGridRef.current;
+      if (container.children.length > 0) {
+        const slide = container.children[0];
+        const scrollAmount = slide.offsetWidth + 12; // width + gap
+        container.scrollBy({ left: dir === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+      }
+    }
+  };
+
+  const scrollMoreStays = (dir) => {
+    if (moreStaysRef.current) {
+      const scrollAmount = moreStaysRef.current.clientWidth * 0.8;
+      moreStaysRef.current.scrollBy({ left: dir === 'left' ? -scrollAmount : scrollAmount, behavior: 'smooth' });
+    }
+  };
 
   const nearbyStays = listingsData.filter(p => p.city === property.city && p.id !== property.id).slice(0, 4);
 
@@ -115,8 +154,8 @@ const PropertyDetail = () => {
         </div>
       </section>
 
-      {/* SECTION 2 - PHOTO GRID */}
-      <section className={styles.photoGrid}>
+      {/* SECTION 2 - PHOTO GRID (Desktop Only) */}
+      <section className={styles.desktopPhotoGrid}>
         <div className={styles.mainPhotoWrapper} onClick={() => setIsGalleryOpen(true)}>
           <img src={mockImages[0]} alt="Main" className={styles.mainPhoto} />
         </div>
@@ -127,6 +166,25 @@ const PropertyDetail = () => {
         <button className={styles.showAllBtn} onClick={() => setIsGalleryOpen(true)}>
           <Grid size={16} color="#222" />
           Show all photos
+        </button>
+      </section>
+
+      {/* SECTION 2 - PHOTO CAROUSEL (Mobile Only) */}
+      <section className={styles.mobilePhotoCarousel}>
+        <button className={`${styles.mobileNavBtn} ${styles.mobileNavLeft}`} onClick={() => scrollGallery('left')}>
+          <ChevronLeft size={20} />
+        </button>
+        
+        <div className={styles.carouselContainer} ref={photoGridRef}>
+          {infiniteImages.map((img, idx) => (
+            <div key={idx} className={styles.carouselSlide} onClick={() => setIsGalleryOpen(true)}>
+              <img src={img} alt={`Slide ${idx}`} className={styles.carouselImage} />
+            </div>
+          ))}
+        </div>
+
+        <button className={`${styles.mobileNavBtn} ${styles.mobileNavRight}`} onClick={() => scrollGallery('right')}>
+          <ChevronRight size={20} />
         </button>
       </section>
 
@@ -141,35 +199,32 @@ const PropertyDetail = () => {
           </div>
 
           <div className={styles.guestFavouriteContainer}>
-            <div className={styles.gfLaurelBadge}>
-              <div className={styles.gfBadgeText}>
-                <span className={styles.gfBadgeLabelTop}>Guest</span>
-                <span className={styles.gfBadgeLabelBottom}>Favourite</span>
+            <div className={styles.gfTopRow}>
+              <div className={styles.gfTitleBadge}>
+                <Award size={24} className={styles.gfIconAnimated} />
+                <span>Guest favourite</span>
               </div>
-            </div>
-            
-            <div className={styles.gfMetaText}>
-              <span>{id?.toString().startsWith('host_') ? 'Your brand new listing on StayVista' : 'One of the most loved homes on StayVista'}</span>
-            </div>
-            
-            <div className={styles.gfStats}>
-              <div className={styles.gfScoreGroup}>
-                <span className={styles.gfScoreNumber}>{property.rating}</span>
-                <div className={styles.gfScoreStars}>
-                  <Star size={10} fill="currentColor" stroke="none" />
-                  <Star size={10} fill="currentColor" stroke="none" />
-                  <Star size={10} fill="currentColor" stroke="none" />
-                  <Star size={10} fill="currentColor" stroke="none" />
-                  <Star size={10} fill="currentColor" stroke="none" />
+              <div className={styles.gfStatsInline}>
+                <div className={styles.gfStatItem}>
+                  <span className={styles.gfStatValue}>{property.rating}</span>
+                  <div className={styles.gfStarsAnimated}>
+                    <Star size={12} fill="#F5A623" color="#F5A623" className={styles.starAnim} />
+                    <Star size={12} fill="#F5A623" color="#F5A623" className={styles.starAnim} style={{animationDelay: '0.2s'}} />
+                    <Star size={12} fill="#F5A623" color="#F5A623" className={styles.starAnim} style={{animationDelay: '0.4s'}} />
+                    <Star size={12} fill="#F5A623" color="#F5A623" className={styles.starAnim} style={{animationDelay: '0.6s'}} />
+                    <Star size={12} fill="#F5A623" color="#F5A623" className={styles.starAnim} style={{animationDelay: '0.8s'}} />
+                  </div>
+                </div>
+                <div className={styles.gfStatDivider} />
+                <div className={styles.gfStatItem}>
+                  <span className={styles.gfStatValue}>{property.reviews}</span>
+                  <span className={styles.gfStatLabel}>Reviews</span>
                 </div>
               </div>
-              
-              <div className={styles.gfStatsDivider}></div>
-              
-              <div className={styles.gfReviewsGroup}>
-                <span className={styles.gfReviewsNumber}>{property.reviews}</span>
-                <span className={styles.gfReviewsLabel}>Reviews</span>
-              </div>
+            </div>
+            
+            <div className={styles.gfBottomRow}>
+              <span>{id?.toString().startsWith('host_') ? 'Your brand new listing on StayVista' : 'One of the most loved homes on StayVista'}</span>
             </div>
           </div>
 
@@ -225,12 +280,17 @@ const PropertyDetail = () => {
               Welcome to <strong>{property.title}</strong>! This beautiful {property.type} offers a luxurious and comfortable stay in the heart of {property.city}. 
               Experience the perfect blend of modern amenities and local charm. The space is thoughtfully designed to provide you with everything you need for a memorable trip.
             </p>
-            <br />
-            <p>
-              Enjoy spacious rooms, a fully equipped kitchen, and a relaxing outdoor area. Whether you're here for work or leisure, our property is the ideal home away from home.
-            </p>
-            <br />
-            <button className={styles.showMoreBtn}>Show more <ChevronRight size={16} /></button>
+            {isDescriptionExpanded && (
+              <>
+                <br />
+                <p>
+                  Enjoy spacious rooms, a fully equipped kitchen, and a relaxing outdoor area. Whether you're here for work or leisure, our property is the ideal home away from home.
+                </p>
+              </>
+            )}
+            <button className={styles.showMoreBtn} onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}>
+              {isDescriptionExpanded ? 'Show less' : 'Show more'} <ChevronRight size={16} style={{ transform: isDescriptionExpanded ? 'rotate(-90deg)' : 'rotate(90deg)', transition: '0.2s' }} />
+            </button>
           </div>
 
           <div className={styles.divider}></div>
@@ -341,11 +401,11 @@ const PropertyDetail = () => {
           <h3 className={styles.sectionHeading}>More stays in {property.city}</h3>
           <div className={styles.pagination}>
             <span>1 / 1</span>
-            <button className={styles.arrowBtn}><ChevronLeft size={16} /></button>
-            <button className={styles.arrowBtn}><ChevronRight size={16} /></button>
+            <button className={styles.arrowBtn} onClick={() => scrollMoreStays('left')}><ChevronLeft size={16} /></button>
+            <button className={styles.arrowBtn} onClick={() => scrollMoreStays('right')}><ChevronRight size={16} /></button>
           </div>
         </div>
-        <div className={styles.cardsRow}>
+        <div className={styles.cardsRow} ref={moreStaysRef}>
           {nearbyStays.length > 0 ? (
             nearbyStays.map(listing => (
               <div key={listing.id} className={styles.carouselCardWrapper}>

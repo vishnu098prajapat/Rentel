@@ -434,9 +434,9 @@
 }
 
 @media (max-width: 1024px) {
-  .heroSection { grid-template-columns: 1fr; min-height: auto; padding-top: 100px; }
-  .heroRight { height: auto; padding: 40px 0; }
-  .heroLeft { padding: 20px 40px; text-align: center; align-items: center; }
+  .heroSection { display: flex; flex-direction: column; min-height: auto; padding-top: 100px; }
+  .heroRight { height: auto; padding: 40px 0; width: 100%; }
+  .heroLeft { padding: 20px 40px; text-align: center; align-items: center; width: 100%; }
   .heroSubtitle { margin-left: auto; margin-right: auto; margin-bottom: 24px; }
   .heroSearch { margin-left: auto; margin-right: auto; width: 100%; max-width: 600px; }
 }
@@ -482,6 +482,9 @@
   .statNumber { font-size: 18px; }
   .statLabel { font-size: 10px; }
 
-  .heroRight { padding: 40px 20px; }
+  .heroRight { padding: 40px 20px; width: 100%; }
+  .imageWrapper { width: 100%; }
   .sliderContainer { width: 100%; height: 350px; }
+  
+  .badgesRow { display: none; }
 }
