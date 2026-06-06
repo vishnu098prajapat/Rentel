@@ -11,6 +11,8 @@ const PropertyDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { myListings } = useSelector(state => state.host || { myListings: [] });
+  const allListings = useSelector(state => state.listings?.listings || listingsData);
+  
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isAmenitiesModalOpen, setIsAmenitiesModalOpen] = useState(false);
   const [isReviewsModalOpen, setIsReviewsModalOpen] = useState(false);
@@ -19,25 +21,16 @@ const PropertyDetail = () => {
   const moreStaysRef = useRef(null);
   
   let property = null;
-  if (id && id.toString().startsWith('host_')) {
-    const hostProp = myListings.find(p => p.id === id);
-    if (hostProp) {
-      property = {
-        ...hostProp,
-        rating: hostProp.rating || 0,
-        reviews: hostProp.reviewsCount || 0,
-        city: hostProp.address?.city || 'City',
-        state: hostProp.address?.state || 'State',
-        location: hostProp.location || hostProp.address?.city || 'Location',
-        type: hostProp.placeType === 'room' ? 'Room' : (hostProp.placeType === 'shared' ? 'Shared Room' : 'home'),
-        badge: 'New Host'
-      };
-    }
+  
+  // Try string ID match (e.g. 'host_123')
+  property = allListings.find(p => p.id === id);
+  // Try integer ID match
+  if (!property && !isNaN(parseInt(id))) {
+    property = allListings.find(p => p.id === parseInt(id));
   }
-
-  // Fallback to static listings data if not a host property or if host property not found
+  // Fallback to first
   if (!property) {
-    property = listingsData.find(p => p.id === parseInt(id)) || listingsData[0];
+    property = allListings[0] || listingsData[0];
   }
 
   useEffect(() => {
@@ -194,7 +187,7 @@ const PropertyDetail = () => {
           <div className={styles.propertyInfo}>
             <h2 className={styles.propertyType}>Entire {property.type} in {property.city}</h2>
             <div className={styles.propertyStats}>
-              <span>{property.guests || 1} guests</span> · <span>{property.bedrooms || 1} bedrooms</span> · <span>{property.beds || 1} beds</span> · <span>{property.bathrooms || 1} bathrooms</span>
+              <span>{property.dynamic?.guests || property.guests || 1} guests</span> · <span>{property.dynamic?.bedrooms || property.bedrooms || 1} bedrooms</span> · <span>{property.dynamic?.bedCount || property.beds || 1} beds</span> · <span>{property.dynamic?.bathrooms || property.bathrooms || 1} bathrooms</span>
             </div>
           </div>
 
@@ -275,22 +268,20 @@ const PropertyDetail = () => {
 
           <div className={styles.divider}></div>
 
-          <div className={styles.description}>
-            <p>
-              Welcome to <strong>{property.title}</strong>! This beautiful {property.type} offers a luxurious and comfortable stay in the heart of {property.city}. 
-              Experience the perfect blend of modern amenities and local charm. The space is thoughtfully designed to provide you with everything you need for a memorable trip.
-            </p>
-            {isDescriptionExpanded && (
-              <>
-                <br />
-                <p>
-                  Enjoy spacious rooms, a fully equipped kitchen, and a relaxing outdoor area. Whether you're here for work or leisure, our property is the ideal home away from home.
-                </p>
-              </>
+          <div className={styles.aboutSection}>
+            <h3>About this space</h3>
+            <div className={styles.aboutText}>
+              {property.description ? (
+                <p>{isDescriptionExpanded ? property.description : (property.description.length > 150 ? property.description.substring(0, 150) + '...' : property.description)}</p>
+              ) : (
+                <p>Experience the perfect blend of modern amenities and local charm. The space is thoughtfully designed to provide you with everything you need for a memorable trip.</p>
+              )}
+            </div>
+            {(!property.description || property.description.length > 150) && (
+              <button className={styles.textLink} onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}>
+                {isDescriptionExpanded ? 'Show less' : 'Show more'} <ChevronRight size={16} />
+              </button>
             )}
-            <button className={styles.showMoreBtn} onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}>
-              {isDescriptionExpanded ? 'Show less' : 'Show more'} <ChevronRight size={16} style={{ transform: isDescriptionExpanded ? 'rotate(-90deg)' : 'rotate(90deg)', transition: '0.2s' }} />
-            </button>
           </div>
 
           <div className={styles.divider}></div>
@@ -298,24 +289,34 @@ const PropertyDetail = () => {
           <div className={styles.amenities}>
             <h3 className={styles.sectionHeading}>What this place offers</h3>
             <div className={styles.amenitiesGrid}>
-              <div className={styles.amenityItem}>
-                <Wifi size={24} color="#4A90E2" /> <span>Fast wifi</span>
-              </div>
-              <div className={styles.amenityItem}>
-                <Coffee size={24} color="#8B572A" /> <span>Kitchen</span>
-              </div>
-              <div className={styles.amenityItem}>
-                <Waves size={24} color="#50E3C2" /> <span>Pool</span>
-              </div>
-              <div className={styles.amenityItem}>
-                <Wind size={24} color="#9B9B9B" /> <span>Air conditioning</span>
-              </div>
-              <div className={styles.amenityItem}>
-                <Tv size={24} color="#4A4A4A" /> <span>TV</span>
-              </div>
-              <div className={styles.amenityItem}>
-                <Car size={24} color="#7ED321" /> <span>Free parking</span>
-              </div>
+              {property.amenities && property.amenities.length > 0 ? (
+                property.amenities.slice(0, 6).map((am, i) => (
+                  <div key={i} className={styles.amenityItem}>
+                    <CheckCircle size={24} color="#4A90E2" /> <span style={{textTransform: 'capitalize'}}>{am.replace('_', ' ')}</span>
+                  </div>
+                ))
+              ) : (
+                <>
+                  <div className={styles.amenityItem}>
+                    <Wifi size={24} color="#4A90E2" /> <span>Fast wifi</span>
+                  </div>
+                  <div className={styles.amenityItem}>
+                    <Coffee size={24} color="#8B572A" /> <span>Kitchen</span>
+                  </div>
+                  <div className={styles.amenityItem}>
+                    <Waves size={24} color="#50E3C2" /> <span>Pool</span>
+                  </div>
+                  <div className={styles.amenityItem}>
+                    <Wind size={24} color="#9B9B9B" /> <span>Air conditioning</span>
+                  </div>
+                  <div className={styles.amenityItem}>
+                    <Tv size={24} color="#4A4A4A" /> <span>TV</span>
+                  </div>
+                  <div className={styles.amenityItem}>
+                    <Car size={24} color="#7ED321" /> <span>Free parking</span>
+                  </div>
+                </>
+              )}
             </div>
             <button className={styles.outlineBtn} onClick={() => setIsAmenitiesModalOpen(true)}>Show all</button>
           </div>

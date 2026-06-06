@@ -1,6 +1,19 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { listingsData } from './listingsData';
 
+// Load host listings from local storage
+const loadHostListings = () => {
+  try {
+    const local = localStorage.getItem('hostMyListings');
+    if (local) return JSON.parse(local);
+  } catch (e) {
+    console.warn("Could not load host listings", e);
+  }
+  return [];
+};
+
+const combinedListings = [...loadHostListings(), ...listingsData];
+
 const groupListings = (listings) => {
   const cities = ["Jaipur", "Goa", "Mumbai", "Bangalore", "Manali"];
   const grouped = {};
@@ -11,12 +24,12 @@ const groupListings = (listings) => {
 };
 
 const initialState = {
-  listings: listingsData,
-  filteredListings: listingsData,
-  groupedByCity: groupListings(listingsData),
+  listings: combinedListings,
+  filteredListings: combinedListings,
+  groupedByCity: groupListings(combinedListings),
   selectedCategory: 'all',
   loading: false,
-  featured: listingsData.filter(l => l.featured),
+  featured: combinedListings.filter(l => l.featured),
   wishlist: JSON.parse(localStorage.getItem('rentel_wishlist')) || []
 };
 

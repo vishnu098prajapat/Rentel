@@ -15,10 +15,9 @@ import BecomeHostPlaceType from './pages/BecomeHost/BecomeHostPlaceType'
 import BecomeHostLocation from './pages/BecomeHost/BecomeHostLocation'
 import BecomeHostMapVisibility from './pages/BecomeHost/BecomeHostMapVisibility'
 import BecomeHostDetails from './pages/BecomeHost/BecomeHostDetails'
+import BecomeHostAmenities from './pages/BecomeHost/BecomeHostAmenities'
 import BecomeHostPhotos from './pages/BecomeHost/BecomeHostPhotos'
 import BecomeHostTitleDesc from './pages/BecomeHost/BecomeHostTitleDesc'
-import BecomeHostDescription from './pages/BecomeHost/BecomeHostDescription'
-import BecomeHostBooking from './pages/BecomeHost/BecomeHostBooking'
 import BecomeHostPrice from './pages/BecomeHost/BecomeHostPrice'
 import BecomeHostDiscounts from './pages/BecomeHost/BecomeHostDiscounts'
 import BecomeHostSafety from './pages/BecomeHost/BecomeHostSafety'
@@ -48,10 +47,9 @@ function App() {
         <Route path="/become-a-host/location" element={<BecomeHostLocation />} />
         <Route path="/become-a-host/map-visibility" element={<BecomeHostMapVisibility />} />
         <Route path="/become-a-host/details" element={<BecomeHostDetails />} />
+        <Route path="/become-a-host/amenities" element={<BecomeHostAmenities />} />
         <Route path="/become-a-host/photos" element={<BecomeHostPhotos />} />
         <Route path="/become-a-host/title-desc" element={<BecomeHostTitleDesc />} />
-        <Route path="/become-a-host/description" element={<BecomeHostDescription />} />
-        <Route path="/become-a-host/booking" element={<BecomeHostBooking />} />
         <Route path="/become-a-host/price" element={<BecomeHostPrice />} />
         <Route path="/become-a-host/discounts" element={<BecomeHostDiscounts />} />
         <Route path="/become-a-host/safety" element={<BecomeHostSafety />} />

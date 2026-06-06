@@ -1,0 +1,230 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--bg-primary, #ffffff);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: var(--bg-primary, #ffffff);
+  border-bottom: 1px solid var(--border-color, #EBEBEB);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  background: var(--primary-color, #FF385C);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-primary, #222222);
+}
+
+.headerNav {
+  display: flex;
+  gap: 12px;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color, #DDDDDD);
+  background: var(--bg-primary, white);
+  color: var(--text-primary, #222222);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.navBtn:hover {
+  background: var(--hover-bg, #F7F7F7);
+}
+
+.navBtnNext {
+  background: var(--text-primary, #222222);
+  color: white;
+  border: none;
+}
+
+.navBtnNext:hover {
+  background: var(--text-secondary, #000000);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px 80px;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 700px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.headerText {
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--text-primary, #222222);
+  margin: 0 0 12px 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: var(--text-secondary, #717171);
+  margin: 0;
+}
+
+.amenitiesLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.groupTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary, #222222);
+  margin: 0 0 24px 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.amenityCard {
+  border: 1px solid var(--border-color, #DDDDDD);
+  border-radius: 12px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 16px;
+  background: var(--bg-primary, white);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.amenityCard:hover {
+  border-color: var(--text-primary, #222222);
+}
+
+.selectedCard {
+  border-color: var(--text-primary, #222222);
+  background: var(--hover-bg, #F7F7F7);
+  box-shadow: 0 0 0 2px var(--text-primary, #222222);
+}
+
+.cardIcon {
+  color: var(--text-primary, #222222);
+}
+
+.cardLabel {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary, #222222);
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 24px 16px 60px;
+  }
+  
+  .title {
+    font-size: 28px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .amenityCard {
+    flex-direction: row;
+    align-items: center;
+    padding: 16px 20px;
+  }
+}
+
+/* Dark mode support */
+[data-theme='dark'] .page {
+  background-color: var(--bg-primary);
+}
+[data-theme='dark'] .header {
+  background: var(--bg-primary);
+  border-bottom-color: var(--border-color);
+}
+[data-theme='dark'] .navBtn {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+[data-theme='dark'] .navBtn:hover {
+  background: var(--hover-bg);
+}
+[data-theme='dark'] .navBtnNext {
+  background: white;
+  color: black;
+}
+[data-theme='dark'] .navBtnNext:hover {
+  background: #EBEBEB;
+}
+[data-theme='dark'] .amenityCard {
+  background: var(--bg-primary);
+  border-color: var(--border-color);
+}
+[data-theme='dark'] .amenityCard:hover {
+  border-color: white;
+}
+[data-theme='dark'] .selectedCard {
+  border-color: white;
+  background: var(--hover-bg);
+  box-shadow: 0 0 0 2px white;
+}
+[data-theme='dark'] .cardIcon {
+  color: white;
+}

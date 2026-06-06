@@ -4,41 +4,37 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateDraft } from '../../features/host/hostSlice';
 import styles from './BecomeHostDetails.module.css';
 import { 
-  ChevronLeft, ChevronRight, Users, BedDouble, Bath, DoorOpen,
-  Waves, TreePine, Wifi, UtensilsCrossed, Wind, Car, Tv,
-  WashingMachine, Dumbbell, ShieldCheck, Flame, Snowflake,
-  Coffee, Sun, Dog, Sparkles, Building2
+  ChevronLeft, ChevronRight, Refrigerator, Tv, Snowflake, 
+  Bed, Sofa, WashingMachine, Check, ChefHat, Flame,
+  TrendingUp
 } from 'lucide-react';
 
-const amenitiesList = [
-  { id: 'wifi', label: 'WiFi', icon: <Wifi size={18} />, color: '#6C5CE7' },
-  { id: 'tv', label: 'TV', icon: <Tv size={18} />, color: '#A29BFE' },
-  { id: 'kitchen', label: 'Kitchen', icon: <UtensilsCrossed size={18} />, color: '#E17055' },
-  { id: 'ac', label: 'AC', icon: <Snowflake size={18} />, color: '#74B9FF' },
-  { id: 'parking', label: 'Parking', icon: <Car size={18} />, color: '#636E72' },
-  { id: 'pool', label: 'Pool', icon: <Waves size={18} />, color: '#0984E3' },
-  { id: 'washer', label: 'Washer', icon: <WashingMachine size={18} />, color: '#00CEC9' },
-  { id: 'heating', label: 'Heating', icon: <Flame size={18} />, color: '#E84393' },
-  { id: 'coffee', label: 'Coffee', icon: <Coffee size={18} />, color: '#FDCB6E' },
-  { id: 'gym', label: 'Gym', icon: <Dumbbell size={18} />, color: '#D63031' },
-  { id: 'balcony', label: 'Balcony', icon: <Sun size={18} />, color: '#F39C12' },
-  { id: 'pets', label: 'Pets OK', icon: <Dog size={18} />, color: '#E67E22' },
-  { id: 'security', label: 'Security', icon: <ShieldCheck size={18} />, color: '#2D3436' },
-  { id: 'hotwater', label: 'Hot water', icon: <Wind size={18} />, color: '#FF7675' },
-  { id: 'garden', label: 'Garden', icon: <TreePine size={18} />, color: '#00B894' },
-];
+const SegmentedControl = ({ label, options, value, onChange }) => (
+  <div className={styles.fieldGroup}>
+    {label && <label className={styles.fieldLabel}>{label}</label>}
+    <div className={styles.pillGroup}>
+      {options.map(opt => (
+        <button
+          key={opt}
+          type="button"
+          className={`${styles.pillBtn} ${value === opt ? styles.pillBtnActive : ''}`}
+          onClick={() => onChange(opt)}
+        >
+          {opt}
+        </button>
+      ))}
+    </div>
+  </div>
+);
 
-const Counter = ({ label, icon, value, onChange }) => (
-  <div className={styles.counterRow}>
-    <div className={styles.counterLabel}>
-      <div className={styles.counterIcon}>{icon}</div>
-      <span>{label}</span>
-    </div>
-    <div className={styles.counterControls}>
-      <button className={styles.counterBtn} onClick={() => onChange(Math.max(0, value - 1))} disabled={value === 0}>−</button>
-      <span className={styles.counterValue}>{value}</span>
-      <button className={styles.counterBtn} onClick={() => onChange(value + 1)}>+</button>
-    </div>
+const AmenityCard = ({ icon, label, selected, onClick }) => (
+  <div 
+    className={`${styles.amenityCard} ${selected ? styles.amenityCardSelected : ''}`}
+    onClick={onClick}
+  >
+    <div className={styles.amenityIcon}>{icon}</div>
+    <span className={styles.amenityLabel}>{label}</span>
+    {selected && <div className={styles.checkBadge}><Check size={12} strokeWidth={4} /></div>}
   </div>
 );
 
@@ -47,241 +43,448 @@ const BecomeHostDetails = () => {
   const dispatch = useDispatch();
   const draft = useSelector(state => state.host?.draftListing || {});
   
-  const propertyType = draft.propertyType || 'house';
+  const propertyType = draft.propertyType || 'flat';
 
-  const [guests, setGuests] = useState(draft.guests || 1);
-  const [bedrooms, setBedrooms] = useState(draft.bedrooms || 1);
-  const [beds, setBeds] = useState(draft.beds || 1);
-  const [bathrooms, setBathrooms] = useState(draft.bathrooms || 1);
-  const [selectedAmenities, setSelectedAmenities] = useState(draft.amenities || []);
+  // Pricing & Purpose
+  const [listingPurpose, setListingPurpose] = useState(draft.listingPurpose || 'Rent');
+  const [listingPrice, setListingPrice] = useState(draft.listingPrice || '');
+  const [rentNegotiable, setRentNegotiable] = useState(draft.rentNegotiable || false);
+  const [securityAmount, setSecurityAmount] = useState(draft.securityAmount || '');
+  const [maintenanceCharges, setMaintenanceCharges] = useState(draft.maintenanceCharges || '');
+  const [maintenancePeriod, setMaintenancePeriod] = useState(draft.maintenancePeriod || 'Monthly');
+  
+  // Short-term Pricing State
+  const [weekendPct, setWeekendPct] = useState(draft.weekendPct || 5);
+  const [selectedDiscounts, setSelectedDiscounts] = useState(draft.selectedDiscounts || ['early_bird']);
+  const [discounts, setDiscounts] = useState(draft.customDiscounts || [
+    { id: 'early_bird', percent: 15, title: 'Early Bird', desc: 'First 3 bookings' },
+    { id: 'last_minute', percent: 5, title: 'Last-minute', desc: '7 days or less before arrival' },
+    { id: 'weekly', percent: 12, title: 'Weekly', desc: '7 nights or more' },
+    { id: 'monthly', percent: 25, title: 'Monthly', desc: '28 nights or more' }
+  ]);
 
+  // Dynamic property fields (Expanded)
   const [dynamic, setDynamic] = useState(draft.dynamic || {
-    bhkType: '1 BHK',
-    furnished: 'Semi',
-    floorNumber: '',
-    plotSize: '',
-    floorsCount: 1,
+    // Core features
+    bedrooms: '1',
+    bathrooms: '1',
+    balconies: '0',
+    
+    // Floors
+    floorNumber: 'Ground',
+    totalFloors: '1',
+    
+    // Area
+    carpetArea: '',
+    superArea: '',
+    areaUnit: 'Sq-ft',
+    
+    // Furnishing & Availability
+    furnishedStatus: 'Unfurnished',
+    availableFrom: 'Immediately',
+    availableDate: '',
+    ageOfConstruction: 'New Build',
+    
+    // Furnishing Extras
+    acCount: '0',
+    bedCount: '0',
+    wardrobeCount: '0',
+    tvCount: '0',
+    fridge: false,
+    sofa: false,
+    washingMachine: false,
+    diningTable: false,
+    microwave: false,
+    gasConnection: false,
+    
+    // PG / Hostel specific
     pgRoomType: 'Double',
     pgGender: 'Unisex',
     pgBathrooms: 'Attached',
+    
+    // Hotel / Guest House specific
     hotelRoomType: 'Deluxe',
-    hotelRoomsCount: 1,
+    hotelRoomsCount: '1',
     mealsIncluded: 'No',
     checkInTime: '',
     checkOutTime: '',
+    
+    // Farm specific
     farmArea: '',
     outdoorSpace: 'Both',
-    capacity: 10,
+    
+    // Office specific
+    capacity: '10',
     officeType: 'Co-working',
     hoursAvailable: 'Full day',
-    sleepsMin: 1,
-    sleepsMax: 2,
+    
+    // Camps / Tents specific
+    sleepsMin: '1',
+    sleepsMax: '2',
     bathroomType: 'Indoor'
   });
 
   const handleDyn = (key, val) => setDynamic(p => ({ ...p, [key]: val }));
+  const toggleAmenity = (key) => handleDyn(key, !dynamic[key]);
 
-  const handleBhkChange = (val) => {
-    handleDyn('bhkType', val);
-    if (val === '1 BHK') { setGuests(2); setBeds(1); setBathrooms(1); setBedrooms(1); }
-    if (val === '2 BHK') { setGuests(4); setBeds(2); setBathrooms(2); setBedrooms(2); }
-    if (val === '3 BHK') { setGuests(6); setBeds(3); setBathrooms(3); setBedrooms(3); }
-    if (val === '4+ BHK') { setGuests(8); setBeds(4); setBathrooms(4); setBedrooms(4); }
+  const handlePriceChange = (e) => {
+    const val = parseInt(e.target.value.replace(/[^0-9]/g, ''), 10);
+    setListingPrice(isNaN(val) ? '' : val);
   };
 
-  const toggleAmenity = (id) => {
-    setSelectedAmenities(prev => 
-      prev.includes(id) ? prev.filter(a => a !== id) : [...prev, id]
+  const handlePctChange = (e) => {
+    let val = parseInt(e.target.value.replace(/[^0-9-]/g, ''), 10);
+    if (isNaN(val)) val = 0;
+    setWeekendPct(val);
+  };
+
+  const toggleDiscount = (id) => {
+    setSelectedDiscounts(prev => 
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
     );
   };
+
+  const handlePercentChange = (id, newPercent) => {
+    let val = parseInt(newPercent.replace(/[^0-9]/g, ''), 10);
+    if (isNaN(val)) val = 0;
+    if (val > 99) val = 99;
+    setDiscounts(prev => prev.map(d => d.id === id ? { ...d, percent: val } : d));
+  };
+
+  const weekendPrice = listingPrice ? Math.round(Number(listingPrice) * (1 + (weekendPct / 100))) : 0;
+
+  const handleNext = () => {
+    dispatch(updateDraft({ 
+      dynamic,
+      listingPurpose, listingPrice, rentNegotiable, securityAmount, maintenanceCharges, maintenancePeriod,
+      weekendPct, selectedDiscounts, customDiscounts: discounts
+    }));
+    navigate('/become-a-host/amenities');
+  };
+
+  const renderFurnishingExtras = () => {
+    if (dynamic.furnishedStatus === 'Unfurnished') return null;
+    return (
+      <div className={styles.subSection}>
+        <h4 className={styles.subSectionTitle}>Furnishing Details</h4>
+        
+        <div className={styles.twoColGrid}>
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>AC Units</label>
+            <select className={styles.fieldSelect} value={dynamic.acCount} onChange={e => handleDyn('acCount', e.target.value)}>
+              <option value="0">Select</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4+">4+</option>
+            </select>
+          </div>
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>Beds</label>
+            <select className={styles.fieldSelect} value={dynamic.bedCount} onChange={e => handleDyn('bedCount', e.target.value)}>
+              <option value="0">Select</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4+">4+</option>
+            </select>
+          </div>
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>Wardrobes</label>
+            <select className={styles.fieldSelect} value={dynamic.wardrobeCount} onChange={e => handleDyn('wardrobeCount', e.target.value)}>
+              <option value="0">Select</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4+">4+</option>
+            </select>
+          </div>
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>TVs</label>
+            <select className={styles.fieldSelect} value={dynamic.tvCount} onChange={e => handleDyn('tvCount', e.target.value)}>
+              <option value="0">Select</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4+">4+</option>
+            </select>
+          </div>
+        </div>
+
+        <label className={styles.fieldLabel} style={{ marginTop: '20px' }}>Appliances & Extras</label>
+        <div className={styles.amenityGrid}>
+          <AmenityCard icon={<Refrigerator size={24} />} label="Fridge" selected={dynamic.fridge} onClick={() => toggleAmenity('fridge')} />
+          <AmenityCard icon={<Sofa size={24} />} label="Sofa" selected={dynamic.sofa} onClick={() => toggleAmenity('sofa')} />
+          <AmenityCard icon={<WashingMachine size={24} />} label="Washing Machine" selected={dynamic.washingMachine} onClick={() => toggleAmenity('washingMachine')} />
+          <AmenityCard icon={<ChefHat size={24} />} label="Dining Table" selected={dynamic.diningTable} onClick={() => toggleAmenity('diningTable')} />
+          <AmenityCard icon={<Snowflake size={24} />} label="Microwave" selected={dynamic.microwave} onClick={() => toggleAmenity('microwave')} />
+          <AmenityCard icon={<Flame size={24} />} label="Gas Connection" selected={dynamic.gasConnection} onClick={() => toggleAmenity('gasConnection')} />
+        </div>
+      </div>
+    );
+  };
+
+  const renderCoreFeatures = (showBalconies = true, showFloorDetails = true) => (
+    <>
+      <SegmentedControl 
+        label="Bedrooms" 
+        options={['1', '2', '3', '4', '5+']} 
+        value={dynamic.bedrooms} 
+        onChange={v => handleDyn('bedrooms', v)} 
+      />
+      {showBalconies && (
+        <SegmentedControl 
+          label="Balconies" 
+          options={['0', '1', '2', '3', '4+']} 
+          value={dynamic.balconies} 
+          onChange={v => handleDyn('balconies', v)} 
+        />
+      )}
+      <SegmentedControl 
+        label="Bathrooms" 
+        options={['1', '2', '3', '4+']} 
+        value={dynamic.bathrooms} 
+        onChange={v => handleDyn('bathrooms', v)} 
+      />
+
+      {showFloorDetails && (
+        <>
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>Floor No.</label>
+            <div className={styles.scrollablePillGroupWrapper}>
+              <div className={styles.pillGroup} style={{ flexWrap: 'nowrap' }}>
+                {['Lower Basement', 'Upper Basement', 'Ground', '1', '2', '3', '4', '5', '6', '7', '8+'].map(opt => (
+                  <button key={opt} type="button" className={`${styles.pillBtn} ${dynamic.floorNumber === opt ? styles.pillBtnActive : ''}`} onClick={() => handleDyn('floorNumber', opt)} style={{ flexShrink: 0, padding: '10px 16px' }}>{opt}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className={styles.fieldGroup}>
+            <label className={styles.fieldLabel}>Total Floors in Building</label>
+            <div className={styles.scrollablePillGroupWrapper}>
+              <div className={styles.pillGroup} style={{ flexWrap: 'nowrap' }}>
+                {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13+'].map(opt => (
+                  <button key={opt} type="button" className={`${styles.pillBtn} ${dynamic.totalFloors === opt ? styles.pillBtnActive : ''}`} onClick={() => handleDyn('totalFloors', opt)} style={{ flexShrink: 0 }}>{opt}</button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      <div className={styles.fieldGroup}>
+        <label className={styles.fieldLabel}>Furnished Status</label>
+        <div className={styles.toggleGroup}>
+          {['Furnished', 'Unfurnished', 'Semi-Furnished'].map(t => (
+            <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.furnishedStatus === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('furnishedStatus', t)}>{t}</button>
+          ))}
+        </div>
+      </div>
+      
+      {renderFurnishingExtras()}
+    </>
+  );
+
+  const renderAreaFields = () => (
+    <div className={styles.fieldGroup} style={{ marginTop: '24px' }}>
+      <label className={styles.fieldLabel} style={{ fontSize: '16px', marginBottom: '16px' }}>Area Details</label>
+      <div className={styles.twoColGrid}>
+        <div>
+          <label className={styles.fieldLabel} style={{ color: 'var(--text-secondary)' }}>Carpet Area</label>
+          <div className={styles.inputWithSuffix}>
+            <input type="number" className={styles.fieldInput} placeholder="e.g. 800" value={dynamic.carpetArea} onChange={e => handleDyn('carpetArea', e.target.value)} />
+            <select className={styles.fieldSelectSuffix} value={dynamic.areaUnit} onChange={e => handleDyn('areaUnit', e.target.value)}>
+              <option>Sq-ft</option><option>Sq-m</option><option>Sq-yrd</option><option>Acres</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label className={styles.fieldLabel} style={{ color: 'var(--text-secondary)' }}>Super Area</label>
+          <div className={styles.inputWithSuffix}>
+            <input type="number" className={styles.fieldInput} placeholder="e.g. 1000" value={dynamic.superArea} onChange={e => handleDyn('superArea', e.target.value)} />
+            <select className={styles.fieldSelectSuffix} value={dynamic.areaUnit} onChange={e => handleDyn('areaUnit', e.target.value)}>
+              <option>Sq-ft</option><option>Sq-m</option><option>Sq-yrd</option><option>Acres</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderAvailabilityFields = () => (
+    <div className={styles.fieldGroup} style={{ marginTop: '32px', paddingTop: '24px', borderTop: '1px solid var(--border-color)' }}>
+      <h3 className={styles.sectionTitle}>Transaction Type & Availability</h3>
+      <div className={styles.twoColGrid}>
+        <div>
+          <label className={styles.fieldLabel}>Available From</label>
+          <div className={styles.toggleGroup}>
+            {['Immediately', 'Select Date'].map(t => (
+              <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.availableFrom === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('availableFrom', t)}>{t}</button>
+            ))}
+          </div>
+          {dynamic.availableFrom === 'Select Date' && (
+            <input type="date" className={styles.fieldInput} style={{ marginTop: '12px' }} value={dynamic.availableDate} onChange={e => handleDyn('availableDate', e.target.value)} />
+          )}
+        </div>
+        <div>
+          <label className={styles.fieldLabel}>Age of Construction</label>
+          <select className={styles.fieldSelect} value={dynamic.ageOfConstruction} onChange={e => handleDyn('ageOfConstruction', e.target.value)}>
+            <option>New Build</option><option>1-5 years</option><option>5-10 years</option><option>10+ years</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  );
 
   const renderDynamicFields = () => {
     switch(propertyType) {
       case 'flat':
         return (
-          <div className={styles.dynamicSection}>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>BHK Type</label>
-              <select className={styles.fieldSelect} value={dynamic.bhkType} onChange={e => handleBhkChange(e.target.value)}>
-                <option>1 BHK</option><option>2 BHK</option><option>3 BHK</option><option>4+ BHK</option>
-              </select>
-            </div>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Furnished Status</label>
-              <div className={styles.toggleGroup}>
-                {['Fully', 'Semi', 'Unfurnished'].map(t => (
-                  <button key={t} className={`${styles.toggleBtn} ${dynamic.furnished === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('furnished', t)}>{t}</button>
-                ))}
-              </div>
-            </div>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Floor Number (Optional)</label>
-              <input type="text" className={styles.fieldInput} placeholder="e.g. 5th Floor" value={dynamic.floorNumber} onChange={e => handleDyn('floorNumber', e.target.value)} />
-            </div>
-          </div>
+          <>
+            {renderCoreFeatures(true, true)}
+            {renderAreaFields()}
+            {renderAvailabilityFields()}
+          </>
         );
       case 'house':
       case 'villa':
         return (
-          <div className={styles.dynamicSection}>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>BHK Type</label>
-              <select className={styles.fieldSelect} value={dynamic.bhkType} onChange={e => handleBhkChange(e.target.value)}>
-                <option>1 BHK</option><option>2 BHK</option><option>3 BHK</option><option>4+ BHK</option>
-              </select>
-            </div>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Plot Size (Optional)</label>
-              <input type="text" className={styles.fieldInput} placeholder="e.g. 1500 sqft" value={dynamic.plotSize} onChange={e => handleDyn('plotSize', e.target.value)} />
-            </div>
-            <div className={styles.fieldRow}>
-              <Counter label="Floors Count" icon={<Building2 size={24} />} value={dynamic.floorsCount} onChange={v => handleDyn('floorsCount', v)} />
-            </div>
-          </div>
+          <>
+            {renderCoreFeatures(true, false)}
+            <SegmentedControl 
+              label="Total Floors" 
+              options={['1', '2', '3', '4+']} 
+              value={dynamic.totalFloors} 
+              onChange={v => handleDyn('totalFloors', v)} 
+            />
+            {renderAreaFields()}
+            {renderAvailabilityFields()}
+          </>
         );
       case 'pg':
         return (
-          <div className={styles.dynamicSection}>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Room Type</label>
-              <select className={styles.fieldSelect} value={dynamic.pgRoomType} onChange={e => handleDyn('pgRoomType', e.target.value)}>
-                <option>Single</option><option>Double</option><option>Triple</option><option>Dormitory</option>
-              </select>
-            </div>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>For</label>
-              <div className={styles.toggleGroup}>
-                {['Boys', 'Girls', 'Unisex'].map(t => (
-                  <button key={t} className={`${styles.toggleBtn} ${dynamic.pgGender === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('pgGender', t)}>{t}</button>
-                ))}
+          <>
+            <div className={styles.twoColGrid}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel}>Room Type</label>
+                <select className={styles.fieldSelect} value={dynamic.pgRoomType} onChange={e => handleDyn('pgRoomType', e.target.value)}>
+                  <option>Single</option><option>Double</option><option>Triple</option><option>Dormitory</option>
+                </select>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel}>For</label>
+                <div className={styles.toggleGroup}>
+                  {['Boys', 'Girls', 'Unisex'].map(t => (
+                    <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.pgGender === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('pgGender', t)}>{t}</button>
+                  ))}
+                </div>
               </div>
             </div>
-            <div className={styles.fieldRow}>
+            <div className={styles.fieldGroup}>
               <label className={styles.fieldLabel}>Bathrooms</label>
               <div className={styles.toggleGroup}>
                 {['Attached', 'Common'].map(t => (
-                  <button key={t} className={`${styles.toggleBtn} ${dynamic.pgBathrooms === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('pgBathrooms', t)}>{t}</button>
+                  <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.pgBathrooms === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('pgBathrooms', t)}>{t}</button>
                 ))}
               </div>
             </div>
-          </div>
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel}>Furnished Status</label>
+              <div className={styles.toggleGroup}>
+                {['Furnished', 'Unfurnished', 'Semi-Furnished'].map(t => (
+                  <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.furnishedStatus === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('furnishedStatus', t)}>{t}</button>
+                ))}
+              </div>
+            </div>
+            {renderFurnishingExtras()}
+            {renderAvailabilityFields()}
+          </>
         );
       case 'hotel':
       case 'guest':
         return (
-          <div className={styles.dynamicSection}>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Room Type</label>
-              <select className={styles.fieldSelect} value={dynamic.hotelRoomType} onChange={e => handleDyn('hotelRoomType', e.target.value)}>
-                <option>Standard</option><option>Deluxe</option><option>Suite</option>
-              </select>
+          <>
+            <div className={styles.twoColGrid}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel}>Room Type</label>
+                <select className={styles.fieldSelect} value={dynamic.hotelRoomType} onChange={e => handleDyn('hotelRoomType', e.target.value)}>
+                  <option>Standard</option><option>Deluxe</option><option>Suite</option>
+                </select>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel}>Total Rooms</label>
+                <input type="number" className={styles.fieldInput} value={dynamic.hotelRoomsCount} onChange={e => handleDyn('hotelRoomsCount', e.target.value)} />
+              </div>
             </div>
-            <div className={styles.fieldRow}>
-              <Counter label="Total Rooms Available" icon={<DoorOpen size={24} />} value={dynamic.hotelRoomsCount} onChange={v => handleDyn('hotelRoomsCount', v)} />
-            </div>
-            <div className={styles.fieldRow}>
+            <div className={styles.fieldGroup}>
               <label className={styles.fieldLabel}>Meals Included</label>
               <div className={styles.toggleGroup}>
                 {['Yes', 'No'].map(t => (
-                  <button key={t} className={`${styles.toggleBtn} ${dynamic.mealsIncluded === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('mealsIncluded', t)}>{t}</button>
+                  <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.mealsIncluded === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('mealsIncluded', t)}>{t}</button>
                 ))}
               </div>
             </div>
-            <div className={styles.fieldRow} style={{ flexDirection: 'row', gap: '16px' }}>
-              <div style={{ flex: 1 }}>
+            <div className={styles.twoColGrid}>
+              <div className={styles.fieldGroup}>
                 <label className={styles.fieldLabel}>Check-in Time</label>
                 <input type="time" className={styles.fieldInput} value={dynamic.checkInTime} onChange={e => handleDyn('checkInTime', e.target.value)} />
               </div>
-              <div style={{ flex: 1 }}>
+              <div className={styles.fieldGroup}>
                 <label className={styles.fieldLabel}>Check-out Time</label>
                 <input type="time" className={styles.fieldInput} value={dynamic.checkOutTime} onChange={e => handleDyn('checkOutTime', e.target.value)} />
               </div>
             </div>
-          </div>
+          </>
         );
       case 'farm':
         return (
-          <div className={styles.dynamicSection}>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Area (Acres/Bigha)</label>
-              <input type="text" className={styles.fieldInput} placeholder="e.g. 5 Acres" value={dynamic.farmArea} onChange={e => handleDyn('farmArea', e.target.value)} />
+          <>
+            <div className={styles.twoColGrid}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel}>Total Area</label>
+                <div className={styles.inputWithSuffix}>
+                  <input type="number" className={styles.fieldInput} placeholder="e.g. 5" value={dynamic.farmArea} onChange={e => handleDyn('farmArea', e.target.value)} />
+                  <select className={styles.fieldSelectSuffix} value={dynamic.areaUnit} onChange={e => handleDyn('areaUnit', e.target.value)}>
+                    <option>Acres</option><option>Bigha</option><option>Hectares</option><option>Sq-ft</option>
+                  </select>
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel}>Outdoor Space</label>
+                <select className={styles.fieldSelect} value={dynamic.outdoorSpace} onChange={e => handleDyn('outdoorSpace', e.target.value)}>
+                  <option>Garden</option><option>Pool</option><option>Both</option><option>None</option>
+                </select>
+              </div>
             </div>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Outdoor Space</label>
-              <select className={styles.fieldSelect} value={dynamic.outdoorSpace} onChange={e => handleDyn('outdoorSpace', e.target.value)}>
-                <option>Garden</option><option>Pool</option><option>Both</option><option>None</option>
-              </select>
-            </div>
-          </div>
+          </>
         );
       case 'office':
         return (
-          <div className={styles.dynamicSection}>
-            <div className={styles.fieldRow}>
-              <Counter label="Capacity (People)" icon={<Users size={24} />} value={dynamic.capacity} onChange={v => handleDyn('capacity', v)} />
-            </div>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Type</label>
-              <select className={styles.fieldSelect} value={dynamic.officeType} onChange={e => handleDyn('officeType', e.target.value)}>
-                <option>Cafe</option><option>Co-working</option><option>Event space</option><option>Private office</option>
-              </select>
-            </div>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Hours Available</label>
-              <div className={styles.toggleGroup}>
-                {['Full day', 'Half day', 'Hourly'].map(t => (
-                  <button key={t} className={`${styles.toggleBtn} ${dynamic.hoursAvailable === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('hoursAvailable', t)}>{t}</button>
-                ))}
+          <>
+            <div className={styles.twoColGrid}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel}>Capacity (Seats)</label>
+                <input type="number" className={styles.fieldInput} placeholder="e.g. 20" value={dynamic.capacity} onChange={e => handleDyn('capacity', e.target.value)} />
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel}>Space Type</label>
+                <select className={styles.fieldSelect} value={dynamic.officeType} onChange={e => handleDyn('officeType', e.target.value)}>
+                  <option>Co-working</option><option>Private Office</option><option>Meeting Room</option><option>Event Space</option>
+                </select>
               </div>
             </div>
-          </div>
-        );
-      case 'cabin':
-      case 'tree':
-      case 'tent':
-        return (
-          <div className={styles.dynamicSection}>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Sleeps</label>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <input type="number" min="1" className={styles.fieldInput} placeholder="Min" value={dynamic.sleepsMin} onChange={e => handleDyn('sleepsMin', e.target.value)} />
-                <span style={{ fontWeight: 600 }}>to</span>
-                <input type="number" min="1" className={styles.fieldInput} placeholder="Max" value={dynamic.sleepsMax} onChange={e => handleDyn('sleepsMax', e.target.value)} />
-              </div>
-            </div>
-            <div className={styles.fieldRow}>
-              <label className={styles.fieldLabel}>Bathroom Type</label>
-              <div className={styles.toggleGroup}>
-                {['Indoor', 'Outdoor'].map(t => (
-                  <button key={t} className={`${styles.toggleBtn} ${dynamic.bathroomType === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('bathroomType', t)}>{t}</button>
-                ))}
-              </div>
-            </div>
-          </div>
+            {renderAreaFields()}
+          </>
         );
       default:
-        return null; // Other types just show common fields
+        return (
+          <>
+            {renderCoreFeatures(false, false)}
+            {renderAreaFields()}
+          </>
+        );
     }
   };
 
   return (
     <div className={styles.page}>
       <header className={styles.header}>
-        <div className={styles.headerLeft} onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
+        <div className={styles.headerLeft} onClick={() => navigate('/')}>
           <div className={styles.logoIcon}>
             <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><path d="M16 2L2 12V30H12V20H20V30H30V12L16 2Z" fill="white"/></svg>
           </div>
           <span className={styles.logoText}>StayVista</span>
         </div>
         <div className={styles.headerNav}>
-          <button className={styles.navBtn} onClick={() => navigate('/become-a-host/location')}>
+          <button type="button" className={styles.navBtn} onClick={() => navigate('/become-a-host/property-type')}>
             <ChevronLeft size={20} />
             <span>Back</span>
           </button>
-          <button className={`${styles.navBtn} ${styles.navBtnNext}`} onClick={() => {
-            dispatch(updateDraft({ guests, bedrooms, beds, bathrooms, amenities: selectedAmenities, dynamic }));
-            navigate('/become-a-host/photos');
-          }}>
+          <button type="button" className={`${styles.navBtn} ${styles.navBtnNext}`} onClick={handleNext}>
             <span>Next</span>
             <ChevronRight size={20} />
           </button>
@@ -289,55 +492,145 @@ const BecomeHostDetails = () => {
       </header>
 
       <div className={styles.content}>
-        <div className={styles.headerText}>
-          <h1 className={styles.title}>Share some basics about your {propertyType}</h1>
-          <p className={styles.subtitle}>You'll add more details later, like photos and exact amenities.</p>
-        </div>
+        <div className={styles.formContainer}>
+          
+          <div className={styles.headerText}>
+            <h1 className={styles.title}>Details for your {propertyType}</h1>
+            <p className={styles.subtitle}>Help guests understand exactly what your space offers.</p>
+          </div>
 
-        <div className={styles.mainArea}>
-          {/* Left - Dynamic Fields & Counters */}
-          <div className={styles.left}>
-            <div className={styles.countersCard} style={{ padding: '24px' }}>
-              {renderDynamicFields()}
-              
-              <div className={styles.fieldRow} style={{ marginTop: '16px' }}>
-                <label className={styles.fieldLabel} style={{ marginBottom: '8px' }}>Common Facilities</label>
-                <div style={{ border: '1px solid #EBEBEB', borderRadius: '12px' }}>
-                  <Counter label="Guests" icon={<Users size={24} />} value={guests} onChange={setGuests} />
-                  {(!['flat', 'pg', 'office', 'hotel', 'guest'].includes(propertyType)) && (
-                    <Counter label="Bedrooms" icon={<DoorOpen size={24} />} value={bedrooms} onChange={setBedrooms} />
-                  )}
-                  <Counter label="Beds" icon={<BedDouble size={24} />} value={beds} onChange={setBeds} />
-                  <Counter label="Bathrooms" icon={<Bath size={24} />} value={bathrooms} onChange={setBathrooms} />
-                </div>
+          <div className={styles.card}>
+            <h2 className={styles.sectionTitle}>Purpose & Price</h2>
+            <div className={styles.fieldGroup}>
+              <div className={styles.toggleGroup}>
+                {['Rent', 'Short-term'].map(t => (
+                  <button 
+                    key={t} 
+                    type="button"
+                    className={`${styles.toggleBtn} ${listingPurpose === t ? styles.activeToggle : ''}`} 
+                    onClick={() => setListingPurpose(t)}
+                  >
+                    {t === 'Short-term' ? 'Booking (Short-term)' : `For ${t}`}
+                  </button>
+                ))}
               </div>
             </div>
-          </div>
 
-          {/* Right - Amenities */}
-          <div className={styles.right}>
-            <h2 className={styles.fieldLabel} style={{ marginBottom: '16px', fontSize: '20px' }}>What amenities do you offer?</h2>
-            <div className={styles.amenitiesGrid}>
-              {amenitiesList.map((item, index) => (
-                <div
-                  key={item.id}
-                  className={`${styles.amenityCard} ${selectedAmenities.includes(item.id) ? styles.amenitySelected : ''}`}
-                  onClick={() => toggleAmenity(item.id)}
-                  style={{ animationDelay: `${index * 30}ms` }}
-                >
-                  <div className={styles.amenityIcon} style={{ color: item.color }}>
-                    {item.icon}
+            {listingPurpose === 'Rent' && (
+              <div className={styles.subForm}>
+                <div className={styles.twoColGrid}>
+                  <div className={styles.fieldGroup}>
+                    <label className={styles.fieldLabel}>Monthly Rent</label>
+                    <div className={styles.inputPrefix}>
+                      <span>₹</span>
+                      <input type="number" className={styles.fieldInput} placeholder="Amount" value={listingPrice} onChange={e => setListingPrice(e.target.value)} />
+                    </div>
+                    <label className={styles.checkboxLabel}>
+                      <input type="checkbox" checked={rentNegotiable} onChange={e => setRentNegotiable(e.target.checked)} />
+                      Rent Negotiable
+                    </label>
                   </div>
-                  <span className={styles.amenityLabel}>{item.label}</span>
-                  <div className={`${styles.checkbox} ${selectedAmenities.includes(item.id) ? styles.checkboxActive : ''}`}>
-                    {selectedAmenities.includes(item.id) && (
-                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    )}
+                  <div className={styles.fieldGroup}>
+                    <label className={styles.fieldLabel}>Security Deposit</label>
+                    <div className={styles.inputPrefix}>
+                      <span>₹</span>
+                      <input type="number" className={styles.fieldInput} placeholder="Optional" value={securityAmount} onChange={e => setSecurityAmount(e.target.value)} />
+                    </div>
                   </div>
                 </div>
-              ))}
+
+                <div className={styles.fieldGroup}>
+                  <label className={styles.fieldLabel}>Maintenance Charges (Optional)</label>
+                  <div className={styles.twoColGrid} style={{ gap: '12px' }}>
+                    <div className={styles.inputPrefix}>
+                      <span>₹</span>
+                      <input type="number" className={styles.fieldInput} placeholder="Amount" value={maintenanceCharges} onChange={e => setMaintenanceCharges(e.target.value)} />
+                    </div>
+                    <select className={styles.fieldSelect} value={maintenancePeriod} onChange={e => setMaintenancePeriod(e.target.value)}>
+                      <option>Monthly</option>
+                      <option>Quarterly</option>
+                      <option>Yearly</option>
+                      <option>One-time</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {listingPurpose === 'Short-term' && (
+              <div className={styles.subForm} style={{ marginTop: '24px' }}>
+                <div className={styles.premiumFormCard}>
+                  <h2 className={styles.sectionTitle} style={{ marginTop: 0 }}>Nightly Price</h2>
+                  <p className={styles.subtitle} style={{ marginBottom: '24px', fontSize: '14px' }}>Set your base price for guests per night.</p>
+                  
+                  <div className={styles.priceContainer}>
+                    <div className={styles.priceRow}>
+                      <div className={styles.priceInfo}>
+                        <h3 className={styles.cardTitle} style={{ fontSize: '16px' }}>Base Price</h3>
+                        <p className={styles.cardDesc} style={{ fontSize: '13px', margin: 0, color: 'var(--text-secondary)' }}>Per night</p>
+                      </div>
+                      <div className={styles.inputWrapper}>
+                        <span className={styles.prefix}>₹</span>
+                        <input type="text" className={styles.priceInput} value={listingPrice === 0 ? '' : listingPrice} onChange={handlePriceChange} placeholder="0" />
+                      </div>
+                    </div>
+                    
+                    <div className={styles.priceRow}>
+                      <div className={styles.priceInfo}>
+                        <h3 className={styles.cardTitle} style={{ fontSize: '16px' }}>Weekend adjustment</h3>
+                        <p className={styles.cardDesc} style={{ fontSize: '13px', margin: 0, color: 'var(--text-secondary)' }}>Fridays & Saturdays</p>
+                      </div>
+                      <div className={styles.inputWrapper}>
+                        <input type="text" className={styles.pctInput} value={`${weekendPct > 0 ? '+' : ''}${weekendPct}`} onChange={handlePctChange} />
+                        <span className={styles.suffix}>%</span>
+                      </div>
+                    </div>
+
+                    <div className={styles.weekendResult}>
+                      <div className={styles.resultIconWrapper}>
+                        <TrendingUp size={18} color="white" />
+                      </div>
+                      <span>Guests pay <strong>₹{weekendPrice}</strong> on weekends</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '32px' }}>
+                  <h2 className={styles.sectionTitle}>Special Discounts</h2>
+                  <div className={styles.discountsList}>
+                    {discounts.map(discount => {
+                      const isSelected = selectedDiscounts.includes(discount.id);
+                      return (
+                        <div key={discount.id} className={`${styles.discountCard} ${isSelected ? styles.selectedCard : ''}`} onClick={() => toggleDiscount(discount.id)}>
+                          <div className={styles.cardTopRow}>
+                            <div className={styles.pctBox} onClick={e => e.stopPropagation()}>
+                              <input type="text" className={styles.pctInputSmall} value={discount.percent === 0 ? '' : discount.percent} onChange={e => handlePercentChange(discount.id, e.target.value)} />
+                              <span>%</span>
+                            </div>
+                            <div className={`${styles.checkbox} ${isSelected ? styles.checkboxActive : ''}`}>
+                              {isSelected && <Check size={14} color="white" strokeWidth={3} />}
+                            </div>
+                          </div>
+                          <div className={styles.discountInfo}>
+                            <h3 className={styles.cardTitle} style={{ fontSize: '15px', margin: '8px 0 4px 0' }}>{discount.title}</h3>
+                            <p className={styles.cardDesc} style={{ fontSize: '13px', margin: 0, color: 'var(--text-secondary)' }}>{discount.desc}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className={styles.card}>
+            <h2 className={styles.sectionTitle}>Property Features</h2>
+            <div className={styles.featuresLayout}>
+              {renderDynamicFields()}
             </div>
           </div>
+
         </div>
       </div>
     </div>

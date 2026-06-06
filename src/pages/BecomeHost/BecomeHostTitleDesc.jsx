@@ -53,7 +53,7 @@ const BecomeHostTitleDesc = () => {
           </button>
           <button className={`${styles.navBtn} ${styles.navBtnNext}`} onClick={() => {
             dispatch(updateDraft({ title, highlights: selectedHighlights, description }));
-            navigate('/become-a-host/booking');
+            navigate('/become-a-host/final-details');
           }} disabled={title.trim().length === 0 || description.trim().length === 0}>
             <span>Next</span>
             <ChevronRight size={20} />

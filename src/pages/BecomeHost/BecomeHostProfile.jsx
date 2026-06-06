@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styles from './BecomeHostProfile.module.css';
-import { User, Settings, Navigation, Search, Home as HomeIcon } from 'lucide-react';
+import { User, Phone, Navigation, Search, Home as HomeIcon } from 'lucide-react';
 
 const BecomeHostProfile = () => {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ const BecomeHostProfile = () => {
 
   const [formData, setFormData] = useState({
     name: user?.firstName || '',
-    gender: 'Prefer not to say',
+    mobile: '',
     address: ''
   });
   const [isLocating, setIsLocating] = useState(false);
@@ -70,6 +70,8 @@ const BecomeHostProfile = () => {
       return;
     }
     localStorage.setItem('hostAddress', formData.address);
+    localStorage.setItem('hostMobile', formData.mobile);
+    localStorage.setItem('hostName', formData.name);
     navigate('/become-a-host/property-type');
   };
 
@@ -133,15 +135,18 @@ const BecomeHostProfile = () => {
             </div>
             
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Gender</label>
+              <label className={styles.label}>Mobile Number</label>
               <div className={styles.inputWrapper}>
-                <Settings size={18} className={styles.inputIcon} />
-                <select name="gender" value={formData.gender} onChange={handleChange} className={styles.selectField}>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
-                  <option value="Prefer not to say">Prefer not to say</option>
-                </select>
+                <Phone size={18} className={styles.inputIcon} />
+                <input 
+                  type="tel" 
+                  name="mobile" 
+                  value={formData.mobile} 
+                  onChange={handleChange} 
+                  className={styles.inputField}
+                  placeholder="Enter your mobile number"
+                  required 
+                />
               </div>
             </div>
 

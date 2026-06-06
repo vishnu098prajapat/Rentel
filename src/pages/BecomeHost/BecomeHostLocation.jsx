@@ -108,13 +108,13 @@ const BecomeHostLocation = () => {
           <span className={styles.logoText}>StayVista</span>
         </div>
         <div className={styles.headerNav}>
-          <button className={styles.navBtn} onClick={() => navigate('/become-a-host/property-type')}>
+          <button className={styles.navBtn} onClick={() => navigate('/become-a-host/amenities')}>
             <ChevronLeft size={20} />
             <span>Back</span>
           </button>
           <button className={`${styles.navBtn} ${styles.navBtnNext}`} onClick={() => {
             dispatch(updateDraft({ address, lat: position?.lat, lng: position?.lng, visibility }));
-            navigate('/become-a-host/details'); // Skip map-visibility page
+            navigate('/become-a-host/photos');
           }}>
             <span>Next</span>
             <ChevronRight size={20} />

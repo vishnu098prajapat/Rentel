@@ -1,406 +1,696 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--bg-primary, #ffffff);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: var(--bg-primary, #ffffff);
+  border-bottom: 1px solid var(--border-color, #EBEBEB);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.logoIcon {
+  width: 32px;
+  height: 32px;
+  background: var(--primary-color, #FF385C);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text-primary, #222222);
+}
+
+.headerNav {
+  display: flex;
+  gap: 12px;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 24px;
+  border: 1px solid var(--border-color, #DDDDDD);
+  background: var(--bg-primary, white);
+  color: var(--text-primary, #222222);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.navBtn:hover {
+  background: var(--hover-bg, #F7F7F7);
+}
+
+.navBtnNext {
+  background: var(--text-primary, #222222);
+  color: white;
+  border: none;
+}
+
+.navBtnNext:hover {
+  background: var(--text-secondary, #000000);
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 40px 24px;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 650px;
+  animation: fadeIn 0.4s ease-out;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
-@keyframes popIn {
-  0% { transform: scale(0.9); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
-}
-
-.page {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background: var(--bg-secondary);
-  overflow: hidden;
-}
-
-/* ===== HEADER ===== */
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 40px;
-  background: var(--card-bg, white);
-  border-bottom: 1px solid var(--border);
-  z-index: 10;
-}
-.headerLeft { display: flex; align-items: center; gap: 10px; }
-.logoIcon {
-  width: 36px; height: 36px;
-  background: linear-gradient(135deg, #FF385C, #E31C5F);
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-}
-.logoText { font-size: 20px; font-weight: 800; color: var(--text-main, #222); }
-.headerNav { display: flex; align-items: center; gap: 12px; }
-.navBtn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 10px 18px;
-  border: 1px solid var(--border); border-radius: 40px;
-  background: var(--card-bg, white); color: var(--text-main, #222);
-  font-size: 14px; font-weight: 600;
-  cursor: pointer; transition: all 0.2s ease;
-}
-.navBtn:hover { border-color: var(--text-main, #222); background: var(--hover-bg, #f7f7f7); }
-.navBtnNext { background: var(--text-main); color: var(--bg-main); border-color: var(--text-main, #222); }
-.navBtnNext:hover { opacity: 0.85; background: var(--text-main); color: var(--bg-main); }
-
-/* ===== CONTENT ===== */
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 32px 60px;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
 
 .headerText {
+  margin-bottom: 32px;
   text-align: center;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text-primary, #222222);
+  margin: 0 0 8px 0;
+  text-transform: capitalize;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--text-secondary, #717171);
+  margin: 0;
+}
+
+.card {
+  background: var(--bg-secondary, #FAFAFA);
+  border: 1px solid var(--border-color, #EBEBEB);
+  border-radius: 16px;
+  padding: 32px;
   margin-bottom: 24px;
-  animation: fadeIn 0.5s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
 
-.mainArea {
-  display: flex;
-  gap: 32px;
-  max-width: 1100px;
-  margin: 0 auto;
-  width: 100%;
+.sectionTitle {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+  color: var(--text-primary, #222222);
 }
 
-/* ===== LEFT - COUNTERS ===== */
-.left {
-  width: 400px;
-  flex-shrink: 0;
+.featuresLayout {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  animation: fadeIn 0.6s ease;
-}
-.title { font-size: 32px; font-weight: 700; color: var(--text-main, #222); margin: 0 0 8px 0; }
-.subtitle { font-size: 16px; color: var(--text-secondary, #717171); margin: 0; line-height: 1.5; }
-
-.countersCard {
-  background: var(--card-bg, white);
-  border-radius: 16px;
-  border: 1px solid var(--border);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
-  overflow: hidden;
+  gap: 24px;
 }
 
-.counterRow {
+.fieldGroup {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary, #222222);
+  margin-bottom: 12px;
+}
+
+.fieldInput, .fieldSelect {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #B0B0B0);
+  background: var(--bg-primary, white);
+  color: var(--text-primary, #222222);
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.fieldInput:focus, .fieldSelect:focus {
+  border-color: var(--text-primary, #222222);
+  box-shadow: 0 0 0 1px var(--text-primary, #222222);
+}
+
+.inputPrefix {
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  border-bottom: 1px solid #F0F0F0;
 }
-.counterRow:last-child { border-bottom: none; }
 
-.counterLabel {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  font-size: 18px;
+.inputPrefix span {
+  position: absolute;
+  left: 16px;
   font-weight: 600;
-  color: var(--text-main, #222);
-}
-.counterIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  color: var(--text-main, #222);
+  color: var(--text-primary, #222222);
+  font-size: 16px;
 }
 
-.counterControls {
+.inputPrefix input {
+  padding-left: 36px;
+}
+
+.inputWithSuffix {
   display: flex;
   align-items: center;
-  gap: 16px;
 }
-.counterBtn {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  border: 1px solid #CCC;
-  background: var(--card-bg, white);
-  color: var(--text-main, #222);
-  font-size: 20px;
-  display: flex; align-items: center; justify-content: center;
+
+.inputWithSuffix input {
+  border-radius: 12px 0 0 12px;
+  border-right: none;
+}
+
+.fieldSelectSuffix {
+  width: 100px;
+  padding: 14px 12px;
+  border-radius: 0 12px 12px 0;
+  border: 1px solid var(--border-color, #B0B0B0);
+  background: var(--bg-secondary, #F7F7F7);
+  color: var(--text-primary, #222222);
+  font-size: 14px;
+  font-weight: 500;
+  outline: none;
+  cursor: pointer;
+}
+
+.twoColGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.flexRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.separator {
+  color: var(--text-secondary, #717171);
+  font-weight: 500;
+}
+
+/* Horizontal Segmented Pills (Premium UI) */
+.pillGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.scrollablePillGroupWrapper {
+  overflow-x: auto;
+  padding-bottom: 8px;
+  margin-bottom: -8px; /* Offset padding */
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollablePillGroupWrapper::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.pillBtn {
+  padding: 12px 24px;
+  border-radius: 30px;
+  border: 1px solid var(--border-color, #DDDDDD);
+  background: var(--bg-primary, white);
+  color: var(--text-secondary, #717171);
+  font-weight: 500;
+  font-size: 15px;
   cursor: pointer;
   transition: all 0.2s ease;
-  line-height: 1;
-}
-.counterBtn:hover:not(:disabled) {
-  border-color: var(--text-main);
-  background: var(--text-main);
-  color: var(--bg-main);
-}
-.counterBtn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-.counterValue {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-main, #222);
-  width: 28px;
-  text-align: center;
+  white-space: nowrap;
 }
 
-/* ===== RIGHT - AMENITIES ===== */
-.right {
-  flex: 1;
+.pillBtn:hover {
+  border-color: var(--text-primary, #222222);
+  color: var(--text-primary, #222222);
+}
+
+.pillBtnActive {
+  background: var(--text-primary, #222222);
+  color: white;
+  border-color: var(--text-primary, #222222);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.pillBtnActive:hover {
+  background: var(--text-primary, #222222);
+  color: white;
+}
+
+/* Toggle Group for simple binary/trinary choices */
+.toggleGroup {
   display: flex;
-  flex-direction: column;
-  min-width: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.amenitiesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 12px;
+  background: var(--bg-primary, white);
   padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color, #DDDDDD);
 }
 
-@keyframes fadeInUpStagger {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
+.toggleBtn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #717171);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.toggleBtn:hover {
+  color: var(--text-primary, #222222);
+}
+
+.activeToggle {
+  background: var(--text-primary, #222222);
+  color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.activeToggle:hover {
+  color: white;
+  background: var(--text-primary, #222222);
+}
+
+/* Amenities Card Grid */
+.amenityGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 16px;
 }
 
 .amenityCard {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--card-bg, white);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-color, #DDDDDD);
   border-radius: 12px;
-  padding: 12px 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--bg-primary, white);
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.2s;
   position: relative;
-  animation: fadeInUpStagger 0.5s ease both;
 }
+
 .amenityCard:hover {
-  border-color: #BBB;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  transform: translateY(-2px);
+  border-color: var(--text-primary, #222222);
 }
-.amenityCard.amenitySelected {
-  border-color: #FF385C;
-  background: rgba(255, 56, 92, 0.05);
-  box-shadow: 0 2px 12px rgba(255,56,92,0.1);
-  animation: popIn 0.25s ease;
+
+.amenityCardSelected {
+  border-color: var(--text-primary, #222222);
+  background: var(--hover-bg, #F7F7F7);
+  box-shadow: 0 0 0 1px var(--text-primary, #222222);
 }
 
 .amenityIcon {
+  color: var(--text-secondary, #717171);
+}
+
+.amenityCardSelected .amenityIcon {
+  color: var(--text-primary, #222222);
+}
+
+.amenityLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #222222);
+  text-align: center;
+}
+
+.checkBadge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 20px;
+  height: 20px;
+  background: var(--text-primary, #222222);
+  color: white;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-}
-.amenityLabel {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-main, #222);
 }
 
-/* ===== CHECKBOX ===== */
-.checkbox {
-  width: 20px; height: 20px;
-  border-radius: 6px;
-  border: 2px solid var(--border);
+/* Sub-sections */
+.subSection {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color, #EBEBEB);
+}
+
+.subSectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary, #222222);
+  margin: 0 0 20px 0;
+}
+
+.subForm {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color, #EBEBEB);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: var(--text-secondary, #717171);
+  cursor: pointer;
+}
+
+.checkboxLabel input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--primary-color, #FF385C);
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .content {
+    padding: 20px 16px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+  
+  .card {
+    padding: 20px 16px;
+  }
+  
+  .twoColGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .amenityGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .pillBtn {
+    padding: 10px 20px;
+  }
+}
+
+/* Dark mode support */
+[data-theme='dark'] .page {
+  background-color: var(--bg-primary);
+}
+[data-theme='dark'] .header {
+  background: var(--bg-primary);
+  border-bottom-color: var(--border-color);
+}
+[data-theme='dark'] .navBtn {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+[data-theme='dark'] .navBtn:hover {
+  background: var(--hover-bg);
+}
+[data-theme='dark'] .navBtnNext {
+  background: white;
+  color: black;
+}
+[data-theme='dark'] .navBtnNext:hover {
+  background: #EBEBEB;
+}
+[data-theme='dark'] .card {
+  background: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+[data-theme='dark'] .fieldInput, 
+[data-theme='dark'] .fieldSelect,
+[data-theme='dark'] .fieldSelectSuffix,
+[data-theme='dark'] .toggleGroup {
+  background: var(--bg-primary);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+[data-theme='dark'] .fieldInput:focus, 
+[data-theme='dark'] .fieldSelect:focus {
+  border-color: white;
+  box-shadow: 0 0 0 1px white;
+}
+[data-theme='dark'] .pillBtn {
+  background: var(--bg-primary);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+[data-theme='dark'] .pillBtn:hover {
+  border-color: white;
+  color: white;
+}
+[data-theme='dark'] .pillBtnActive {
+  background: white;
+  color: black;
+  border-color: white;
+}
+[data-theme='dark'] .pillBtnActive:hover {
+  background: white;
+  color: black;
+}
+[data-theme='dark'] .activeToggle {
+  background: white;
+  color: black;
+}
+[data-theme='dark'] .amenityCard {
+  background: var(--bg-primary);
+  border-color: var(--border-color);
+}
+[data-theme='dark'] .amenityCard:hover {
+  border-color: white;
+}
+[data-theme='dark'] .amenityCardSelected {
+  border-color: white;
+  background: var(--hover-bg);
+  box-shadow: 0 0 0 1px white;
+}
+[data-theme='dark'] .amenityCardSelected .amenityIcon {
+  color: white;
+}
+[data-theme='dark'] .checkBadge {
+  background: white;
+  color: black;
+}
+
+/* ===== PRICING DETAILS ===== */
+.premiumFormCard {
+  background: var(--card-bg, white);
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.02);
+  border: 1px solid var(--border-color, #EBEBEB);
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.premiumFormCard::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 6px;
+  background: linear-gradient(90deg, #FF385C, #E31C5F);
+}
+.priceContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  border: 1.5px solid var(--border-color, #EBEBEB);
+  border-radius: 16px;
+  background: var(--card-bg, white);
+  transition: all 0.3s ease;
+}
+.priceRow:hover {
+  border-color: var(--text-primary, #222);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+.priceInfo { flex: 1; }
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--border-color, #EBEBEB);
+  border-radius: 12px;
+  padding: 10px 16px;
+  background: var(--bg-secondary, #F7F7F7);
+  width: 150px;
+  transition: all 0.3s ease;
+}
+.inputWrapper:focus-within {
+  border-color: #FF385C;
+  background: var(--card-bg, white);
+  box-shadow: 0 0 0 4px rgba(255, 56, 92, 0.1);
+}
+.prefix, .suffix {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #222);
+}
+.priceInput, .pctInput {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #222);
+  text-align: right;
+  padding: 0 8px;
+  background: transparent;
+}
+.weekendResult {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, #FF385C10, #E31C5F10);
+  border-radius: 16px;
+  color: var(--text-primary, #222);
+  font-size: 15px;
+  border: 1px solid #FF385C30;
+  margin-top: 8px;
+}
+.resultIconWrapper {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #FF385C, #E31C5F);
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+}
+
+/* ===== DISCOUNTS ===== */
+.discountsList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+.discountCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 1.5px solid var(--border-color, #EBEBEB);
+  border-radius: 16px;
+  background: var(--card-bg, white);
+  cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
+}
+.discountCard:hover:not(.selectedCard) {
+  border-color: var(--text-primary, #222);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+.selectedCard {
+  border-color: var(--text-primary, #222);
+  background: #FAFAFA;
+  box-shadow: 0 0 0 1px var(--text-primary, #222);
+}
+.cardTopRow {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.pctBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px; height: 50px;
+  border: 1.5px solid var(--border-color, #EBEBEB);
+  border-radius: 12px;
+  background: var(--bg-secondary, #F7F7F7);
+  transition: all 0.2s ease;
+}
+.pctBox:focus-within {
+  border-color: #FF385C;
+  background: var(--card-bg, white);
+  box-shadow: 0 0 0 3px rgba(255, 56, 92, 0.1);
+}
+.pctInputSmall {
+  width: 32px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #222);
+  text-align: center;
+  background: transparent;
+}
+.pctBox span {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #222);
+}
+.discountInfo { 
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.checkbox {
+  width: 24px; height: 24px;
+  border-radius: 8px;
+  border: 2px solid #CCC;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
 }
 .checkboxActive {
   background: #FF385C;
   border-color: #FF385C;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
-  .content { padding: 20px; }
-  .mainArea {
-    flex-direction: column;
-    gap: 32px;
+  .discountsList {
+    grid-template-columns: 1fr;
   }
-  .left { width: 100%; }
-  .amenitiesGrid { grid-template-columns: repeat(2, 1fr); }
-  .header { padding: 12px 20px; }
-}
-@media (max-width: 480px) {
-  .amenitiesGrid { grid-template-columns: 1fr; }
-}
-
-/* ===== MOBILE HEADER NAV & LAYOUT OVERRIDES ===== */
-@media (max-width: 768px) {
-  /* Layout fixes to push content up */
-  .mainContent, .content, .container {
-    justify-content: flex-start !important;
-    padding-top: 16px !important;
-  }
-  
-  .title {
-    white-space: normal !important;
-    text-align: left !important;
-    font-size: 22px !important;
-    margin-bottom: 12px !important;
-  }
-  
-  .subtitle {
-    display: none !important; /* Hide subtext on mobile */
-  }
-  
-  /* Make cards more compact on mobile */
-  .counterCard, .amenityCard, .optionCard, .typeCard, .countersCard {
-    padding: 12px 16px !important;
-    margin-bottom: 8px !important;
-  }
-  .counterRow {
-    padding: 12px 16px !important;
-    border-bottom: 1px solid #F0F0F0;
-  }
-  
-  .counterLabel, .amenityLabel, .optionLabel {
-    font-size: 14px !important;
-  }
-
-  /* Navigation overrides for pages using .sideArrow */
-  .sideArrow {
-    position: absolute !important;
-    top: 14px !important;
-    transform: none !important;
-    width: auto !important;
-    height: 32px !important;
-    border-radius: 16px !important;
-    padding: 0 16px !important;
-    box-shadow: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-  .sideArrow svg {
-    width: 16px !important;
-    height: 16px !important;
-  }
-  .leftArrow {
-    left: auto !important;
-    right: 90px !important;
-    background: transparent !important;
-    border: 1px solid var(--border) !important;
-  }
-  .leftArrow::after {
-    content: "Back";
-    font-size: 13px;
-    font-weight: 600;
-    margin-left: 4px;
-    color: var(--text-main, #222);
-  }
-  .rightArrow {
-    right: 16px !important;
-    background: #222 !important;
-    border: 1px solid #222 !important;
-    color: white !important;
-  }
-  .rightArrow::before {
-    content: "Next";
-    font-size: 13px;
-    font-weight: 600;
-    margin-right: 4px;
-    color: white !important;
-  }
-  .rightArrow svg {
-    color: white !important;
-  }
-  .sideArrow:hover {
-    transform: none !important;
-  }
-
-  /* Fix for Next button in pages using .navBtnNext (like BecomeHostDetails) */
-  .navBtnNext {
-    background: #222 !important;
-    color: white !important;
-    border-color: var(--text-main, #222) !important;
-  }
-  .navBtnNext span {
-    color: white !important;
-  }
-  .navBtnNext svg {
-    color: white !important;
-  }
-}
-
-/* ===== DYNAMIC FIELDS ===== */
-.dynamicSection {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  margin-bottom: 8px;
-}
-
-.fieldRow {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  animation: fadeIn 0.4s ease;
-}
-
-.fieldLabel {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-main, #222);
-}
-
-.fieldSelect, .fieldInput {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid #CCC;
-  border-radius: 10px;
-  font-size: 15px;
-  background: var(--card-bg, white);
-  color: var(--text-main, #222);
-  transition: all 0.2s ease;
-  outline: none;
-  font-family: inherit;
-}
-
-.fieldSelect:focus, .fieldInput:focus {
-  border-color: var(--text-main, #222);
-  box-shadow: 0 0 0 1px var(--text-main);
-}
-
-.toggleGroup {
-  display: flex;
-  gap: 12px;
-}
-
-.toggleBtn {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #CCC;
-  border-radius: 10px;
-  background: var(--card-bg, white);
-  color: var(--text-main, #222);
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.toggleBtn:hover {
-  border-color: var(--text-main, #222);
-}
-
-.toggleBtn.activeToggle {
-  border-color: var(--text-main, #222);
-  background: var(--bg-secondary);
-  box-shadow: 0 0 0 1px var(--text-main);
 }
