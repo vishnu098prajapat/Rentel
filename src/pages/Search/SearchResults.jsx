@@ -15,7 +15,7 @@ const cityCenters = {
 
 // Distinct coordinate offsets around centers so stays show up in real spots
 const getListingCoords = (listing) => {
-  const city = listing.city.toLowerCase();
+  const city = (listing.city || '').toLowerCase();
   const base = cityCenters[city] || [26.9124, 75.7873];
   
   const offsets = {
@@ -148,7 +148,7 @@ const SearchResults = () => {
 
   // Filter listings based on the search query
   const filteredListings = listingsData.filter(listing => {
-    const matchCity = listing.city.toLowerCase() === queryCity.toLowerCase();
+    const matchCity = listing.city && listing.city.toLowerCase() === queryCity.toLowerCase();
     if (!matchCity) return false;
 
     if (listing.rentMode !== queryMode) return false;
@@ -444,10 +444,10 @@ const SearchResults = () => {
                       {/* Badges */}
                       {listing.badge && (
                         <span className={styles.badgeTag}>
-                          {listing.badge.toLowerCase().includes('favourite') && <Sparkles size={12} className={styles.badgeIcon} />}
-                          {listing.badge.toLowerCase().includes('superhost') && <ShieldCheck size={12} className={styles.badgeIcon} />}
-                          {listing.badge.toLowerCase().includes('rated') && <Award size={12} className={styles.badgeIcon} />}
-                          {!listing.badge.toLowerCase().includes('favourite') && !listing.badge.toLowerCase().includes('superhost') && !listing.badge.toLowerCase().includes('rated') && <Star size={12} className={styles.badgeIcon} />}
+                          {String(listing.badge).toLowerCase().includes('favourite') && <Sparkles size={12} className={styles.badgeIcon} />}
+                          {String(listing.badge).toLowerCase().includes('superhost') && <ShieldCheck size={12} className={styles.badgeIcon} />}
+                          {String(listing.badge).toLowerCase().includes('rated') && <Award size={12} className={styles.badgeIcon} />}
+                          {!String(listing.badge).toLowerCase().includes('favourite') && !String(listing.badge).toLowerCase().includes('superhost') && !String(listing.badge).toLowerCase().includes('rated') && <Star size={12} className={styles.badgeIcon} />}
                           {listing.badge}
                         </span>
                       )}

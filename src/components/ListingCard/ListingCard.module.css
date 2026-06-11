@@ -21,7 +21,7 @@
   border-radius: 16px;
   overflow: hidden;
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 0.93;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
   transition: box-shadow 0.35s ease;
 }

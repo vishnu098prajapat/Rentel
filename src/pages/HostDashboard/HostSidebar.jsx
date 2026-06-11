@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, List, CalendarCheck, TrendingUp, MessageSquare, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { LayoutDashboard, List, CalendarCheck, TrendingUp, MessageSquare, ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './HostDashboard.module.css';
 
 const HostSidebar = ({ activeTab, setActiveTab }) => {
@@ -33,7 +33,7 @@ const HostSidebar = ({ activeTab, setActiveTab }) => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            {isCollapsed ? <PanelLeftOpen size={20} /> : <PanelLeftClose size={20} />}
+            {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
           </button>
         )}
       </div>

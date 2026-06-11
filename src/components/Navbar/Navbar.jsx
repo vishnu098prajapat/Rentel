@@ -97,7 +97,9 @@ const Navbar = () => {
               )}
             </button>
 
-            <a href="#" onClick={handleListProperty} className={styles.navLink}>List your property</a>
+            {isAuthenticated && (
+              <a href="#" onClick={handleListProperty} className={styles.navLink}>List your property</a>
+            )}
             
             {!isAuthenticated ? (
               <div className={styles.authButtons}>
@@ -110,7 +112,7 @@ const Navbar = () => {
                   className={styles.profileMenuBtn} 
                   onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
                 >
-                  <Menu size={16} color="#717171" />
+                  <Menu size={16} color="currentColor" />
                   <div className={styles.avatarCircle}>
                     {user?.firstName?.charAt(0) || 'U'}
                   </div>
@@ -153,7 +155,9 @@ const Navbar = () => {
           </button>
         </div>
         <Link to="/" className={styles.mobileMenuLink} onClick={() => setMobileMenuOpen(false)}>Home</Link>
-        <a href="#" onClick={handleListProperty} className={styles.mobileMenuLink}>List your property</a>
+        {isAuthenticated && (
+          <a href="#" onClick={handleListProperty} className={styles.mobileMenuLink}>List your property</a>
+        )}
         
         <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: '15px' }}>
           {!isAuthenticated ? (

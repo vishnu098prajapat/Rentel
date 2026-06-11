@@ -28,10 +28,9 @@ const Footer = () => {
           <h4 className={styles.colTitle}>Company</h4>
           <ul className={styles.links}>
             <li><a href="#">About Us</a></li>
-            <li><a href="#">Careers</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Press</a></li>
-            <li><a href="#">Partners</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Terms & Conditions</a></li>
+            <li><a href="#">Privacy Policy</a></li>
           </ul>
         </div>
 
@@ -39,9 +38,7 @@ const Footer = () => {
           <h4 className={styles.colTitle}>Support</h4>
           <ul className={styles.links}>
             <li><a href="#">Help Center</a></li>
-            <li><a href="#">Safety Center</a></li>
-            <li><a href="#">Cancellation Options</a></li>
-            <li><a href="#">Our COVID-19 Response</a></li>
+            <li><a href="#">FAQs</a></li>
             <li><a href="#">Report a Concern</a></li>
           </ul>
         </div>

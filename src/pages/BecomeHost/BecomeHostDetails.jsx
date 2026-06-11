@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateDraft } from '../../features/host/hostSlice';
@@ -6,7 +6,7 @@ import styles from './BecomeHostDetails.module.css';
 import { 
   ChevronLeft, ChevronRight, Refrigerator, Tv, Snowflake, 
   Bed, Sofa, WashingMachine, Check, ChefHat, Flame,
-  TrendingUp
+  TrendingUp, Bath, ShieldCheck
 } from 'lucide-react';
 
 const SegmentedControl = ({ label, options, value, onChange }) => (
@@ -45,8 +45,39 @@ const BecomeHostDetails = () => {
   
   const propertyType = draft.propertyType || 'flat';
 
+  const getAllowedPurposes = (pt) => {
+    switch (pt) {
+      case 'hotel_stay': 
+        return ['Short-term'];
+      case 'pg':
+      case 'office':
+      case 'shop':
+      case 'showroom':
+      case 'agri_land':
+        return ['Rent'];
+      case 'flat':
+      case 'house_villa':
+      case 'farm_house':
+      case 'other':
+      default:
+        return ['Rent', 'Short-term'];
+    }
+  };
+
+  const allowedPurposes = getAllowedPurposes(propertyType);
+
   // Pricing & Purpose
-  const [listingPurpose, setListingPurpose] = useState(draft.listingPurpose || 'Rent');
+  const [listingPurpose, setListingPurpose] = useState(() => {
+    if (allowedPurposes.includes(draft.listingPurpose)) return draft.listingPurpose;
+    return allowedPurposes[0];
+  });
+
+  useEffect(() => {
+    if (!allowedPurposes.includes(listingPurpose)) {
+      setListingPurpose(allowedPurposes[0]);
+    }
+  }, [propertyType, allowedPurposes, listingPurpose]);
+
   const [listingPrice, setListingPrice] = useState(draft.listingPrice || '');
   const [rentNegotiable, setRentNegotiable] = useState(draft.rentNegotiable || false);
   const [securityAmount, setSecurityAmount] = useState(draft.securityAmount || '');
@@ -63,65 +94,29 @@ const BecomeHostDetails = () => {
     { id: 'monthly', percent: 25, title: 'Monthly', desc: '28 nights or more' }
   ]);
 
-  // Dynamic property fields (Expanded)
+  // Dynamic property fields
   const [dynamic, setDynamic] = useState(draft.dynamic || {
     // Core features
-    bedrooms: '1',
-    bathrooms: '1',
-    balconies: '0',
+    bedrooms: '1', bathrooms: '1', balconies: '0',
+    floorNumber: 'Ground', totalFloors: '1',
+    carpetArea: '', superArea: '', areaUnit: 'Sq-ft',
+    furnishedStatus: 'Unfurnished', availableFrom: 'Immediately', availableDate: '', ageOfConstruction: 'New Build',
     
-    // Floors
-    floorNumber: 'Ground',
-    totalFloors: '1',
+    // Extras
+    acCount: '0', bedCount: '0', wardrobeCount: '0', tvCount: '0',
+    fridge: false, sofa: false, washingMachine: false, diningTable: false, microwave: false, gasConnection: false,
     
-    // Area
-    carpetArea: '',
-    superArea: '',
-    areaUnit: 'Sq-ft',
+    // PG specific
+    pgRoomType: 'Double', pgGender: 'Unisex', pgBathrooms: 'Attached',
     
-    // Furnishing & Availability
-    furnishedStatus: 'Unfurnished',
-    availableFrom: 'Immediately',
-    availableDate: '',
-    ageOfConstruction: 'New Build',
+    // Hotel specific
+    hotelRoomType: 'Deluxe', hotelRoomsCount: '1', mealsIncluded: 'No', checkInTime: '', checkOutTime: '',
     
-    // Furnishing Extras
-    acCount: '0',
-    bedCount: '0',
-    wardrobeCount: '0',
-    tvCount: '0',
-    fridge: false,
-    sofa: false,
-    washingMachine: false,
-    diningTable: false,
-    microwave: false,
-    gasConnection: false,
+    // Farm / Land specific
+    farmArea: '', outdoorSpace: 'Both', waterSupply: 'Yes', fencing: 'Yes',
     
-    // PG / Hostel specific
-    pgRoomType: 'Double',
-    pgGender: 'Unisex',
-    pgBathrooms: 'Attached',
-    
-    // Hotel / Guest House specific
-    hotelRoomType: 'Deluxe',
-    hotelRoomsCount: '1',
-    mealsIncluded: 'No',
-    checkInTime: '',
-    checkOutTime: '',
-    
-    // Farm specific
-    farmArea: '',
-    outdoorSpace: 'Both',
-    
-    // Office specific
-    capacity: '10',
-    officeType: 'Co-working',
-    hoursAvailable: 'Full day',
-    
-    // Camps / Tents specific
-    sleepsMin: '1',
-    sleepsMax: '2',
-    bathroomType: 'Indoor'
+    // Commercial specific
+    capacity: '10', officeType: 'Co-working', commercialWashroom: 'Private'
   });
 
   const handleDyn = (key, val) => setDynamic(p => ({ ...p, [key]: val }));
@@ -330,8 +325,7 @@ const BecomeHostDetails = () => {
             {renderAvailabilityFields()}
           </>
         );
-      case 'house':
-      case 'villa':
+      case 'house_villa':
         return (
           <>
             {renderCoreFeatures(true, false)}
@@ -384,8 +378,7 @@ const BecomeHostDetails = () => {
             {renderAvailabilityFields()}
           </>
         );
-      case 'hotel':
-      case 'guest':
+      case 'hotel_stay':
         return (
           <>
             <div className={styles.twoColGrid}>
@@ -420,10 +413,22 @@ const BecomeHostDetails = () => {
             </div>
           </>
         );
-      case 'farm':
+      case 'farm_house':
         return (
           <>
-            <div className={styles.twoColGrid}>
+            <SegmentedControl 
+              label="Bedrooms" 
+              options={['1', '2', '3', '4', '5+']} 
+              value={dynamic.bedrooms} 
+              onChange={v => handleDyn('bedrooms', v)} 
+            />
+            <SegmentedControl 
+              label="Bathrooms" 
+              options={['1', '2', '3', '4+']} 
+              value={dynamic.bathrooms} 
+              onChange={v => handleDyn('bathrooms', v)} 
+            />
+            <div className={styles.twoColGrid} style={{ marginTop: '20px' }}>
               <div className={styles.fieldGroup}>
                 <label className={styles.fieldLabel}>Total Area</label>
                 <div className={styles.inputWithSuffix}>
@@ -440,24 +445,80 @@ const BecomeHostDetails = () => {
                 </select>
               </div>
             </div>
+            {renderAvailabilityFields()}
           </>
         );
-      case 'office':
+      case 'agri_land':
         return (
           <>
             <div className={styles.twoColGrid}>
               <div className={styles.fieldGroup}>
-                <label className={styles.fieldLabel}>Capacity (Seats)</label>
-                <input type="number" className={styles.fieldInput} placeholder="e.g. 20" value={dynamic.capacity} onChange={e => handleDyn('capacity', e.target.value)} />
+                <label className={styles.fieldLabel}>Total Area</label>
+                <div className={styles.inputWithSuffix}>
+                  <input type="number" className={styles.fieldInput} placeholder="e.g. 5" value={dynamic.farmArea} onChange={e => handleDyn('farmArea', e.target.value)} />
+                  <select className={styles.fieldSelectSuffix} value={dynamic.areaUnit} onChange={e => handleDyn('areaUnit', e.target.value)}>
+                    <option>Acres</option><option>Bigha</option><option>Hectares</option><option>Sq-ft</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className={styles.twoColGrid}>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel}>Water Supply Available</label>
+                <div className={styles.toggleGroup}>
+                  {['Yes', 'No'].map(t => (
+                    <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.waterSupply === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('waterSupply', t)}>{t}</button>
+                  ))}
+                </div>
               </div>
               <div className={styles.fieldGroup}>
-                <label className={styles.fieldLabel}>Space Type</label>
-                <select className={styles.fieldSelect} value={dynamic.officeType} onChange={e => handleDyn('officeType', e.target.value)}>
-                  <option>Co-working</option><option>Private Office</option><option>Meeting Room</option><option>Event Space</option>
-                </select>
+                <label className={styles.fieldLabel}>Fencing</label>
+                <div className={styles.toggleGroup}>
+                  {['Yes', 'No'].map(t => (
+                    <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.fencing === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('fencing', t)}>{t}</button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </>
+        );
+      case 'office':
+      case 'shop':
+      case 'showroom':
+        return (
+          <>
+            {propertyType === 'office' && (
+              <div className={styles.twoColGrid}>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.fieldLabel}>Capacity (Seats)</label>
+                  <input type="number" className={styles.fieldInput} placeholder="e.g. 20" value={dynamic.capacity} onChange={e => handleDyn('capacity', e.target.value)} />
+                </div>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.fieldLabel}>Space Type</label>
+                  <select className={styles.fieldSelect} value={dynamic.officeType} onChange={e => handleDyn('officeType', e.target.value)}>
+                    <option>Co-working</option><option>Private Office</option><option>Meeting Room</option><option>Event Space</option>
+                  </select>
+                </div>
+              </div>
+            )}
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel}>Furnished Status</label>
+              <div className={styles.toggleGroup}>
+                {['Furnished', 'Unfurnished', 'Semi-Furnished'].map(t => (
+                  <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.furnishedStatus === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('furnishedStatus', t)}>{t}</button>
+                ))}
+              </div>
+            </div>
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel}>Washroom</label>
+              <div className={styles.toggleGroup}>
+                {['Private', 'Common', 'None'].map(t => (
+                  <button key={t} type="button" className={`${styles.toggleBtn} ${dynamic.commercialWashroom === t ? styles.activeToggle : ''}`} onClick={() => handleDyn('commercialWashroom', t)}>{t}</button>
+                ))}
               </div>
             </div>
             {renderAreaFields()}
+            {renderAvailabilityFields()}
           </>
         );
       default:
@@ -468,6 +529,12 @@ const BecomeHostDetails = () => {
           </>
         );
     }
+  };
+
+  const getPurposeLabel = (pt) => {
+    if (pt === 'hotel_stay') return 'Pricing (Nightly)';
+    if (allowedPurposes.length === 1) return 'Monthly Rent';
+    return 'Purpose & Price';
   };
 
   return (
@@ -495,26 +562,29 @@ const BecomeHostDetails = () => {
         <div className={styles.formContainer}>
           
           <div className={styles.headerText}>
-            <h1 className={styles.title}>Details for your {propertyType}</h1>
+            <h1 className={styles.title}>Details for your {propertyType.replace('_', ' ')}</h1>
             <p className={styles.subtitle}>Help guests understand exactly what your space offers.</p>
           </div>
 
           <div className={styles.card}>
-            <h2 className={styles.sectionTitle}>Purpose & Price</h2>
-            <div className={styles.fieldGroup}>
-              <div className={styles.toggleGroup}>
-                {['Rent', 'Short-term'].map(t => (
-                  <button 
-                    key={t} 
-                    type="button"
-                    className={`${styles.toggleBtn} ${listingPurpose === t ? styles.activeToggle : ''}`} 
-                    onClick={() => setListingPurpose(t)}
-                  >
-                    {t === 'Short-term' ? 'Booking (Short-term)' : `For ${t}`}
-                  </button>
-                ))}
+            <h2 className={styles.sectionTitle}>{getPurposeLabel(propertyType)}</h2>
+            
+            {allowedPurposes.length > 1 && (
+              <div className={styles.fieldGroup}>
+                <div className={styles.toggleGroup}>
+                  {allowedPurposes.map(t => (
+                    <button 
+                      key={t} 
+                      type="button"
+                      className={`${styles.toggleBtn} ${listingPurpose === t ? styles.activeToggle : ''}`} 
+                      onClick={() => setListingPurpose(t)}
+                    >
+                      {t === 'Short-term' ? 'Booking (Short-term)' : `For ${t}`}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {listingPurpose === 'Rent' && (
               <div className={styles.subForm}>
@@ -558,7 +628,7 @@ const BecomeHostDetails = () => {
             )}
             
             {listingPurpose === 'Short-term' && (
-              <div className={styles.subForm} style={{ marginTop: '24px' }}>
+              <div className={styles.subForm} style={{ marginTop: allowedPurposes.length > 1 ? '24px' : '0' }}>
                 <div className={styles.premiumFormCard}>
                   <h2 className={styles.sectionTitle} style={{ marginTop: 0 }}>Nightly Price</h2>
                   <p className={styles.subtitle} style={{ marginBottom: '24px', fontSize: '14px' }}>Set your base price for guests per night.</p>
@@ -638,3 +708,4 @@ const BecomeHostDetails = () => {
 };
 
 export default BecomeHostDetails;
+

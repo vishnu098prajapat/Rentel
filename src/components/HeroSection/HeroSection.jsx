@@ -70,29 +70,38 @@ const HeroSection = () => {
 
   return (
     <section className={styles.heroSection}>
-      <div className={styles.heroLeft}>
-        <div className={styles.heroBadge}>
-          <TrendingUp size={12} />
-          <span>#1 PREMIUM RENTAL PLATFORM</span>
-        </div>
+      {/* Background Slider */}
+      <div className={styles.heroBackground}>
+        {sliderImages.map((img, idx) => (
+          <img 
+            key={idx} 
+            src={img} 
+            alt="Luxury Stay" 
+            className={`${styles.sliderImage} ${activeSlide === idx ? styles.active : ''}`}
+          />
+        ))}
+        <div className={styles.heroOverlay}></div>
+      </div>
 
+      {/* Centered Content */}
+      <div className={styles.heroContent}>
         <h1 className={styles.heroTitle}>
-          <span className={styles.titleGray}>Find Your</span> <span className={styles.titleBlack}>Perfect</span> <br />
-          <span className={styles.heroTitleGradient}>Dream Stay</span>
+          Find Your Perfect <span className={styles.heroTitleHighlight}>Stay</span>
         </h1>
 
         <p className={styles.heroSubtitle}>
-          Discover handpicked luxury villas, boutique hotels, and premium PGs 
-          across India with verified hosts.
+          Explore India's finest rentals, from luxury villas to cozy PGs. No brokerage, 100% verified.
         </p>
 
-        {/* Fully Interactive and Operational Search Bar */}
-        <SearchSection />
+        {/* Search Bar */}
+        <div className={styles.searchContainer}>
+          <SearchSection />
+        </div>
 
         <div className={styles.heroBtns}>
           <button className={styles.btnPrimary} onClick={() => {
             window.scrollTo({
-              top: window.innerHeight - 80, // Adjusting for navbar height
+              top: window.innerHeight,
               behavior: 'smooth'
             });
           }}>
@@ -119,48 +128,6 @@ const HeroSection = () => {
           <div className={styles.statItem}>
             <span className={styles.statNumber}>{counts.rating} ★</span>
             <span className={styles.statLabel}>Rating</span>
-          </div>
-        </div>
-      </div>
-
-      <div className={styles.heroRight}>
-        <div className={styles.imageWrapper}>
-          <div className={styles.sliderContainer}>
-            <div className={styles.sliderCard}>
-              {sliderImages.map((img, idx) => (
-                <img 
-                  key={idx} 
-                  src={img} 
-                  alt="Luxury Stay" 
-                  className={`${styles.sliderImage} ${activeSlide === idx ? styles.active : ''}`}
-                />
-              ))}
-            </div>
-            
-            <div className={styles.sliderDots}>
-              {sliderImages.map((_, idx) => (
-                <button 
-                  key={idx} 
-                  className={`${styles.dot} ${activeSlide === idx ? styles.active : ''}`}
-                  onClick={() => setActiveSlide(idx)}
-                />
-              ))}
-            </div>
-          </div>
-
-          <div className={styles.badgesRow}>
-            {/* Royal Heritage Villa Card */}
-            <div className={styles.royalBadgeCard}>
-              <div className={styles.royalBadge}><Crown size={14} color="#FFB347" fill="#FFB347" /></div>
-              <span>Royal Heritage Villa</span>
-              <ArrowRight size={14} className={styles.arrow} />
-            </div>
-
-            {/* Verified Stays Card */}
-            <div className={styles.verifiedBadgeCard}>
-              <div className={styles.verifiedBadge}><CheckCircle size={14} color="#00B341" /></div>
-              <span>10K+ Verified Stays</span>
-            </div>
           </div>
         </div>
       </div>

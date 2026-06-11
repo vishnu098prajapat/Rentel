@@ -11,14 +11,14 @@ const CityGroupedSection = () => {
   const citiesList = ["Jaipur", "Goa", "Mumbai", "Bangalore", "Manali"];
   const grouped = {};
   citiesList.forEach(city => {
-    grouped[city] = filteredListings.filter(l => l.city.toLowerCase() === city.toLowerCase());
+    grouped[city] = filteredListings.filter(l => l.city && l.city.toLowerCase() === city.toLowerCase());
   });
 
   // Only display city sections that have matching listings and match the searched city
   const activeCities = citiesList.filter(city => {
     const hasListings = grouped[city].length > 0;
     if (!activeCity) return hasListings;
-    return city.toLowerCase().includes(activeCity.toLowerCase()) && hasListings;
+    return city.toLowerCase().includes(String(activeCity).toLowerCase()) && hasListings;
   });
 
   return (

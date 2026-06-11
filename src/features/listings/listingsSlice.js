@@ -59,7 +59,7 @@ const listingsSlice = createSlice({
     filterBySearch: (state, action) => {
       const { city, propertyType } = action.payload;
       state.filteredListings = state.listings.filter(listing => {
-        const matchCity = city ? listing.city.toLowerCase().includes(city.toLowerCase()) : true;
+        const matchCity = city ? (listing.city && listing.city.toLowerCase().includes(city.toLowerCase())) : true;
         const matchType = propertyType !== 'all' ? listing.type === propertyType : true;
         return matchCity && matchType;
       });

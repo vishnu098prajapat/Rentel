@@ -121,11 +121,45 @@ const SearchSection = () => {
     setActivePopup(null);
   };
 
-  // Toggle helpers for Pills
   const toggleRentProp = (prop) => {
-    setSelectedRentProps(prev => 
-      prev.includes(prop) ? prev.filter(p => p !== prop) : [...prev, prop]
-    );
+    const baseProps = ['Flat', 'House/Villa', 'Hotel/Stay', 'Office', 'Shop', 'Showroom', 'Agricultural Land', 'Farm House'];
+    const configProps = ['1 BHK', '2 BHK', '3 BHK', '4+ BHK'];
+    const tenantProps = ['Family', 'Bachelor', 'Couple'];
+
+    setSelectedRentProps(prev => {
+      if (prev.includes(prop)) {
+        if (baseProps.includes(prop)) return []; // Deselecting base prop clears all
+        return prev.filter(p => p !== prop); // Deselecting config or tenant
+      }
+
+      if (baseProps.includes(prop)) {
+        const currentConfig = prev.find(p => configProps.includes(p));
+        const currentTenant = prev.find(p => tenantProps.includes(p));
+        
+        let newSelection = [prop];
+        
+        if (['Flat', 'House/Villa', 'Hotel/Stay'].includes(prop) && currentTenant) {
+          newSelection.push(currentTenant);
+        }
+        if (['Flat', 'House/Villa'].includes(prop) && currentConfig) {
+          newSelection.push(currentConfig);
+        }
+        
+        return newSelection;
+      }
+
+      if (configProps.includes(prop)) {
+        const withoutConfig = prev.filter(p => !configProps.includes(p));
+        return [...withoutConfig, prop];
+      }
+
+      if (tenantProps.includes(prop)) {
+        const withoutTenant = prev.filter(p => !tenantProps.includes(p));
+        return [...withoutTenant, prop];
+      }
+
+      return [prop];
+    });
   };
 
   const togglePgType = (type) => {
@@ -210,7 +244,7 @@ const SearchSection = () => {
     { name: 'Manali', sub: 'Himalayan peaks, HP', colorClass: styles.dehradunIcon }
   ];
 
-  const suggestedDestinations = allDestinations.filter(dest => dest.name.toLowerCase().includes(location.toLowerCase()));
+  const suggestedDestinations = allDestinations.filter(dest => dest.name.toLowerCase().includes(String(location).toLowerCase()));
 
   return (
     <div className={styles.searchWrapper} ref={searchRef}>
@@ -386,9 +420,9 @@ const SearchSection = () => {
               <div className={`${styles.popupContainer} ${styles.largePopup}`} onClick={(e) => e.stopPropagation()}>
                 
                 <div className={styles.categoryBlock}>
-                  <h5 className={styles.categoryTitle}>Residential</h5>
+                  <h5 className={styles.categoryTitle}>Residential & Stays</h5>
                   <div className={styles.pillGroup}>
-                    {['Flat', 'House/Villa', '1 BHK', '2 BHK', '3 BHK', '4+ BHK'].map(item => (
+                    {['Flat', 'House/Villa', 'Hotel/Stay'].map(item => (
                       <button 
                         key={item}
                         className={`${styles.pillBtn} ${selectedRentProps.includes(item) ? styles.pillActive : ''}`}
@@ -399,6 +433,40 @@ const SearchSection = () => {
                     ))}
                   </div>
                 </div>
+
+                {(selectedRentProps.includes('Flat') || selectedRentProps.includes('House/Villa')) && (
+                  <div className={styles.categoryBlock}>
+                    <h5 className={styles.categoryTitle}>Configuration</h5>
+                    <div className={styles.pillGroup}>
+                      {['1 BHK', '2 BHK', '3 BHK', '4+ BHK'].map(item => (
+                        <button 
+                          key={item}
+                          className={`${styles.pillBtn} ${selectedRentProps.includes(item) ? styles.pillActive : ''}`}
+                          onClick={() => toggleRentProp(item)}
+                        >
+                          {item}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {(selectedRentProps.includes('Flat') || selectedRentProps.includes('House/Villa') || selectedRentProps.includes('Hotel/Stay')) && (
+                  <div className={styles.categoryBlock}>
+                    <h5 className={styles.categoryTitle}>Looking For</h5>
+                    <div className={styles.pillGroup}>
+                      {['Family', 'Bachelor', 'Couple'].map(item => (
+                        <button 
+                          key={item}
+                          className={`${styles.pillBtn} ${selectedRentProps.includes(item) ? styles.pillActive : ''}`}
+                          onClick={() => toggleRentProp(item)}
+                        >
+                          {item}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 <div className={styles.categoryBlock}>
                   <h5 className={styles.categoryTitle}>Commercial</h5>

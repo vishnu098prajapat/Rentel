@@ -12,6 +12,23 @@
   background: transparent;
 }
 
+.navTransparent .navLink,
+.navTransparent .themeToggleBtn,
+.navTransparent .mobileMenuBtn {
+  color: #FFFFFF !important;
+}
+
+.navTransparent .logoText {
+  color: #FFFFFF !important;
+}
+
+.navTransparent .profileMenuBtn {
+  border-color: rgba(255, 255, 255, 0.4) !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #FFFFFF !important;
+}
+
+
 .navScrolled {
   background: var(--bg-main);
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
@@ -277,9 +294,23 @@
   justify-content: center;
   padding: 8px;
   border-radius: 50%;
-  transition: background-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .themeToggleBtn:hover {
-  background-color: rgba(113, 113, 113, 0.1);
+  background-color: rgba(113, 113, 113, 0.08);
+  transform: scale(1.1);
+}
+
+.themeToggleBtn:active {
+  transform: scale(0.95);
+}
+
+.themeToggleBtn svg {
+  transition: transform 0.4s ease;
+}
+
+.themeToggleBtn:hover svg {
+  transform: rotate(15deg);
 }

@@ -24,17 +24,15 @@ const Counter = ({ label, icon, value, onChange }) => (
 );
 
 const propertyOptions = [
-  { id: 'house', label: 'House', icon: <Home size={28} />, color: '#FF385C' },
-  { id: 'flat', label: 'Flat / Apartment', icon: <Building2 size={28} />, color: '#6C5CE7' },
-  { id: 'villa', label: 'Villa', icon: <Home size={28} />, color: '#00B894' },
+  { id: 'flat', label: 'Flat', icon: <Building2 size={28} />, color: '#6C5CE7' },
+  { id: 'house_villa', label: 'House / Villa', icon: <Home size={28} />, color: '#FF385C' },
+  { id: 'hotel_stay', label: 'Hotel / Stay', icon: <Hotel size={28} />, color: '#0984E3' },
   { id: 'pg', label: 'PG / Hostel', icon: <Users size={28} />, color: '#E17055' },
-  { id: 'hotel', label: 'Hotel / Resort', icon: <Hotel size={28} />, color: '#0984E3' },
-  { id: 'guest', label: 'Guest house', icon: <Coffee size={28} />, color: '#FDCB6E' },
-  { id: 'farm', label: 'Farm / Farmhouse', icon: <TreePine size={28} />, color: '#2ECC71' },
-  { id: 'office', label: 'Cafe / Office space', icon: <Building2 size={28} />, color: '#A29BFE' },
-  { id: 'cabin', label: 'Cabin / Cottage', icon: <Home size={28} />, color: '#F39C12' },
-  { id: 'tree', label: 'Tree house', icon: <TreePine size={28} />, color: '#27AE60' },
-  { id: 'tent', label: 'Tent / Camp', icon: <Tent size={28} />, color: '#F1C40F' },
+  { id: 'office', label: 'Office', icon: <Building2 size={28} />, color: '#A29BFE' },
+  { id: 'shop', label: 'Shop', icon: <Coffee size={28} />, color: '#FDCB6E' },
+  { id: 'showroom', label: 'Showroom', icon: <Home size={28} />, color: '#00B894' },
+  { id: 'agri_land', label: 'Agricultural Land', icon: <TreePine size={28} />, color: '#27AE60' },
+  { id: 'farm_house', label: 'Farm House', icon: <TreePine size={28} />, color: '#2ECC71' },
   { id: 'other', label: 'Other', icon: <PenTool size={28} />, color: '#636E72' }
 ];
 
